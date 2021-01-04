@@ -1,5 +1,0 @@
-### Eclipse ###
-.settings/
-
-# ignore properties file
-src/main/webapp/config/database.properties

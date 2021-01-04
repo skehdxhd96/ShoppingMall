@@ -1,5 +1,6 @@
 ### Eclipse ###
 .settings/
+.factorypath
 
 # ignore properties file
 /src/main/webapp/config/database.properties

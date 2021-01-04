@@ -2,4 +2,4 @@
 .settings/
 
 # ignore properties file
-database.properties
+src/main/webapp/config/database.properties

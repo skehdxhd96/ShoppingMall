@@ -1,0 +1,5 @@
+### Eclipse ###
+.settings/
+
+# ignore properties file
+database.properties

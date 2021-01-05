@@ -2,26 +2,25 @@ package org.zerock.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
 import org.zerock.domain.CategoryVO;
 import org.zerock.domain.ProductVO;
-import org.zerock.mapper.ProductMapper;
+import org.zerock.service.ProductServiceImpl;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import net.sf.json.JSONArray;
 
 @Controller
 @Log4j
-@AllArgsConstructor
 public class MainController {
-	
-	private ProductMapper pm;
+	@Resource
+	private ProductServiceImpl pm;
 
 	@RequestMapping("/")
 	public String toMainPage() {
@@ -30,9 +29,17 @@ public class MainController {
 	}
 	
 	@RequestMapping("/ProductList")
-	public void toProductList(Model model) {
+	public String toProductList(Model model) {
 		
-		model.addAttribute("product", pm.getList());
+		List<CategoryVO> categoryVOList = pm.getCategory();
+		model.addAttribute("categories", categoryVOList);
+		System.out.println(categoryVOList.get(0).getCategory_name());
+		
+		List<ProductVO> productVOList = pm.getList();
+		System.out.println(productVOList.get(0).getProduct_price());
+		model.addAttribute("products", productVOList);
+		
+		return "/ProductList";
 	}
 	
 	@RequestMapping("/detail")

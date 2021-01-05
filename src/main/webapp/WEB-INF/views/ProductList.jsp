@@ -67,9 +67,9 @@
 
         <h1 class="my-4">Shop Name</h1>
         <div class="list-group">
-          <a href="#" class="list-group-item">Category 1</a>
-          <a href="#" class="list-group-item">Category 2</a>
-          <a href="#" class="list-group-item">Category 3</a>
+          <c:forEach items="${ categories }" var="category">
+          	<a href="#" class="list-group-item">${ category.category_name }</a>
+          </c:forEach>
         </div>
 
       </div>
@@ -105,7 +105,7 @@
         </div>
 
         <div class="row">
-		<c:forEach items = "${product}" var = "product">
+		<c:forEach items = "${products}" var = "product">
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
               <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
@@ -117,7 +117,27 @@
                 <p class="card-text">${product.product_manufacturer }</p>
               </div>
               <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+              	<c:set var="score" value="${ product.product_score }" />
+              	<c:choose>
+              		<c:when test="${ score==5 }">
+              			<small class="text-muted">⭐️ ⭐️ ⭐️ ⭐️ ⭐️</small>
+              		</c:when>
+              		<c:when test="${ score>=4 }">
+              			<small class="text-muted">⭐️ ⭐️ ⭐️ ⭐️</small>
+              		</c:when>
+              		<c:when test="${ score>=3 }">
+              			<small class="text-muted">⭐️ ⭐️ ⭐️</small>
+              		</c:when>
+              		<c:when test="${ score>=2 }">
+              			<small class="text-muted">⭐️ ⭐️</small>
+              		</c:when>
+              		<c:when test="${ score>=1 }">
+              			<small class="text-muted">⭐️</small>
+              		</c:when>
+              		<c:otherwise>
+              			<small class="text-muted">&#9734; &#9734; &#9734; &#9734; &#9734;</small>
+              		</c:otherwise>
+              	</c:choose>
               </div>
             </div>
           </div>

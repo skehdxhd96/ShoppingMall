@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-
+	
 <script
   src="https://code.jquery.com/jquery-3.5.1.js"
   integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
@@ -22,9 +22,9 @@
 
   <!-- Bootstrap core CSS -->
   <link href="<%=request.getContextPath() %>/resources/ProductList/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+  
   <!-- Custom styles for this template -->
-  <link href="<%=request.getContextPath() %>/resources/ProductList/css/shop-homepage.css" rel="stylesheet">
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/ProductList/css/shop-homepage.css">
 
 </head>
 
@@ -59,17 +59,17 @@
   </nav>
 
   <!-- Page Content -->
-  <div class="container">
+  <div id="container" class="container">
 
     <div class="row">
 
       <div class="col-lg-3">
 
         <h1 class="my-4">Shop Name</h1>
-        <div class="list-group">
-          <c:forEach items="${ categories }" var="category">
-          	<a href="#" class="list-group-item">${ category.category_name }</a>
-          </c:forEach>
+        <div id="categories" class="list-group">
+	        <c:forEach items="${ categories }" var="category">
+	          	<a href="/ProductList/${ category.category_code }" class="list-group-item">${ category.category_name }</a>
+	        </c:forEach>
         </div>
 
       </div>
@@ -77,7 +77,7 @@
 
       <div class="col-lg-9">
 
-        <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+        <!-- <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
           <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -102,9 +102,8 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
           </a>
-        </div>
-
-        <div class="row">
+        </div> -->
+        <div id="productRow" class="row">
 		<c:forEach items = "${products}" var = "product">
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
@@ -144,7 +143,16 @@
 		</c:forEach>
         </div>
         <!-- /.row -->
-
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<div class="btn-group me-2" role="group" aria-label="First group">
+					<c:forEach var="page" begin="1" end="${ pageNum }" step="1">
+						<button type="button" id="pageButton" class="btn btn-dark">${ page }</button>
+					</c:forEach>
+				</div>
+			</div>
+		</div>
+		<!-- /.row -->
       </div>
       <!-- /.col-lg-9 -->
 
@@ -165,7 +173,7 @@
   <!-- Bootstrap core JavaScript -->
   <script src="<%=request.getContextPath() %>/resources/ProductList/vendor/jquery/jquery.min.js"></script>
   <script src="<%=request.getContextPath() %>/resources/ProductList/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+  <script src="<%=request.getContextPath() %>/resources/ProductList/js/ProductList.js"></script>
 </body>
 
 </html>

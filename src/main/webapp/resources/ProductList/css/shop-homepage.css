@@ -6,3 +6,12 @@
 body {
   padding-top: 56px;
 }
+
+#container {
+	margin-top: 24px;
+	margin-bottom: 24px;
+}
+
+#productRow {
+	margin-top: 24px;
+}

@@ -5,7 +5,7 @@
 <mapper namespace = "org.zerock.mapper.ProductMapper">
 
 <insert id = "register">
-	insert into product(product_name, product_manufacturer, product_price, product_stock, product_point, category_code) values (#{product_name}, #{product_manufacturer}, #{product_price}, #{product_stock}, #{product_point}, #{category_code})
+	insert into product(product_name, product_manufacturer, product_price, product_stock, product_point, product_seller, product_score, category_code) values (#{product_name}, #{product_manufacturer}, #{product_price}, #{product_stock}, #{product_point}, #{product_seller}, #{product_score} ,#{category_code})
 </insert>
 
 <!-- 카테고리 select -->

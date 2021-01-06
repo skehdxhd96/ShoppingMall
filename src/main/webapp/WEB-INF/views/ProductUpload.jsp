@@ -66,28 +66,38 @@
 	</select>
 	
 	<div class="inputArea">
-	 <label for="product_name">상품명</label>
+	 <label for="name">상품명</label>
 	 <input type="text" id = "product_name" name="product_name" />
 	</div>
 	
 	<div class="inputArea">
-	 <label for="product_manufacturer">제조사</label>
+	 <label for="manufacturer">제조사</label>
 	 <input type="text" id = "product_manufacturer" name="product_manufacturer" />
 	</div>
 	
 	<div class="inputArea">
-	 <label for="product_price">상품가격</label>
+	 <label for="price">상품가격</label>
 	 <input type="text" id = "product_price" name="product_price" />
 	</div>
 	
 	<div class="inputArea">
-	 <label for="product_stock">상품수량</label>
+	 <label for="stock">상품수량</label>
 	 <input type="text" id = "product_stock" name="product_stock" />
 	</div>
 	
 	<div class="inputArea">
-	 <label for="product_point">적립포인트</label>
+	 <label for="point">적립포인트</label>
 	 <input type="text" id = "product_point" name="product_point" />
+	</div>
+	
+	<div class="inputArea">
+	 <label for="point">파는사람(SQL Null 방지용 기입)</label>
+	 <input type="text" id = "product_point" name="product_seller" />
+	</div>
+	
+	<div class="inputArea">
+	 <label for="point">평점(SQL Null 방지용 기입)</label>
+	 <input type="text" id = "product_point" name="product_score" />
 	</div>
 	
 	<!--  이미지 내일 하겟음
@@ -121,7 +131,7 @@
 	for(var i = 0; i < jsonData.length; i++) {
 	 
 	  cate1Obj = new Object();  //초기화
-	  cate1Obj.category_code = jsonData[i].categort_code;
+	  cate1Obj.category_code = jsonData[i].category_code;
 	  cate1Obj.category_name = jsonData[i].category_name;
 	  cate1Arr.push(cate1Obj);
 	}

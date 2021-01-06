@@ -1,5 +1,6 @@
 package org.zerock.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -19,7 +20,6 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Override
 	public List<CategoryVO> getCategory() {
-		System.out.println("ProductServiceImpl.getCategory()");
 		
 		return pm.getCategory();
 	}
@@ -36,5 +36,17 @@ public class ProductServiceImpl implements ProductService{
 	public List<ProductVO> getList() {
 		
 		return pm.getList();
+	}
+	
+	@Override
+	public int getCount(int categoryCode) {
+		
+		return pm.getCount(categoryCode);
+	}
+	
+	@Override
+	public List<ProductVO> getListByCategory(HashMap parameterHm) {
+		
+		return pm.getListByCategory(parameterHm);
 	}
 }

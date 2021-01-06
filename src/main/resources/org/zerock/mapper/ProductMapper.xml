@@ -18,6 +18,19 @@
 	select product_name, product_manufacturer, product_price, product_score from product
 </select>
 
+<!-- 카테고리별 상품 갯수 select -->
+<select id="getCount" resultType="int" parameterType="int">
+	select count(*) from product where category_code=#{category_code}
+</select>
+
+<!-- 카테고리별 상품 리스트 select -->
+<select id="getListByCategory" resultType="org.zerock.domain.ProductVO" parameterType="HashMap">
+	select product_name, product_manufacturer, product_price, product_score 
+	from product 
+	where category_code=#{categoryCode}
+	limit 6 offset #{startIdx}
+</select>
+
 <!-- 화면에 뿌려주는 따로만든 VO select 
 <select id = "testlist" resultType = "org.zerock.domain.CategoryViewVO">
 	<![CDATA[select t.test_id, t.test_name, t.test_price, t.test_quantity, t.test_img , t.test_explain, t.test_thumbnail, c.cate_name 

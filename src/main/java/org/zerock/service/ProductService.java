@@ -1,5 +1,6 @@
 package org.zerock.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.zerock.domain.CategoryVO;
@@ -12,4 +13,8 @@ public interface ProductService {
 	public void register(ProductVO p);
 	
 	public List<ProductVO> getList();
+	
+	public int getCount(int categoryCode);
+	
+	public List<ProductVO> getListByCategory(HashMap parameterHm);
 }

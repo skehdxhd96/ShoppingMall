@@ -16,19 +16,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.zerock.domain.CategoryVO;
 import org.zerock.domain.ProductVO;
-import org.zerock.service.ProductService;
 import org.zerock.service.ProductServiceImpl;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import net.sf.json.JSONArray;
 
 @Controller
 @Log4j
 public class MainController {
-
 	@Resource
-	private ProductService ps;
+	private ProductServiceImpl pm;
 
 	@RequestMapping("/")
 	public String toMainPage() {
@@ -36,34 +33,27 @@ public class MainController {
 		return "/mainPage";
 	}
 	
-	@GetMapping("/ProductList")
-	public void toProductList(Model model) {
-		
-		List<CategoryVO> categoryVOList = ps.getCategory();
-
-	//Ä«Å×°í¸®º° »óÇ° ¸®½ºÆ® ÆäÀÌÁö
+	//ì¹´í…Œê³ ë¦¬ë³„ ìƒí’ˆ ë¦¬ìŠ¤íŠ¸ í˜ì´ì§€
 	@RequestMapping("/ProductList/{categoryCode}")
 	public String productByCategory(@PathVariable("categoryCode") int categoryCode, Model model) {
-		//Ä«Å×°í¸® Ç×¸ñ
-		List<CategoryVO> categoryVOList = ps.getCategory();
+		//ì¹´í…Œê³ ë¦¬ í•­ëª©
+		List<CategoryVO> categoryVOList = pm.getCategory();
 		model.addAttribute("categories", categoryVOList);
 		
-		List<ProductVO> productVOList = ps.getList();
-		System.out.println(productVOList.get(0).getProduct_price());
-
-		//»óÇ° °³¼ö
+		//ìƒí’ˆ ê°œìˆ˜
 		int pageNum = pm.getCount(categoryCode)/6+1;
 		model.addAttribute("pageNum", pageNum);
 		
-		//getListByCategory ´ÙÁßÄõ¸®¹® ÇØ½¬¸Ê
+		//getListByCategory ë‹¤ì¤‘ì¿¼ë¦¬ë¬¸ í•´ì‰¬ë§µ
 		HashMap parameterHm = new HashMap();
 		parameterHm.put("categoryCode", categoryCode);
 		parameterHm.put("startIdx", 0);
 		
-		//»óÇ°¸®½ºÆ®-1ÆäÀÌÁö
-		List<ProductVO> productVOList = ps.getListByCategory(parameterHm);
+		//ìƒí’ˆë¦¬ìŠ¤íŠ¸-1í˜ì´ì§€
+		List<ProductVO> productVOList = pm.getListByCategory(parameterHm);
 		model.addAttribute("products", productVOList);
-
+		
+		return "/ProductList";
 	}
 	
 	@RequestMapping(value="/ProductList/paging", method=RequestMethod.POST)
@@ -78,14 +68,14 @@ public class MainController {
 	public void toUploadPage(Model model) {
 		
 		List<CategoryVO> category = null;
-		category = ps.getCategory();
+		category = pm.getCategory();
 		model.addAttribute("category", JSONArray.fromObject(category));
 	}
 	
 	@PostMapping("/ProductUpload")
 	public String toUploadPage(ProductVO p) throws Exception{
 		
-		ps.register(p);
+		pm.register(p);
 		
 		return "redirect:/ProductList";
 	}

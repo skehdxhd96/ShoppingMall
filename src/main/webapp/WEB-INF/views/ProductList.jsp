@@ -112,31 +112,11 @@
                 <h4 class="card-title">
                   <a href="#">${product.product_name}</a>
                 </h4>
-                <h5>${product.product_price }</h5>
+                <h5>${product.product_price }원</h5>
                 <p class="card-text">${product.product_manufacturer }</p>
               </div>
               <div class="card-footer">
-              	<c:set var="score" value="${ product.product_score }" />
-              	<c:choose>
-              		<c:when test="${ score==5 }">
-              			<small class="text-muted">⭐️ ⭐️ ⭐️ ⭐️ ⭐️</small>
-              		</c:when>
-              		<c:when test="${ score>=4 }">
-              			<small class="text-muted">⭐️ ⭐️ ⭐️ ⭐️</small>
-              		</c:when>
-              		<c:when test="${ score>=3 }">
-              			<small class="text-muted">⭐️ ⭐️ ⭐️</small>
-              		</c:when>
-              		<c:when test="${ score>=2 }">
-              			<small class="text-muted">⭐️ ⭐️</small>
-              		</c:when>
-              		<c:when test="${ score>=1 }">
-              			<small class="text-muted">⭐️</small>
-              		</c:when>
-              		<c:otherwise>
-              			<small class="text-muted">&#9734; &#9734; &#9734; &#9734; &#9734;</small>
-              		</c:otherwise>
-              	</c:choose>
+              	<c:out value="${ product.product_score }" />
               </div>
             </div>
           </div>
@@ -145,10 +125,18 @@
         <!-- /.row -->
 		<div class="row">
 			<div class="col-md-12 text-center">
-				<div class="btn-group me-2" role="group" aria-label="First group">
-					<c:forEach var="page" begin="1" end="${ pageNum }" step="1">
-						<button type="button" id="pageButton" class="btn btn-dark">${ page }</button>
-					</c:forEach>
+				<div id="pageButtonGroup" class="btn-group me-2" role="group" aria-label="First group">
+					<c:if test="${ pageNum<=5 }">
+						<c:forEach var="page" begin="1" end="${ pageNum }" step="1">
+							<button type="button" class="btn btn-light pageButton">${ page }</button>
+						</c:forEach>
+					</c:if>
+					<c:if test="${ pageNum>5 }">
+						<c:forEach var="page" begin="1" end="5" step="1">
+							<button type="button" class="btn btn-light pageButton">${ page }</button>
+						</c:forEach>
+						<button id="nextButton" type="button" class="btn btn-light">다음</button>
+					</c:if>
 				</div>
 			</div>
 		</div>

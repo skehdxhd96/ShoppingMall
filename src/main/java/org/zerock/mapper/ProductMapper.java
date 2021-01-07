@@ -16,5 +16,5 @@ public interface ProductMapper {
 	
 	public int getCount(int categoryCode);
 	
-	public List<ProductVO> getListByCategory(HashMap parameterHm);
+	public List<ProductVO> getListByCategory(HashMap<String, Object> parameterHm);
 }

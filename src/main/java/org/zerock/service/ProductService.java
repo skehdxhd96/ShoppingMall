@@ -22,4 +22,6 @@ public interface ProductService {
 	public List<ProductVO> getListByCategory(HashMap<String, Object> parameterHm);
 	
 	public void ProductDelete(int product_code);
+	
+	public void ProductModify(ProductVO p);
 }

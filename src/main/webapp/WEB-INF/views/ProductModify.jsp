@@ -67,37 +67,37 @@
 	
 	<div class="inputArea">
 	 <label for="name">상품명</label>
-	 <input type="text" id = "product_name" value ="${ModifyProduct.product_name }" />
+	 <input type="text" name="product_name" value ="${ModifyProduct.product_name }" />
 	</div>
 	
 	<div class="inputArea">
 	 <label for="manufacturer">제조사</label>
-	 <input type="text" id = "product_manufacturer" value ="${ModifyProduct.product_manufacturer }" />
+	 <input type="text" name = "product_manufacturer" value ="${ModifyProduct.product_manufacturer }" />
 	</div>
 	
 	<div class="inputArea">
 	 <label for="price">상품가격</label>
-	 <input type="text" id = "product_price" value ="${ModifyProduct.product_price}" />
+	 <input type="text" name = "product_price" value ="${ModifyProduct.product_price}" />
 	</div>
 	
 	<div class="inputArea">
 	 <label for="stock">상품수량</label>
-	 <input type="text" id = "product_stock" value ="${ModifyProduct.product_stock }" />
+	 <input type="text" name = "product_stock" value ="${ModifyProduct.product_stock }" />
 	</div>
 	
 	<div class="inputArea">
 	 <label for="point">적립포인트</label>
-	 <input type="text" id = "product_point" value ="${ModifyProduct.product_point }" />
+	 <input type="text" name = "product_point" value ="${ModifyProduct.product_point }" readonly = "true"/>
 	</div>
 	
 	<div class="inputArea">
 	 <label for="point">파는사람(SQL Null 방지용 기입)</label>
-	 <input type="text" id = "product_point" value ="${ModifyProduct.product_seller }" />
+	 <input type="text" name = "product_seller" value ="${ModifyProduct.product_seller }" />
 	</div>
 	
 	<div class="inputArea">
 	 <label for="point">평점(SQL Null 방지용 기입)</label>
-	 <input type="text" id = "product_point" value ="${ModifyProduct.product_score }" />
+	 <input type="text" name = "product_score" value ="${ModifyProduct.product_score }" readonly = "true"/>
 	</div>
 	
 	<!--  이미지 내일 하겟음

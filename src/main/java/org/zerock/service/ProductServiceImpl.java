@@ -66,4 +66,10 @@ public class ProductServiceImpl implements ProductService{
 		
 		pm.ProductDelete(product_code);
 	}
+	
+	@Override
+	public void ProductModify(ProductVO p) {
+		
+		pm.ProductModify(p);
+	}
 }

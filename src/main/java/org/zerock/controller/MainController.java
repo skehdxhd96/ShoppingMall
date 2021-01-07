@@ -113,6 +113,7 @@ public class MainController {
 	@GetMapping("/ProductModify/{product_code}")
 	public String toModifyPage(@PathVariable("product_code") int product_code, Model model) {
 		
+		//데이터 준비
 		DetailVO d = pm.getById(product_code);
 		model.addAttribute("ModifyProduct", d);
 		
@@ -121,6 +122,15 @@ public class MainController {
 		model.addAttribute("category", JSONArray.fromObject(category));
 		
 		return "/ProductModify";
+	}
+	
+	@PostMapping("/ProductModify/{product_code}")
+	public String toModifyPage(@PathVariable("product_code") int product_code, ProductVO p) {
+		
+		//수정시작
+		pm.ProductModify(p);
+		
+		return "redirect:/ProductList/1";
 	}
 	
 	@PostMapping("/Delete")

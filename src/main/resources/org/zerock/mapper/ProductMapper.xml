@@ -49,4 +49,15 @@
 	delete from product where product_code = #{product_code}
 </delete>
 
+<update id = "ProductModify">
+	update product set 
+				product_name = #{product_name}, 
+				product_manufacturer = #{product_manufacturer}, 
+				product_price = #{product_price}, 
+				product_stock = #{product_stock},
+				product_stock = #{product_stock},
+				category_code = #{category_code}
+			where product_code = ${product_code}
+</update>
+
 </mapper>

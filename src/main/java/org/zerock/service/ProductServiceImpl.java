@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.CategoryVO;
+import org.zerock.domain.DetailVO;
 import org.zerock.domain.ProductVO;
 import org.zerock.mapper.ProductMapper;
 
@@ -40,6 +41,12 @@ public class ProductServiceImpl implements ProductService{
 	public List<ProductVO> getList() {
 		
 		return pm.getList();
+	}
+	
+	@Override
+	public DetailVO getById(int product_code) {
+		
+		return pm.getById(product_code);
 	}
 	
 	@Override

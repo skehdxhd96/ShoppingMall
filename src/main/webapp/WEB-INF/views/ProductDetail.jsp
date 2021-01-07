@@ -73,18 +73,25 @@
 
       <div class="col-lg-9">
 
+		<!-- 상품 이름,가격,제조사,판매자,별점,포인트,재고,카테고리-->
         <div class="card mt-4">
           <img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt="">
           <div class="card-body">
-            <h3 class="card-title">Product Name</h3>
+            <h3 class="card-title">${ProductById.product_name }</h3>
             <h4>$24.99</h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
-            <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-            4.0 stars
+            <p class="card-text">제조사 : ${ProductById.product_manufacturer }</p>
+            <p class="card-text">판매자 : ${ProductById.product_seller }</p>
+            <p class="card-text">포인트 : ${ProductById.product_point }</p>
+            <p class="card-text">재고 : ${ProductById.product_stock }</p>
+            <p class="card-text">카테고리 : ${ProductById.category_name }</p>
+            <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span> <!-- 별점 이미지는 나중에 -->
+            ${ProductById.product_score }
           </div>
         </div>
         <!-- /.card -->
+        <!-- 상품end -->
 
+		<!-- 댓글/대댓글 -->
         <div class="card card-outline-secondary my-4">
           <div class="card-header">
             Product Reviews

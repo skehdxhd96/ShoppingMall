@@ -103,6 +103,8 @@
             <span class="sr-only">Next</span>
           </a>
         </div> -->
+        
+        <!-- 상품 -->
         <div id="productRow" class="row">
 		<c:forEach items = "${products}" var = "product">
           <div class="col-lg-4 col-md-6 mb-4">
@@ -110,18 +112,21 @@
               <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title">
-                  <a href="#">${product.product_name}</a>
+                <div style = "visibility : hidden">${product.product_code }</div>
+                  <a href="/ProductDetail/${product.product_code}">${product.product_name}</a>
                 </h4>
                 <h5>${product.product_price }원</h5>
                 <p class="card-text">${product.product_manufacturer }</p>
               </div>
               <div class="card-footer">
-              	<c:out value="${ product.product_score }" />
+              	<c:out value="${ product.product_score }" /> <!-- 나중에 바꿔야됩니다. -->
               </div>
             </div>
           </div>
 		</c:forEach>
         </div>
+        <!-- 상품end -->
+        
         <!-- /.row -->
 		<div class="row">
 			<div class="col-md-12 text-center">
@@ -162,6 +167,9 @@
   <script src="<%=request.getContextPath() %>/resources/ProductList/vendor/jquery/jquery.min.js"></script>
   <script src="<%=request.getContextPath() %>/resources/ProductList/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="<%=request.getContextPath() %>/resources/ProductList/js/ProductList.js"></script>
+  <script>
+  
+  </script>
 </body>
 
 </html>

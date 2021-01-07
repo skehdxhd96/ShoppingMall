@@ -33,35 +33,55 @@ public class MainController {
 		return "/mainPage";
 	}
 	
-	//ì¹´í…Œê³ ë¦¬ë³„ ìƒí’ˆ ë¦¬ìŠ¤íŠ¸ í˜ì´ì§€
+	//Ä«Å×°í¸®º° »óÇ° ¸®½ºÆ® ÆäÀÌÁö
 	@RequestMapping("/ProductList/{categoryCode}")
 	public String productByCategory(@PathVariable("categoryCode") int categoryCode, Model model) {
-		//ì¹´í…Œê³ ë¦¬ í•­ëª©
+		//Ä«Å×°í¸® Ç×¸ñ
 		List<CategoryVO> categoryVOList = pm.getCategory();
 		model.addAttribute("categories", categoryVOList);
 		
-		//ìƒí’ˆ ê°œìˆ˜
-		int pageNum = pm.getCount(categoryCode)/6+1;
+		//ÃÑÆäÀÌÁö
+		int pageNum = (int) Math.ceil(pm.getCount(categoryCode)/6);
 		model.addAttribute("pageNum", pageNum);
 		
-		//getListByCategory ë‹¤ì¤‘ì¿¼ë¦¬ë¬¸ í•´ì‰¬ë§µ
-		HashMap parameterHm = new HashMap();
+		//getListByCategory ´ÙÁßÄõ¸®¹® ÇØ½¬¸Ê
+		HashMap<String, Object> parameterHm = new HashMap<String, Object>();
 		parameterHm.put("categoryCode", categoryCode);
 		parameterHm.put("startIdx", 0);
 		
-		//ìƒí’ˆë¦¬ìŠ¤íŠ¸-1í˜ì´ì§€
+		//»óÇ°¸®½ºÆ®-1ÆäÀÌÁö
 		List<ProductVO> productVOList = pm.getListByCategory(parameterHm);
 		model.addAttribute("products", productVOList);
 		
 		return "/ProductList";
 	}
 	
+	//ÆäÀÌÂ¡¹öÆ°, ÀÌÀüÆäÀÌÁö ¹öÆ° ajax ¼­¹öÀÛ¾÷
 	@RequestMapping(value="/ProductList/paging", method=RequestMethod.POST)
 	@ResponseBody
 	public List<ProductVO> productPaging(@RequestBody HashMap<String, Object> dataTransfer) {
 		List<ProductVO> productVOList = pm.getListByCategory(dataTransfer);
 		
 		return productVOList;
+	}
+	
+	//´ÙÀ½ÆäÀÌÁö ¹öÆ° ajax ¼­¹öÀÛ¾÷
+	@RequestMapping(value="/ProductList/nextButton", method=RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> nextButton(@RequestBody HashMap<String, Object> dataTransfer) {
+		//ajax success·Î Àü´ŞÇÑ µ¥ÀÌÅÍ
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		
+		//ÇØ´ç ÆäÀÌÁö¿¡ Àü´ŞÇÒ »óÇ°µ¥ÀÌÅÍ ¸®½ºÆ®
+		List<ProductVO> productVOList = pm.getListByCategory(dataTransfer);
+		hm.put("productList", productVOList);
+		System.out.println(dataTransfer.get("categoryCode").getClass().getName());
+		
+		//ÃÑ ÆäÀÌÁö
+		int totalPage = (int) Math.ceil(pm.getCount((int) dataTransfer.get("categoryCode"))/6.0);
+		hm.put("totalPage", totalPage);
+		
+		return hm;
 	}
 	
 	@GetMapping("/ProductUpload")

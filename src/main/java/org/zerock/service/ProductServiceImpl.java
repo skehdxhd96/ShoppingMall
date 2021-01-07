@@ -60,4 +60,10 @@ public class ProductServiceImpl implements ProductService{
 		
 		return pm.getListByCategory(parameterHm);
 	}
+	
+	@Override
+	public void ProductDelete(int product_code) {
+		
+		pm.ProductDelete(product_code);
+	}
 }

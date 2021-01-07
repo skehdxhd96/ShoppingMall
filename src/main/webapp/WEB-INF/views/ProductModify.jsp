@@ -67,37 +67,37 @@
 	
 	<div class="inputArea">
 	 <label for="name">상품명</label>
-	 <input type="text" id = "product_name" name="product_name" />
+	 <input type="text" id = "product_name" value ="${ModifyProduct.product_name }" />
 	</div>
 	
 	<div class="inputArea">
 	 <label for="manufacturer">제조사</label>
-	 <input type="text" id = "product_manufacturer" name="product_manufacturer" />
+	 <input type="text" id = "product_manufacturer" value ="${ModifyProduct.product_manufacturer }" />
 	</div>
 	
 	<div class="inputArea">
 	 <label for="price">상품가격</label>
-	 <input type="text" id = "product_price" name="product_price" />
+	 <input type="text" id = "product_price" value ="${ModifyProduct.product_price}" />
 	</div>
 	
 	<div class="inputArea">
 	 <label for="stock">상품수량</label>
-	 <input type="text" id = "product_stock" name="product_stock" />
+	 <input type="text" id = "product_stock" value ="${ModifyProduct.product_stock }" />
 	</div>
 	
 	<div class="inputArea">
 	 <label for="point">적립포인트</label>
-	 <input type="text" id = "product_point" name="product_point" />
+	 <input type="text" id = "product_point" value ="${ModifyProduct.product_point }" />
 	</div>
 	
 	<div class="inputArea">
 	 <label for="point">파는사람(SQL Null 방지용 기입)</label>
-	 <input type="text" id = "product_point" name="product_seller" />
+	 <input type="text" id = "product_point" value ="${ModifyProduct.product_seller }" />
 	</div>
 	
 	<div class="inputArea">
 	 <label for="point">평점(SQL Null 방지용 기입)</label>
-	 <input type="text" id = "product_point" name="product_score" />
+	 <input type="text" id = "product_point" value ="${ModifyProduct.product_score }" />
 	</div>
 	
 	<!--  이미지 내일 하겟음
@@ -120,6 +120,10 @@
 	</script>
 	-->
 	<script>
+	//초기값 세팅
+	var select_category_code = '${ModifyProduct.category_code}';
+	var select_category_name = '${ModifyProduct.category_name}';
+		
 	//컨트롤러에서 데이터 받기
 	var jsonData = JSON.parse('${category}');
 	console.log(jsonData);
@@ -140,8 +144,13 @@
 	var cate1Select = $("select.category");
 	
 	for(var i = 0; i < cate1Arr.length; i++) {
-	 cate1Select.append("<option value='" + cate1Arr[i].category_code + "'>"
-	      + cate1Arr[i].category_name + "</option>"); 
+		if(select_category_code == i+1) {
+			cate1Select.append("<option value='" + cate1Arr[i].category_code + "' selected = 'selected'>"
+				      + cate1Arr[i].category_name + "</option>");
+		} else {
+			cate1Select.append("<option value='" + cate1Arr[i].category_code + "'>"
+				      + cate1Arr[i].category_name + "</option>");	  
+	    }
 	}
 	
 	</script>
@@ -149,8 +158,27 @@
 	<%= request.getRealPath("/") %>
 	
 	<div class="inputArea">
-	 <button type="submit" id="register_Btn" class="btn btn-primary">등록</button>
+		<button type="submit" id="update_Btn" class="btn btn-warning">완료</button>
+		<button type="button" id="back_Btn" class="btn btn-danger">취소</button>
 	</div>
+	
+	<script>
+		var formObj = $("form[role='form']");
+		
+		$("#update_Btn").click(function() {
+			var con = confirm("정말로 수정하시겠습니까?");
+			
+			if(con){
+			formObj.submit();}
+		});
+		
+		$("#back_Btn").click(function() {
+			var con = confirm("정말로 취소하시겠습니까?");
+			
+			if(con) {
+			location.href = "/ProductDetail/${ModifyProduct.product_code}";}
+		});
+	</script>
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">

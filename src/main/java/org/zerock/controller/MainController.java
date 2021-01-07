@@ -98,15 +98,36 @@ public class MainController {
 		
 		pm.register(p);
 		
-		return "redirect:/ProductList";
+		return "redirect:/ProductList/1";
 	}
 	
 	@GetMapping("/ProductDetail/{product_code}")
 	public String toDetail(@PathVariable("product_code") int product_code ,Model model) {
 		
-		DetailVO p = pm.getById(product_code);
-		model.addAttribute("ProductById", p);
+		DetailVO d = pm.getById(product_code);
+		model.addAttribute("ProductById", d);
 		
 		return "/ProductDetail";
+	}
+	
+	@GetMapping("/ProductModify/{product_code}")
+	public String toModifyPage(@PathVariable("product_code") int product_code, Model model) {
+		
+		DetailVO d = pm.getById(product_code);
+		model.addAttribute("ModifyProduct", d);
+		
+		List<CategoryVO> category = null;
+		category = pm.getCategory();
+		model.addAttribute("category", JSONArray.fromObject(category));
+		
+		return "/ProductModify";
+	}
+	
+	@PostMapping("/Delete")
+	public String toDelete(int product_code) {
+		
+		pm.ProductDelete(product_code);
+		
+		return "redirect:/ProductList/1"; //페이지조정해아함
 	}
 }

@@ -73,12 +73,15 @@
 
       <div class="col-lg-9">
 
-		<!-- 상품 이름,가격,제조사,판매자,별점,포인트,재고,카테고리-->
+		<form role="form" method="post" autocomplete="off" enctype = "multipart/form-data">
+		
+		<input type="hidden" name="product_code" value="${ProductById.product_code}" />
+		
         <div class="card mt-4">
           <img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt="">
           <div class="card-body">
             <h3 class="card-title">${ProductById.product_name }</h3>
-            <h4>$24.99</h4>
+            <h4>${ProductById.product_price }원</h4>
             <p class="card-text">제조사 : ${ProductById.product_manufacturer }</p>
             <p class="card-text">판매자 : ${ProductById.product_seller }</p>
             <p class="card-text">포인트 : ${ProductById.product_point }</p>
@@ -86,10 +89,32 @@
             <p class="card-text">카테고리 : ${ProductById.category_name }</p>
             <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span> <!-- 별점 이미지는 나중에 -->
             ${ProductById.product_score }
+            <div>
+	            <button type="button" id="modify_Btn" class="btn btn-warning">수정</button>
+				<button type="button" id="delete_Btn" class="btn btn-danger">삭제</button>
+            </div>
           </div>
         </div>
         <!-- /.card -->
         <!-- 상품end -->
+        
+        <script>
+	        var formObj = $("form[role='form']");
+	        
+	        $("#modify_Btn").click(function(){
+	         formObj.attr("action", "/ProductModify/${product_code}");
+	         formObj.attr("method", "get")
+	         formObj.submit();
+	        });
+	        
+	        $("#delete_Btn").click(function(){    
+	      	var con = confirm("정말로 삭제하시겠습니까?");
+	      	
+	      	if(con) {  
+	         	formObj.attr("action", "/Delete");
+	         	formObj.submit();}
+	        });
+        </script>
 
 		<!-- 댓글/대댓글 -->
         <div class="card card-outline-secondary my-4">
@@ -113,6 +138,7 @@
 
       </div>
       <!-- /.col-lg-9 -->
+
 
     </div>
 

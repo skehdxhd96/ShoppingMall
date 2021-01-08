@@ -34,30 +34,30 @@ public class MainController {
 		return "/mainPage";
 	}
 	
-	//ì¹´í…Œê³ ë¦¬ë³„ ìƒí’ˆ ë¦¬ìŠ¤íŠ¸ í˜ì´ì§€
+	//Ä«Å×°í¸®º° »óÇ° ¸®½ºÆ® ÆäÀÌÁö
 	   @RequestMapping("/ProductList/{categoryCode}")
 	   public String productByCategory(@PathVariable("categoryCode") int categoryCode, Model model) {
-	      //ì¹´í…Œê³ ë¦¬ í•­ëª©
+	      //Ä«Å×°í¸® Ç×¸ñ
 	      List<CategoryVO> categoryVOList = pm.getCategory();
 	      model.addAttribute("categories", categoryVOList);
 	      
-	      //ì´í˜ì´ì§€
+	      //ÃÑÆäÀÌÁö
 	      int pageNum = (int) Math.ceil(pm.getCount(categoryCode)/6);
 	      model.addAttribute("pageNum", pageNum);
 	      
-	      //getListByCategory ë‹¤ì¤‘ì¿¼ë¦¬ë¬¸ í•´ì‰¬ë§µ
+	      //getListByCategory ´ÙÁßÄõ¸®¹® ÇØ½¬¸Ê
 	      HashMap<String, Object> parameterHm = new HashMap<String, Object>();
 	      parameterHm.put("categoryCode", categoryCode);
 	      parameterHm.put("startIdx", 0);
 	      
-	      //ìƒí’ˆë¦¬ìŠ¤íŠ¸-1í˜ì´ì§€
+	      //»óÇ°¸®½ºÆ®-1ÆäÀÌÁö
 	      List<ProductVO> productVOList = pm.getListByCategory(parameterHm);
 	      model.addAttribute("products", productVOList);
 	      
 	      return "/ProductList";
 	   }
 	
-	//í˜ì´ì§•ë²„íŠ¼, ì´ì „í˜ì´ì§€ ë²„íŠ¼ ajax ì„œë²„ì‘ì—…
+	//ÆäÀÌÂ¡¹öÆ°, ÀÌÀüÆäÀÌÁö ¹öÆ° ajax ¼­¹öÀÛ¾÷
 	@RequestMapping(value="/ProductList/paging", method=RequestMethod.POST)
 	@ResponseBody
 	public List<ProductVO> productPaging(@RequestBody HashMap<String, Object> dataTransfer) {
@@ -66,19 +66,19 @@ public class MainController {
 		return productVOList;
 	}
 	
-	//ë‹¤ìŒí˜ì´ì§€ ë²„íŠ¼ ajax ì„œë²„ì‘ì—…
+	//´ÙÀ½ÆäÀÌÁö ¹öÆ° ajax ¼­¹öÀÛ¾÷
 	@RequestMapping(value="/ProductList/nextButton", method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String, Object> nextButton(@RequestBody HashMap<String, Object> dataTransfer) {
-		//ajax successë¡œ ì „ë‹¬í•œ ë°ì´í„°
+		//ajax success·Î Àü´ŞÇÑ µ¥ÀÌÅÍ
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		
-		//í•´ë‹¹ í˜ì´ì§€ì— ì „ë‹¬í•  ìƒí’ˆë°ì´í„° ë¦¬ìŠ¤íŠ¸
+		//ÇØ´ç ÆäÀÌÁö¿¡ Àü´ŞÇÒ »óÇ°µ¥ÀÌÅÍ ¸®½ºÆ®
 		List<ProductVO> productVOList = pm.getListByCategory(dataTransfer);
 		hm.put("productList", productVOList);
 		System.out.println(dataTransfer.get("categoryCode").getClass().getName());
 		
-		//ì´ í˜ì´ì§€
+		//ÃÑ ÆäÀÌÁö
 		int totalPage = (int) Math.ceil(pm.getCount((int) dataTransfer.get("categoryCode"))/6.0);
 		hm.put("totalPage", totalPage);
 		
@@ -113,7 +113,7 @@ public class MainController {
 	@GetMapping("/ProductModify/{product_code}")
 	public String toModifyPage(@PathVariable("product_code") int product_code, Model model) {
 		
-		//ë°ì´í„° ì¤€ë¹„
+		//µ¥ÀÌÅÍ ÁØºñ
 		DetailVO d = pm.getById(product_code);
 		model.addAttribute("ModifyProduct", d);
 		
@@ -127,7 +127,7 @@ public class MainController {
 	@PostMapping("/ProductModify/{product_code}")
 	public String toModifyPage(@PathVariable("product_code") int product_code, ProductVO p) {
 		
-		//ìˆ˜ì •ì‹œì‘
+		//¼öÁ¤½ÃÀÛ
 		pm.ProductModify(p);
 		
 		return "redirect:/ProductList/1";
@@ -138,6 +138,6 @@ public class MainController {
 		
 		pm.ProductDelete(product_code);
 		
-		return "redirect:/ProductList/1"; //í˜ì´ì§€ì¡°ì •í•´ì•„í•¨
+		return "redirect:/ProductList/1"; //ÆäÀÌÁöÁ¶Á¤ÇØ¾ÆÇÔ
 	}
 }

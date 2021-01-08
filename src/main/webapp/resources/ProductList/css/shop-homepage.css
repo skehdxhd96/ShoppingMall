@@ -15,3 +15,8 @@ body {
 #productRow {
 	margin-top: 24px;
 }
+
+.clicked_pageButton {
+	background-color: #212529;
+	color: #FFFFFF;
+}

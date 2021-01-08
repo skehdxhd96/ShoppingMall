@@ -138,7 +138,7 @@
 					</c:if>
 					<c:if test="${ pageNum>5 }">
 						<c:forEach var="page" begin="1" end="5" step="1">
-							<button type="button" class="btn btn-light pageButton">${ page }</button>
+							<button type="button" class="btn btn-light pageButton" index="${ page%5 }">${ page }</button>
 						</c:forEach>
 						<button id="nextButton" type="button" class="btn btn-light">다음</button>
 					</c:if>
@@ -165,7 +165,7 @@
 
   <!-- Bootstrap core JavaScript -->
   <script src="<%=request.getContextPath() %>/resources/ProductList/vendor/jquery/jquery.min.js"></script>
-  <script src="<%=request.getContextPath() %>/resources/ProductList/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <%-- <script src="<%=request.getContextPath() %>/resources/ProductList/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> --%>
   <script src="<%=request.getContextPath() %>/resources/ProductList/js/ProductList.js"></script>
   <script>
   

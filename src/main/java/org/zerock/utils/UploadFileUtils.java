@@ -10,22 +10,15 @@ import net.coobird.thumbnailator.Thumbnails;
 
 public class UploadFileUtils {
   
- static final int THUMB_WIDTH = 300;
- static final int THUMB_HEIGHT = 300;
- 
- 	 public static UUID getuuid( ) {
- 		 
- 		 UUID uid = UUID.randomUUID();
- 		 
- 		 return uid;
- 	 }
- 
+ static final int THUMB_WIDTH = 150;
+ static final int THUMB_HEIGHT = 150;
+
 	 public static String fileUpload(String uploadPath,
 	         String fileName,
 	         byte[] fileData, String ymdPath) throws Exception {
 	
 	  //uuid 랜덤 생성
-	  UUID uid = getuuid();
+	  UUID uid = UUID.randomUUID();
 	  
 	  //uuid + file이름으로 새로운 파일 이름 생성
 	  String newFileName = uid + "_" + fileName;

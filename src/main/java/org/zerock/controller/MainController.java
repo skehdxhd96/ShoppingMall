@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.zerock.domain.CategoryVO;
 import org.zerock.domain.DetailVO;
-import org.zerock.domain.ImageVO;
 import org.zerock.domain.ProductVO;
 import org.zerock.service.ProductServiceImpl;
 import org.zerock.utils.UploadFileUtils;
@@ -41,30 +40,30 @@ public class MainController {
 		return "/mainPage";
 	}
 	
-	//ī�װ��� ��ǰ ����Ʈ ������
+	//카테고리별 상품 리스트 페이지
 	   @RequestMapping("/ProductList/{categoryCode}")
 	   public String productByCategory(@PathVariable("categoryCode") int categoryCode, Model model) {
-	      //ī�װ� �׸�
+	      //카테고리 항목
 	      List<CategoryVO> categoryVOList = pm.getCategory();
 	      model.addAttribute("categories", categoryVOList);
 	      
-	      //��������
+	      //총페이지
 	      int pageNum = (int) Math.ceil(pm.getCount(categoryCode)/6);
 	      model.addAttribute("pageNum", pageNum);
 	      
-	      //getListByCategory ���������� �ؽ���
+	      //getListByCategory 다중쿼리문 해쉬맵
 	      HashMap<String, Object> parameterHm = new HashMap<String, Object>();
 	      parameterHm.put("categoryCode", categoryCode);
 	      parameterHm.put("startIdx", 0);
 	      
-	      //��ǰ����Ʈ-1������
+	      //상품리스트 -1페이지
 	      List<ProductVO> productVOList = pm.getListByCategory(parameterHm);
 	      model.addAttribute("products", productVOList);
 	      
 	      return "/ProductList";
 	   }
 	
-	//����¡��ư, ���������� ��ư ajax �����۾�
+	//페이징버튼, 이전페이지 버튼 ajax 서버작업
 	@RequestMapping(value="/ProductList/paging", method=RequestMethod.POST)
 	@ResponseBody
 	public List<ProductVO> productPaging(@RequestBody HashMap<String, Object> dataTransfer) {
@@ -73,19 +72,19 @@ public class MainController {
 		return productVOList;
 	}
 	
-	//���������� ��ư ajax �����۾�
+	//다음페이지 버튼 ajax 서버작업
 	@RequestMapping(value="/ProductList/nextButton", method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String, Object> nextButton(@RequestBody HashMap<String, Object> dataTransfer) {
-		//ajax success�� ������ ������
+		//ajax success로 전달한 데이터
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		
-		//�ش� �������� ������ ��ǰ������ ����Ʈ
+		//해당 페이지에 전달할 상품데이터 리스트
 		List<ProductVO> productVOList = pm.getListByCategory(dataTransfer);
 		hm.put("productList", productVOList);
 		System.out.println(dataTransfer.get("categoryCode").getClass().getName());
 		
-		//�� ������
+		//총 페이지
 		int totalPage = (int) Math.ceil(pm.getCount((int) dataTransfer.get("categoryCode"))/6.0);
 		hm.put("totalPage", totalPage);
 		
@@ -101,7 +100,7 @@ public class MainController {
 	}
 	
 	@PostMapping("/ProductUpload")
-	public String toUploadPage(ProductVO p, ImageVO i, MultipartFile file) throws Exception{
+	public String toUploadPage(ProductVO p, MultipartFile file) throws Exception{
 		
 		//이미지 등록 메소드
 		String imgUploadPath = uploadPath + File.separator + "imgUpload"; //resources/imgUpload
@@ -114,13 +113,11 @@ public class MainController {
 		 fileName = uploadPath + File.separator + "images" + File.separator + "none.png";
 		}
 		
-		i.setImage_uuid(UploadFileUtils.getuuid());
-		i.setImage_url(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
-		i.setImage_thumbnail(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
+		p.setImage_url(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
+		p.setThumbnail_url(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
 		//이미지 등록 메소드 end
 		
 		pm.register(p);
-		i.setProduct_code(p.getProduct_code());
 		
 		return "redirect:/ProductList/1";
 	}

@@ -109,7 +109,10 @@
 		<c:forEach items = "${products}" var = "product">
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+            <c:if test="${product.thumbnail_url != 'none.png'}">
+              <a href="#"><img class="card-img-top" src="${product.thumbnail_url}" alt=""></a></c:if>
+            <c:if test="${product.thumbnail_url == 'none.png'}">
+              <a href="#"><img class="card-img-top" src="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif" alt="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif"></a></c:if>
               <div class="card-body">
                 <h4 class="card-title">
                 <div style = "visibility : hidden">${product.product_code }</div>

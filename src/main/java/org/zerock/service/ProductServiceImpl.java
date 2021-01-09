@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.CategoryVO;
 import org.zerock.domain.DetailVO;
-import org.zerock.domain.ImageVO;
 import org.zerock.domain.ProductVO;
 import org.zerock.mapper.ProductMapper;
 
@@ -36,12 +35,6 @@ public class ProductServiceImpl implements ProductService{
 //		log.info("register is done");
 		
 		pm.register(p);
-	}
-	
-	@Override
-	public void registerImage(ImageVO i) {
-		
-		pm.registerImage(i);
 	}
 	
 	@Override

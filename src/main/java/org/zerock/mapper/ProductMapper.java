@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.zerock.domain.CategoryVO;
 import org.zerock.domain.DetailVO;
+import org.zerock.domain.ImageVO;
 import org.zerock.domain.ProductVO;
 
 public interface ProductMapper {
@@ -12,6 +13,8 @@ public interface ProductMapper {
 	public List<CategoryVO> getCategory();
 	
 	public void register(ProductVO p);
+	
+	public void registerImage(ImageVO i);
 	
 	public List<ProductVO> getList();
 	

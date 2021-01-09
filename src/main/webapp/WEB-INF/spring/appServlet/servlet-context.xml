@@ -29,12 +29,14 @@
 	
 	<context:component-scan base-package="org.zerock" />
 	
-	<!-- 업로드 패스 설정 --> 
+	<!-- 업로드 패스 설정 -->
+	<!-- 경로 맞춰주세요 -->
 	<beans:bean class="java.lang.String" id="uploadPath">
-	 <beans:constructor-arg value="C:\Spring\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\PhoneMall\resources" />
+	 <beans:constructor-arg value="C:\Spring\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ShoppingMall_Project\resources" />
 	</beans:bean>
 	
 	<!-- 일반 파일 업로드 경로 -->
+	<!-- resources에 imgUpload폴더 없으면 만들어주세요 -->
 	<resources mapping="/imgUpload/**" location="/resources/imgUpload/" />
 	
 	<beans:bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">

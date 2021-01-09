@@ -138,7 +138,6 @@ function paging(data) {
 		html += "<p class=\"card-text\">" + data[i].product_manufacturer + "</p>";
 		html += "</div>";
 		html += "<div class=\"card-footer\">" + data[i].product_score + "</div>";
-		html += "<div>" + data[i].product_code + "</div>";
 		html += "</div>";
 		html += "</div>";
 	}

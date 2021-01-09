@@ -1,5 +1,6 @@
 package org.zerock.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.zerock.domain.CategoryVO;
 import org.zerock.domain.DetailVO;
+import org.zerock.domain.ImageVO;
 import org.zerock.domain.ProductVO;
 import org.zerock.service.ProductServiceImpl;
+import org.zerock.utils.UploadFileUtils;
 
 import lombok.extern.log4j.Log4j;
 import net.sf.json.JSONArray;
@@ -27,6 +31,9 @@ import net.sf.json.JSONArray;
 public class MainController {
 	@Resource
 	private ProductServiceImpl pm;
+	
+	@Resource(name = "uploadPath")
+	private String uploadPath; // servlet-contextê°€ë³´ë©´ ìˆì–´ìš”
 
 	@RequestMapping("/")
 	public String toMainPage() {
@@ -34,30 +41,30 @@ public class MainController {
 		return "/mainPage";
 	}
 	
-	//Ä«Å×°í¸®º° »óÇ° ¸®½ºÆ® ÆäÀÌÁö
+	//Ä«ï¿½×°ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	   @RequestMapping("/ProductList/{categoryCode}")
 	   public String productByCategory(@PathVariable("categoryCode") int categoryCode, Model model) {
-	      //Ä«Å×°í¸® Ç×¸ñ
+	      //Ä«ï¿½×°ï¿½ ï¿½×¸ï¿½
 	      List<CategoryVO> categoryVOList = pm.getCategory();
 	      model.addAttribute("categories", categoryVOList);
 	      
-	      //ÃÑÆäÀÌÁö
+	      //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	      int pageNum = (int) Math.ceil(pm.getCount(categoryCode)/6);
 	      model.addAttribute("pageNum", pageNum);
 	      
-	      //getListByCategory ´ÙÁßÄõ¸®¹® ÇØ½¬¸Ê
+	      //getListByCategory ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½ï¿½
 	      HashMap<String, Object> parameterHm = new HashMap<String, Object>();
 	      parameterHm.put("categoryCode", categoryCode);
 	      parameterHm.put("startIdx", 0);
 	      
-	      //»óÇ°¸®½ºÆ®-1ÆäÀÌÁö
+	      //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Æ®-1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	      List<ProductVO> productVOList = pm.getListByCategory(parameterHm);
 	      model.addAttribute("products", productVOList);
 	      
 	      return "/ProductList";
 	   }
 	
-	//ÆäÀÌÂ¡¹öÆ°, ÀÌÀüÆäÀÌÁö ¹öÆ° ajax ¼­¹öÀÛ¾÷
+	//ï¿½ï¿½ï¿½ï¿½Â¡ï¿½ï¿½Æ°, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ajax ï¿½ï¿½ï¿½ï¿½ï¿½Û¾ï¿½
 	@RequestMapping(value="/ProductList/paging", method=RequestMethod.POST)
 	@ResponseBody
 	public List<ProductVO> productPaging(@RequestBody HashMap<String, Object> dataTransfer) {
@@ -66,19 +73,19 @@ public class MainController {
 		return productVOList;
 	}
 	
-	//´ÙÀ½ÆäÀÌÁö ¹öÆ° ajax ¼­¹öÀÛ¾÷
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ajax ï¿½ï¿½ï¿½ï¿½ï¿½Û¾ï¿½
 	@RequestMapping(value="/ProductList/nextButton", method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String, Object> nextButton(@RequestBody HashMap<String, Object> dataTransfer) {
-		//ajax success·Î Àü´ŞÇÑ µ¥ÀÌÅÍ
+		//ajax successï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		
-		//ÇØ´ç ÆäÀÌÁö¿¡ Àü´ŞÇÒ »óÇ°µ¥ÀÌÅÍ ¸®½ºÆ®
+		//ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 		List<ProductVO> productVOList = pm.getListByCategory(dataTransfer);
 		hm.put("productList", productVOList);
 		System.out.println(dataTransfer.get("categoryCode").getClass().getName());
 		
-		//ÃÑ ÆäÀÌÁö
+		//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		int totalPage = (int) Math.ceil(pm.getCount((int) dataTransfer.get("categoryCode"))/6.0);
 		hm.put("totalPage", totalPage);
 		
@@ -94,9 +101,26 @@ public class MainController {
 	}
 	
 	@PostMapping("/ProductUpload")
-	public String toUploadPage(ProductVO p) throws Exception{
+	public String toUploadPage(ProductVO p, ImageVO i, MultipartFile file) throws Exception{
+		
+		//ì´ë¯¸ì§€ ë“±ë¡ ë©”ì†Œë“œ
+		String imgUploadPath = uploadPath + File.separator + "imgUpload"; //resources/imgUpload
+		String ymdPath = UploadFileUtils.calcPath(imgUploadPath); //ë…„ì›”ì¼ í´ë”ê²½ë¡œ
+		String fileName = null;
+
+		if(file.getOriginalFilename() != null && file.getOriginalFilename() != "") {
+		 fileName =  UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath); 
+		} else {
+		 fileName = uploadPath + File.separator + "images" + File.separator + "none.png";
+		}
+		
+		i.setImage_uuid(UploadFileUtils.getuuid());
+		i.setImage_url(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
+		i.setImage_thumbnail(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
+		//ì´ë¯¸ì§€ ë“±ë¡ ë©”ì†Œë“œ end
 		
 		pm.register(p);
+		i.setProduct_code(p.getProduct_code());
 		
 		return "redirect:/ProductList/1";
 	}
@@ -113,7 +137,7 @@ public class MainController {
 	@GetMapping("/ProductModify/{product_code}")
 	public String toModifyPage(@PathVariable("product_code") int product_code, Model model) {
 		
-		//µ¥ÀÌÅÍ ÁØºñ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½
 		DetailVO d = pm.getById(product_code);
 		model.addAttribute("ModifyProduct", d);
 		
@@ -127,7 +151,7 @@ public class MainController {
 	@PostMapping("/ProductModify/{product_code}")
 	public String toModifyPage(@PathVariable("product_code") int product_code, ProductVO p) {
 		
-		//¼öÁ¤½ÃÀÛ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		pm.ProductModify(p);
 		
 		return "redirect:/ProductList/1";
@@ -138,6 +162,6 @@ public class MainController {
 		
 		pm.ProductDelete(product_code);
 		
-		return "redirect:/ProductList/1"; //ÆäÀÌÁöÁ¶Á¤ÇØ¾ÆÇÔ
+		return "redirect:/ProductList/1"; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½
 	}
 }

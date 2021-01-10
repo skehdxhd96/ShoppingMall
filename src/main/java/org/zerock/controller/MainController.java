@@ -32,7 +32,7 @@ public class MainController {
 	private ProductServiceImpl pm;
 	
 	@Resource(name = "uploadPath")
-	private String uploadPath; // servlet-contextê°€ë³´ë©´ ìˆì–´ìš”
+	private String uploadPath; // servlet-context°¡º¸¸é ÀÖ¾î¿ä
 
 	@RequestMapping("/")
 	public String toMainPage() {
@@ -40,30 +40,30 @@ public class MainController {
 		return "/mainPage";
 	}
 	
-	//ì¹´í…Œê³ ë¦¬ë³„ ìƒí’ˆ ë¦¬ìŠ¤íŠ¸ í˜ì´ì§€
+	//Ä«Å×°í¸®º° »óÇ° ¸®½ºÆ® ÆäÀÌÁö
 	   @RequestMapping("/ProductList/{categoryCode}")
 	   public String productByCategory(@PathVariable("categoryCode") int categoryCode, Model model) {
-	      //ì¹´í…Œê³ ë¦¬ í•­ëª©
+		 //Ä«Å×°í¸® Ç×¸ñ
 	      List<CategoryVO> categoryVOList = pm.getCategory();
 	      model.addAttribute("categories", categoryVOList);
 	      
-	      //ì´í˜ì´ì§€
-	      int pageNum = (int) Math.ceil(pm.getCount(categoryCode)/6);
+	      //ÃÑÆäÀÌÁö
+	      int pageNum = (int) (pm.getCount(categoryCode)/6)+1;
 	      model.addAttribute("pageNum", pageNum);
 	      
-	      //getListByCategory ë‹¤ì¤‘ì¿¼ë¦¬ë¬¸ í•´ì‰¬ë§µ
+	    //getListByCategory ´ÙÁßÄõ¸®¹® ÇØ½¬¸Ê
 	      HashMap<String, Object> parameterHm = new HashMap<String, Object>();
 	      parameterHm.put("categoryCode", categoryCode);
 	      parameterHm.put("startIdx", 0);
 	      
-	      //ìƒí’ˆë¦¬ìŠ¤íŠ¸ -1í˜ì´ì§€
+	    //»óÇ°¸®½ºÆ® -1ÆäÀÌÁö
 	      List<ProductVO> productVOList = pm.getListByCategory(parameterHm);
 	      model.addAttribute("products", productVOList);
 	      
 	      return "/ProductList";
 	   }
 	
-	//í˜ì´ì§•ë²„íŠ¼, ì´ì „í˜ì´ì§€ ë²„íŠ¼ ajax ì„œë²„ì‘ì—…
+	 //ÆäÀÌÂ¡¹öÆ°, ÀÌÀüÆäÀÌÁö ¹öÆ° ajax ¼­¹öÀÛ¾÷
 	@RequestMapping(value="/ProductList/paging", method=RequestMethod.POST)
 	@ResponseBody
 	public List<ProductVO> productPaging(@RequestBody HashMap<String, Object> dataTransfer) {
@@ -72,20 +72,22 @@ public class MainController {
 		return productVOList;
 	}
 	
-	//ë‹¤ìŒí˜ì´ì§€ ë²„íŠ¼ ajax ì„œë²„ì‘ì—…
+	//´ÙÀ½ÆäÀÌÁö ¹öÆ° ajax ¼­¹öÀÛ¾÷
 	@RequestMapping(value="/ProductList/nextButton", method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String, Object> nextButton(@RequestBody HashMap<String, Object> dataTransfer) {
-		//ajax successë¡œ ì „ë‹¬í•œ ë°ì´í„°
+		//ajax success·Î Àü´ŞÇÑ µ¥ÀÌÅÍ
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		
-		//í•´ë‹¹ í˜ì´ì§€ì— ì „ë‹¬í•  ìƒí’ˆë°ì´í„° ë¦¬ìŠ¤íŠ¸
+		//ÇØ´ç ÆäÀÌÁö¿¡ Àü´ŞÇÒ »óÇ°µ¥ÀÌÅÍ ¸®½ºÆ®
 		List<ProductVO> productVOList = pm.getListByCategory(dataTransfer);
 		hm.put("productList", productVOList);
 		System.out.println(dataTransfer.get("categoryCode").getClass().getName());
 		
-		//ì´ í˜ì´ì§€
-		int totalPage = (int) Math.ceil(pm.getCount((int) dataTransfer.get("categoryCode"))/6.0);
+		//Ä«Å×°í¸®ÄÚµå
+		int categoryCode = (int) dataTransfer.get("categoryCode");
+		//ÃÑ ÆäÀÌÁö
+		int totalPage = (int) (pm.getCount(categoryCode)/6)+1;
 		hm.put("totalPage", totalPage);
 		
 		return hm;
@@ -102,9 +104,9 @@ public class MainController {
 	@PostMapping("/ProductUpload")
 	public String toUploadPage(ProductVO p, MultipartFile file) throws Exception{
 		
-		//ì´ë¯¸ì§€ ë“±ë¡ ë©”ì†Œë“œ
+		//ÀÌ¹ÌÁö µî·Ï ¸Ş¼Òµå
 		String imgUploadPath = uploadPath + File.separator + "imgUpload"; //resources/imgUpload
-		String ymdPath = UploadFileUtils.calcPath(imgUploadPath); //ë…„ì›”ì¼ í´ë”ê²½ë¡œ
+		String ymdPath = UploadFileUtils.calcPath(imgUploadPath); //³â¿ùÀÏ Æú´õ°æ·Î
 		String fileName = null;
 
 		if(file.getOriginalFilename() != null && file.getOriginalFilename() != "") {
@@ -115,7 +117,7 @@ public class MainController {
 		
 		p.setImage_url(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
 		p.setThumbnail_url(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
-		//ì´ë¯¸ì§€ ë“±ë¡ ë©”ì†Œë“œ end
+		//ÀÌ¹ÌÁö µî·Ï ¸Ş¼Òµå end
 		
 		pm.register(p);
 		

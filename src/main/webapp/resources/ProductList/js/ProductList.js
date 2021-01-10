@@ -1,18 +1,12 @@
-//처음 페이지 로딩시 1번 버튼에 클릭됐을 때 스타일로 변경하기
-$(document).ready(function(){
-	$(".pageButton[index=1]").addClass("clicked_pageButton");
-	/*$(".pageButton[index!=" + index + "]").removeClass("clicked_pageButton");*/
-});
-
 //페이지버튼 클릭했을 때
 $(document).on("click", ".pageButton", function() {
 	//클릭시 버튼 주위의 초점 제거
 	$(this).trigger("blur");
 	
 	var index = $(this).attr("index");	//index 속성값
-	var startIdx = 6*(Number($(this).text())-1);
+	var page = Number($(this).text());
 	var categoryCode = Number($(location).attr('pathname').slice(-1));
-	var dataTransfer = {"startIdx":startIdx,
+	var dataTransfer = {"startIdx":6*(page-1),
 						"categoryCode":categoryCode};
 	
 	$.ajax({

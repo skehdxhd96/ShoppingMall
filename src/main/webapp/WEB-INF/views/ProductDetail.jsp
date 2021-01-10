@@ -78,7 +78,10 @@
 		<input type="hidden" name="product_code" value="${ProductById.product_code}" />
 		
         <div class="card mt-4">
-          <img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt="">
+           <c:if test="${ProductById.thumbnail_url != 'none.png'}">
+              <img class="card-img-top" src="${ProductById.thumbnail_url}" alt=""></c:if>
+           <c:if test="${ProductById.thumbnail_url == 'none.png'}">
+              <img class="card-img-top" src="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif" alt="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif"></c:if>
           <div class="card-body">
             <h3 class="card-title">${ProductById.product_name }</h3>
             <h4>${ProductById.product_price }원</h4>

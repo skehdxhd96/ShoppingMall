@@ -123,7 +123,8 @@ function paging(data) {
 	for (var i=0; i<data.length; i++) {
 		html += "<div class=\"col-lg-4 col-md-6 mb-4\">";
 		html += "<div class=\"card h-100\">";
-		html += "<a href=\"/ProductDetail/" + data[i].product_code + "\"><img class=\"card-img-top\" src=\"http://placehold.it/700x400\" alt=\"\"></a>";
+		//html += "<a href=\"/ProductDetail/" + data[i].product_code + "\"><img class=\"card-img-top\" src=\"http://placehold.it/700x400\" alt=\"\"></a>";
+		html += "<a href=\"/ProductDetail/" + data[i].product_code + "\"><img class=\"card-img-top\" src=" + data[i].thumbnail_url + " alt=\"\"></a>";
 		html += "<div class=\"card-body\">";
 		html += "<h4 class=\"card-title\">";
 		html += "<a href=\"/ProductDetail/" + data[i].product_code + "\">" + data[i].product_name + "</a>";
@@ -132,7 +133,6 @@ function paging(data) {
 		html += "<p class=\"card-text\">" + data[i].product_manufacturer + "</p>";
 		html += "</div>";
 		html += "<div class=\"card-footer\">" + data[i].product_score + "</div>";
-		html += "<div>" + data[i].product_code + "</div>";
 		html += "</div>";
 		html += "</div>";
 	}

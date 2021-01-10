@@ -15,4 +15,6 @@ public class DetailVO {
 	private String product_score;
 	private int category_code;
 	private String category_name;
+	private String image_url;
+	private String thumbnail_url;
 }

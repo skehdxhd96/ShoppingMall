@@ -100,16 +100,17 @@
 	 <input type="text" id = "product_point" name="product_score" />
 	</div>
 	
-	<!--  이미지 내일 하겟음
 	<div class = "inputArea">
 		<label for = "gdsImg">이미지</label>
-		<input type = "file" id = "gdsImg" name = "file" />
+		<input type = "file" id = "product_image" name = "file" />
 		<div class = "select_img"><img src = "" /></div>
 	</div>
 	
 	<script>
-	$("#gdsImg").change(function() {
-		if(this.files && this.files[0]) {
+	<!-- 이미지 띄우기 -->
+	<!-- 배포시 경로 수정해야함 -->
+	$("#product_image").change(function() {
+		if(this.files && this.files[0]) { //만약 파일이 하나 or 복수일경우 첫번째가 있을경우
 			var reader = new FileReader;
 			reader.onload = function(data) {
 				$(".select_img img").attr("src", data.target.result).width(200);
@@ -118,7 +119,7 @@
 		}
 	});
 	</script>
-	-->
+	
 	<script>
 	//컨트롤러에서 데이터 받기
 	var jsonData = JSON.parse('${category}');

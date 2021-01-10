@@ -7,10 +7,12 @@ public class ProductVO {
 	private int product_code;
 	private String product_name; 
 	private String product_manufacturer;
-	private String product_seller; //¼öÁ¤ºÒ°¡
+	private String product_seller; //ï¿½ï¿½ï¿½ï¿½ï¿½Ò°ï¿½
 	private int product_price;
 	private int product_stock;
-	private int product_point; //¼öÁ¤ºÒ°¡
-	private String product_score; // ¼öÁ¤ºÒ°¡
+	private int product_point; //ï¿½ï¿½ï¿½ï¿½ï¿½Ò°ï¿½
+	private String product_score; // ï¿½ï¿½ï¿½ï¿½ï¿½Ò°ï¿½
 	private int category_code;
+	private String image_url;
+	private String thumbnail_url;
 }

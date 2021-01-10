@@ -109,14 +109,11 @@
 		<c:forEach items = "${products}" var = "product">
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-<<<<<<< HEAD
-              <a href="/ProductDetail/${ product.product_code }"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-=======
             <c:if test="${product.thumbnail_url != 'none.png'}">
               <a href="#"><img class="card-img-top" src="${product.thumbnail_url}" alt=""></a></c:if>
             <c:if test="${product.thumbnail_url == 'none.png'}">
-              <a href="#"><img class="card-img-top" src="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif" alt="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif"></a></c:if>
->>>>>>> refs/remotes/upstream/master
+              <a href="#"><img class="card-img-top" src="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif" alt="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif"></a>
+            </c:if>
               <div class="card-body">
                 <h4 class="card-title">
                 <div style = "visibility : hidden">${product.product_code }</div>
@@ -138,10 +135,10 @@
 		<div class="row">
 			<div class="col-md-12 text-center">
 				<div id="pageButtonGroup" class="btn-group me-2" role="group" aria-label="First group">
-					<button type="button" class="btn btn-light pageButton clicked_pageButton">1</button>
+					<button type="button" class="btn btn-light pageButton clicked_pageButton" index="1">1</button>
 					<c:if test="${ pageNum<=5 }">
 						<c:forEach var="page" begin="2" end="${ pageNum }" step="1">
-							<button type="button" class="btn btn-light pageButton">${ page }</button>
+							<button type="button" class="btn btn-light pageButton" index="${ page%5 }">${ page }</button>
 						</c:forEach>
 					</c:if>
 					<c:if test="${ pageNum>5 }">

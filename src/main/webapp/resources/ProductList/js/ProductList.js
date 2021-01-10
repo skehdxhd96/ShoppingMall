@@ -1,3 +1,11 @@
+//초기페이지 히스토리 저장
+$(document).ready(function() {
+	var productHtml = $("#productRow").html();
+	var buttonHtml = $("#pageButtonGroup").html();
+	
+	history.pushState({"productHtml":productHtml, "buttonHtml":buttonHtml}, null, null);
+});
+
 //페이지버튼 클릭했을 때
 $(document).on("click", ".pageButton", function() {
 	//클릭시 버튼 주위의 초점 제거
@@ -23,6 +31,7 @@ $(document).on("click", ".pageButton", function() {
 			
 			//해당페이지 상품리스트 정보들을 담은 html을 jsp에 추가하는 함수 호출
 			paging(data);
+			
 		},
 		error:function() {
 			alert("ERROR");
@@ -36,7 +45,7 @@ $(document).on("click", "#nextButton", function() {
 	var categoryCode = Number($(location).attr('pathname').slice(-1));
 	var dataTransfer = {"startIdx":6*(startPage-1),
 						"categoryCode":categoryCode};
-						
+	
 	$.ajax({
 		url:"/ProductList/nextButton", 
 		type:"POST", 
@@ -44,9 +53,6 @@ $(document).on("click", "#nextButton", function() {
 		contentType: "application/json; charset=utf-8;",
 	    dataType: "json", 
 		success:function(data) {
-			//해당페이지 상품리스트 정보들을 담은 html을 jsp에 추가하는 함수 호출
-			paging(data.productList);
-			
 			//버튼 새로고침
 			var buttonHtml = "";
 			var totalPage = data.totalPage;
@@ -67,6 +73,9 @@ $(document).on("click", "#nextButton", function() {
 			
 			// 다음페이지의 첫번째 페이지 버튼 클릭된 상태 스타일로 변경
 			$(".pageButton[index=1]").addClass("clicked_pageButton");
+			
+			//해당페이지 상품리스트 정보들을 담은 html을 jsp에 추가하는 함수 호출
+			paging(data.productList);
 		}, 
 		error:function() {
 			alert("ERROR!!");
@@ -88,9 +97,6 @@ $(document).on("click", "#prevButton", function() {
 		contentType:"application/json; charset=utf-8", 
 		dataType:"json", 
 		success:function(data) {
-			//해당페이지 상품리스트 정보들을 담은 html을 jsp에 추가하는 함수 호출
-			paging(data);
-			
 			//버튼 새로고침
 			var buttonHtml = "";
 			if (lastPage-4==1) {
@@ -110,6 +116,9 @@ $(document).on("click", "#prevButton", function() {
 			
 			//이전페이지로 돌아간 후 맨 마지막 페이지 버튼 클릭된 상태 스타일로 변경
 			$(".pageButton[index=0]").addClass("clicked_pageButton");
+			
+			//해당페이지 상품리스트 정보들을 담은 html을 jsp에 추가하는 함수 호출
+			paging(data);
 		}, 
 		error:function() {
 			alert("ERROR!!");
@@ -120,11 +129,19 @@ $(document).on("click", "#prevButton", function() {
 //해당페이지 상품리스트 정보들을 담은 html을 jsp에 추가하는 함수
 function paging(data) {
 	var html = "";
+	var imageSrc = "";
 	for (var i=0; i<data.length; i++) {
+		if (data[i].thumbnail_url=='none.png') {
+			imageSrc = "https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif";
+		}
+		else {
+			imageSrc = data[i].thumbnail_url;
+		}
+		
 		html += "<div class=\"col-lg-4 col-md-6 mb-4\">";
 		html += "<div class=\"card h-100\">";
 		//html += "<a href=\"/ProductDetail/" + data[i].product_code + "\"><img class=\"card-img-top\" src=\"http://placehold.it/700x400\" alt=\"\"></a>";
-		html += "<a href=\"/ProductDetail/" + data[i].product_code + "\"><img class=\"card-img-top\" src=" + data[i].thumbnail_url + " alt=\"\"></a>";
+		html += "<a href=\"/ProductDetail/" + data[i].product_code + "\"><img class=\"card-img-top\" src=" + imageSrc + " alt=\"\"></a>";
 		html += "<div class=\"card-body\">";
 		html += "<h4 class=\"card-title\">";
 		html += "<a href=\"/ProductDetail/" + data[i].product_code + "\">" + data[i].product_name + "</a>";
@@ -138,4 +155,15 @@ function paging(data) {
 	}
 			
 	$("#productRow").html(html);
+	
+	//ProductList 페이지에서 뒤로가기 버튼을 눌렀을 때 이전 페이지의 history를 기억하기 위해 pushState() 사용.(Detail 페이지에서 뒤로가기 버튼 누른거랑 다른거)
+	var buttonHtml = $("#pageButtonGroup").html();
+	history.pushState({"productHtml":html, "buttonHtml":buttonHtml}, null, null);
 };
+
+//ProductList 페이지에서 뒤로가기버튼을 눌렀을 때(Detail 페이지에서 뒤로가기 버튼 누른거랑 다른거)
+$(window).on('popstate',function(){
+	var data = history.state;
+	$("#productRow").html(data.productHtml);
+	$("#pageButtonGroup").html(data.buttonHtml);
+}) ;

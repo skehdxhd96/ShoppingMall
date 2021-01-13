@@ -112,7 +112,8 @@
             <c:if test="${product.thumbnail_url != 'none.png'}">
               <a href="#"><img class="card-img-top" src="${product.thumbnail_url}" alt=""></a></c:if>
             <c:if test="${product.thumbnail_url == 'none.png'}">
-              <a href="#"><img class="card-img-top" src="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif" alt="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif"></a></c:if>
+              <a href="#"><img class="card-img-top" src="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif" alt="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif"></a>
+            </c:if>
               <div class="card-body">
                 <h4 class="card-title">
                 <div style = "visibility : hidden">${product.product_code }</div>
@@ -134,13 +135,14 @@
 		<div class="row">
 			<div class="col-md-12 text-center">
 				<div id="pageButtonGroup" class="btn-group me-2" role="group" aria-label="First group">
+					<button type="button" class="btn btn-light pageButton clicked_pageButton" index="1">1</button>
 					<c:if test="${ pageNum<=5 }">
-						<c:forEach var="page" begin="1" end="${ pageNum }" step="1">
-							<button type="button" class="btn btn-light pageButton">${ page }</button>
+						<c:forEach var="page" begin="2" end="${ pageNum }" step="1">
+							<button type="button" class="btn btn-light pageButton" index="${ page%5 }">${ page }</button>
 						</c:forEach>
 					</c:if>
 					<c:if test="${ pageNum>5 }">
-						<c:forEach var="page" begin="1" end="5" step="1">
+						<c:forEach var="page" begin="2" end="5" step="1">
 							<button type="button" class="btn btn-light pageButton" index="${ page%5 }">${ page }</button>
 						</c:forEach>
 						<button id="nextButton" type="button" class="btn btn-light">다음</button>
@@ -168,7 +170,7 @@
 
   <!-- Bootstrap core JavaScript -->
   <script src="<%=request.getContextPath() %>/resources/ProductList/vendor/jquery/jquery.min.js"></script>
-  <%-- <script src="<%=request.getContextPath() %>/resources/ProductList/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> --%>
+  <script src="<%=request.getContextPath() %>/resources/ProductList/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="<%=request.getContextPath() %>/resources/ProductList/js/ProductList.js"></script>
   <script>
   

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "org.zerock.mapper.ReplyMapper">
+
+<insert id = "insert">
+	insert into review (review_comment, review_score, order_code, product_code, customer_code) 
+	values (#{review_comment}, #{review_score}, #{order_code}, #{product_code}, #{customer_code})
+</insert>
+
+<select id = "read" resultType = "org.zerock.domain.ReplyVO">
+	select * from review where product_code = #{product_code}
+</select>
+
+<delete id = "delete">
+	delete from review where review_code = #{review_code}
+</delete>
+
+<update id = "update">
+	update review set review_comment = #{review_comment} where review_code = #{review_code}
+</update>
+
+<!-- @param("customer_id") int customer_id 와 연결 -->
+<select id = "getListWIthPaging" resultType = "org.zerock.domain.ReplyVO">
+	select review_code, review_date, review_comment, review_score, product_code, customer_code
+	from review
+	where product_code = #{product_code} order by review_date
+</select>
+</mapper>

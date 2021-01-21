@@ -26,13 +26,14 @@ import lombok.extern.log4j.Log4j;
 import net.sf.json.JSONArray;
 
 @Controller
+@RequestMapping("/shop/")
 @Log4j
 public class MainController {
 	@Resource
 	private ProductServiceImpl pm;
 	
 	@Resource(name = "uploadPath")
-	private String uploadPath; // servlet-context°¡º¸¸é ÀÖ¾î¿ä
+	private String uploadPath; // servlet-contextï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½
 
 	@RequestMapping("/")
 	public String toMainPage() {
@@ -40,30 +41,30 @@ public class MainController {
 		return "/mainPage";
 	}
 	
-	//Ä«Å×°í¸®º° »óÇ° ¸®½ºÆ® ÆäÀÌÁö
+	//Ä«ï¿½×°ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	   @RequestMapping("/ProductList/{categoryCode}")
 	   public String productByCategory(@PathVariable("categoryCode") int categoryCode, Model model) {
-		 //Ä«Å×°í¸® Ç×¸ñ
+		 //Ä«ï¿½×°ï¿½ ï¿½×¸ï¿½
 	      List<CategoryVO> categoryVOList = pm.getCategory();
 	      model.addAttribute("categories", categoryVOList);
 	      
-	      //ÃÑÆäÀÌÁö
+	      //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	      int pageNum = (int) (pm.getCount(categoryCode)/6)+1;
 	      model.addAttribute("pageNum", pageNum);
 	      
-	    //getListByCategory ´ÙÁßÄõ¸®¹® ÇØ½¬¸Ê
+	    //getListByCategory ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½ï¿½
 	      HashMap<String, Object> parameterHm = new HashMap<String, Object>();
 	      parameterHm.put("categoryCode", categoryCode);
 	      parameterHm.put("startIdx", 0);
 	      
-	    //»óÇ°¸®½ºÆ® -1ÆäÀÌÁö
+	    //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Æ® -1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	      List<ProductVO> productVOList = pm.getListByCategory(parameterHm);
 	      model.addAttribute("products", productVOList);
 	      
 	      return "/ProductList";
 	   }
 	
-	 //ÆäÀÌÂ¡¹öÆ°, ÀÌÀüÆäÀÌÁö ¹öÆ° ajax ¼­¹öÀÛ¾÷
+	 //ï¿½ï¿½ï¿½ï¿½Â¡ï¿½ï¿½Æ°, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ajax ï¿½ï¿½ï¿½ï¿½ï¿½Û¾ï¿½
 	@RequestMapping(value="/ProductList/paging", method=RequestMethod.POST)
 	@ResponseBody
 	public List<ProductVO> productPaging(@RequestBody HashMap<String, Object> dataTransfer) {
@@ -72,21 +73,21 @@ public class MainController {
 		return productVOList;
 	}
 	
-	//´ÙÀ½ÆäÀÌÁö ¹öÆ° ajax ¼­¹öÀÛ¾÷
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ajax ï¿½ï¿½ï¿½ï¿½ï¿½Û¾ï¿½
 	@RequestMapping(value="/ProductList/nextButton", method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String, Object> nextButton(@RequestBody HashMap<String, Object> dataTransfer) {
-		//ajax success·Î Àü´ÞÇÑ µ¥ÀÌÅÍ
+		//ajax successï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		
-		//ÇØ´ç ÆäÀÌÁö¿¡ Àü´ÞÇÒ »óÇ°µ¥ÀÌÅÍ ¸®½ºÆ®
+		//ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 		List<ProductVO> productVOList = pm.getListByCategory(dataTransfer);
 		hm.put("productList", productVOList);
 		System.out.println(dataTransfer.get("categoryCode").getClass().getName());
 		
-		//Ä«Å×°í¸®ÄÚµå
+		//Ä«ï¿½×°ï¿½ï¿½Úµï¿½
 		int categoryCode = (int) dataTransfer.get("categoryCode");
-		//ÃÑ ÆäÀÌÁö
+		//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		int totalPage = (int) (pm.getCount(categoryCode)/6)+1;
 		hm.put("totalPage", totalPage);
 		
@@ -104,9 +105,9 @@ public class MainController {
 	@PostMapping("/ProductUpload")
 	public String toUploadPage(ProductVO p, MultipartFile file) throws Exception{
 		
-		//ÀÌ¹ÌÁö µî·Ï ¸Þ¼Òµå
+		//ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 		String imgUploadPath = uploadPath + File.separator + "imgUpload"; //resources/imgUpload
-		String ymdPath = UploadFileUtils.calcPath(imgUploadPath); //³â¿ùÀÏ Æú´õ°æ·Î
+		String ymdPath = UploadFileUtils.calcPath(imgUploadPath); //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		String fileName = null;
 
 		if(file.getOriginalFilename() != null && file.getOriginalFilename() != "") {
@@ -117,7 +118,7 @@ public class MainController {
 		
 		p.setImage_url(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
 		p.setThumbnail_url(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
-		//ÀÌ¹ÌÁö µî·Ï ¸Þ¼Òµå end
+		//ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ end
 		
 		pm.register(p);
 		

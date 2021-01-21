@@ -16,6 +16,7 @@
   src="https://code.jquery.com/jquery-3.5.1.js"
   integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
   crossorigin="anonymous"></script>
+  <script src="<%=request.getContextPath() %>/resources/ProductDetail/js/reply.js"></script>
   <title>Shop Item - Start Bootstrap Template</title>
 
   <!-- Bootstrap core CSS -->
@@ -138,6 +139,59 @@
           </div>
         </div>
         <!-- /.card -->
+        
+        <script>
+        
+        console.log("============");
+        console.log("JS TEST");
+        
+        var value = '<c:out value = "${ProductById.product_code}"/>';
+        
+        <!--
+        replyService.add(
+        		{review_comment : "JS TEST2", review_score : 5.0, product_code : parseInt(value), order_code : 1, customer_code : 1},
+        		function(result) {
+        			alert("RESULT: " + result);
+        		});
+        -->
+        
+        <!--
+        replyService.getList({product_code : value, page : 1}, function(list) {
+        	
+        	for(var i=0, len = list.length||0; i<len; i++) {
+        		console.log(list[i]);
+        	}
+        });
+        -->
+        
+        <!--
+        replyService.remove(4, function(count) {
+        	
+        	console.log(count);
+        	
+        	if(count === "success") {
+        		alert("Removed");
+        	}
+        }, function(err) {
+        	alert('ERROR...');
+        });
+        -->
+        
+        <!--
+        replyService.update({
+        	review_code : 12,
+        	product_code : value,
+        	review_comment : "ajax 수정"
+        }, function(result) {
+        	alert("수정 완료");
+        });
+        -->
+        
+        replyService.get(10, function(data) {
+        	console.log(data);
+        })
+        
+        </script>
 
       </div>
       <!-- /.col-lg-9 -->

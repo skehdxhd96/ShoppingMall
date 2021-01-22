@@ -29,3 +29,7 @@
     background-color: #42AEEC;
     color: #fff;
 }
+#naverLoginImg {
+	max-width: 65%;
+	height: auto;
+}

@@ -124,72 +124,40 @@
         <div class="card card-outline-secondary my-4">
           <div class="card-header">
             Product Reviews
+            <button id = "replyBtn">New Reply</button>
           </div>
-          <div class="card-body">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <a href="#" class="btn btn-success">Leave a Review</a>
+          <div class="chat">
+            <!-- ajax reply -->
           </div>
         </div>
         <!-- /.card -->
-        
         <script>
         
-        console.log("============");
-        console.log("JS TEST");
-        
-        var value = '<c:out value = "${ProductById.product_code}"/>';
-        
-        <!--
-        replyService.add(
-        		{review_comment : "JS TEST2", review_score : 5.0, product_code : parseInt(value), order_code : 1, customer_code : 1},
-        		function(result) {
-        			alert("RESULT: " + result);
+        $(document).ready(function() {
+        	
+        	var product_code = '<c:out value = "${ProductById.product_code}"/>';
+        	var replyUL = $(".chat");
+        	
+        	function showList(page) {
+        		
+        		replyService.getList({product_code : product_code, page : page || 1}, function(list) {
+        			
+        			var str = "";
+        			if(list == null || list.length == 0) {
+        				replyUL.html("");
+        				
+        				return;
+        			}
+        			for(var i=0, len = list.length || 0; i<len; i++) {
+        				str += "<p data-rno = '" + list[i].review_code + "'>" + list[i].review_comment + "</p>";
+        				str += "<small class = 'review_text'>" + replyService.displayTime(list[i].review_date) + " posted by " + list[i].customer_code + " score : " + list[i].review_score + "</small><hr>";
+        			}
+        			replyUL.html(str);
         		});
-        -->
-        
-        <!--
-        replyService.getList({product_code : value, page : 1}, function(list) {
-        	
-        	for(var i=0, len = list.length||0; i<len; i++) {
-        		console.log(list[i]);
         	}
-        });
-        -->
-        
-        <!--
-        replyService.remove(4, function(count) {
         	
-        	console.log(count);
-        	
-        	if(count === "success") {
-        		alert("Removed");
-        	}
-        }, function(err) {
-        	alert('ERROR...');
+        	showList(1);
         });
-        -->
-        
-        <!--
-        replyService.update({
-        	review_code : 12,
-        	product_code : value,
-        	review_comment : "ajax 수정"
-        }, function(result) {
-        	alert("수정 완료");
-        });
-        -->
-        
-        replyService.get(10, function(data) {
-        	console.log(data);
-        })
         
         </script>
 

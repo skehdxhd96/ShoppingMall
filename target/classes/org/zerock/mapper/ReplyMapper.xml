@@ -10,7 +10,7 @@
 </insert>
 
 <select id = "read" resultType = "org.zerock.domain.ReplyVO">
-	select * from review where product_code = #{product_code}
+	select * from review where review_code = #{review_code}
 </select>
 
 <delete id = "delete">

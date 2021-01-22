@@ -18,9 +18,7 @@
 			<article class="card-body mx-auto" style="max-width: 400px;">
 				<h4 class="card-title mt-3 text-center">LOGIN</h4>
 				<br>
-				<!-- <p class="text-center">Get started with your free account</p> -->
-				<a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter</a>
-				<a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
+				<a href="${ naverLoginUrl }" class="btn"><img id="naverLoginImg" src="../../resources/login/image/naverLogin.PNG"></a>
 				<p class="divider-text">
 	        		<span class="bg-light">OR</span>
 	    		</p>

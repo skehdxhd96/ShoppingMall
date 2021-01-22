@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
     
     <!-- config파일 자동 로드 location="classpath:database.properties"  /!-->
-    <context:property-placeholder location="/config/*.properties" /> 
+    <context:property-placeholder location="/config/database.properties" /> 
     
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	    <property name="driverClassName" value="${spring.datasource.driverClassName}" />

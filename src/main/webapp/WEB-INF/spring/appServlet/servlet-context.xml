@@ -43,6 +43,16 @@
 	 <beans:property name="maxUploadSize" value="10485760"/>
 	</beans:bean>
 	
+	<!-- naver 소셜로그인 API -->
+	<context:property-placeholder location="/config/naverLogin.properties" />
 	
-	
+	<!-- OAuth Social Login : NAVER -->
+	<!-- NAVER API 정보는 src/main/webapp/config/naverLogin.properties 파일에! -> .gitignore 파일 -->
+	<!-- 절대 clientSecret 노출되면 안됨!!!!!!!! -->
+	<beans:bean id="naverLogin" class="org.zerock.oauth.SocialValue">
+		<beans:constructor-arg name="socialType" value="naver"></beans:constructor-arg>
+		<beans:constructor-arg name="clientId" value="${naver.clientId}"></beans:constructor-arg>
+		<beans:constructor-arg name="clientSecret" value="${naver.clientSecret}"></beans:constructor-arg>
+		<beans:constructor-arg name="callbackUrl" value="${naver.callbackUrl}"></beans:constructor-arg>
+	</beans:bean>
 </beans:beans>

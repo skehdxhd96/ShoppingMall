@@ -33,38 +33,38 @@ public class MainController {
 	private ProductServiceImpl pm;
 	
 	@Resource(name = "uploadPath")
-	private String uploadPath; // servlet-context������ �־��
+	private String uploadPath; // servlet-context占쏙옙占쏙옙占쏙옙 占쌍억옙占�
 
 	@RequestMapping("/")
 	public String toMainPage() {
 		
-		return "/mainPage";
+		return "mainPage";
 	}
 	
-	//ī�װ��� ��ǰ ����Ʈ ������
+	//카테고리별 상품 리스트 페이지
 	   @RequestMapping("/ProductList/{categoryCode}")
 	   public String productByCategory(@PathVariable("categoryCode") int categoryCode, Model model) {
-		 //ī�װ� �׸�
+		 //카테고리 항목
 	      List<CategoryVO> categoryVOList = pm.getCategory();
 	      model.addAttribute("categories", categoryVOList);
 	      
-	      //��������
+	      //총페이지
 	      int pageNum = (int) (pm.getCount(categoryCode)/6)+1;
 	      model.addAttribute("pageNum", pageNum);
 	      
-	    //getListByCategory ���������� �ؽ���
+	    //getListByCategory 다중쿼리문 해쉬맵
 	      HashMap<String, Object> parameterHm = new HashMap<String, Object>();
 	      parameterHm.put("categoryCode", categoryCode);
 	      parameterHm.put("startIdx", 0);
 	      
-	    //��ǰ����Ʈ -1������
+	    //상품리스트 -1페이지
 	      List<ProductVO> productVOList = pm.getListByCategory(parameterHm);
 	      model.addAttribute("products", productVOList);
 	      
 	      return "/ProductList";
 	   }
 	
-	 //����¡��ư, ���������� ��ư ajax �����۾�
+	//페이징버튼, 이전페이지 버튼 ajax 서버작업
 	@RequestMapping(value="/ProductList/paging", method=RequestMethod.POST)
 	@ResponseBody
 	public List<ProductVO> productPaging(@RequestBody HashMap<String, Object> dataTransfer) {
@@ -73,21 +73,21 @@ public class MainController {
 		return productVOList;
 	}
 	
-	//���������� ��ư ajax �����۾�
+	//다음페이지 버튼 ajax 서버작업
 	@RequestMapping(value="/ProductList/nextButton", method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String, Object> nextButton(@RequestBody HashMap<String, Object> dataTransfer) {
-		//ajax success�� ������ ������
+		//ajax success로 전달한 데이터
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		
-		//�ش� �������� ������ ��ǰ������ ����Ʈ
+		//해당 페이지에 전달할 상품데이터 리스트
 		List<ProductVO> productVOList = pm.getListByCategory(dataTransfer);
 		hm.put("productList", productVOList);
 		System.out.println(dataTransfer.get("categoryCode").getClass().getName());
 		
-		//ī�װ��ڵ�
+		//카테고리코드
 		int categoryCode = (int) dataTransfer.get("categoryCode");
-		//�� ������
+		//총 페이지
 		int totalPage = (int) (pm.getCount(categoryCode)/6)+1;
 		hm.put("totalPage", totalPage);
 		
@@ -105,9 +105,9 @@ public class MainController {
 	@PostMapping("/ProductUpload")
 	public String toUploadPage(ProductVO p, MultipartFile file) throws Exception{
 		
-		//�̹��� ��� �޼ҵ�
-		String imgUploadPath = uploadPath + File.separator + "imgUpload"; //resources/imgUpload
-		String ymdPath = UploadFileUtils.calcPath(imgUploadPath); //����� �������
+		//이미지 등록 메소드
+		String imgUploadPath = uploadPath + File.separator + "imgUpload";
+		String ymdPath = UploadFileUtils.calcPath(imgUploadPath); //년월일 폴더경로
 		String fileName = null;
 
 		if(file.getOriginalFilename() != null && file.getOriginalFilename() != "") {
@@ -118,7 +118,7 @@ public class MainController {
 		
 		p.setImage_url(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
 		p.setThumbnail_url(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
-		//�̹��� ��� �޼ҵ� end
+		//이미지 등록 메소드 end
 		
 		pm.register(p);
 		
@@ -137,7 +137,7 @@ public class MainController {
 	@GetMapping("/ProductModify/{product_code}")
 	public String toModifyPage(@PathVariable("product_code") int product_code, Model model) {
 		
-		//������ �غ�
+		//占쏙옙占쏙옙占쏙옙 占쌔븝옙
 		DetailVO d = pm.getById(product_code);
 		model.addAttribute("ModifyProduct", d);
 		
@@ -151,7 +151,7 @@ public class MainController {
 	@PostMapping("/ProductModify/{product_code}")
 	public String toModifyPage(@PathVariable("product_code") int product_code, ProductVO p) {
 		
-		//��������
+		//占쏙옙占쏙옙占쏙옙占쏙옙
 		pm.ProductModify(p);
 		
 		return "redirect:/ProductList/1";
@@ -162,6 +162,6 @@ public class MainController {
 		
 		pm.ProductDelete(product_code);
 		
-		return "redirect:/ProductList/1"; //�����������ؾ���
+		return "redirect:/ProductList/1"; //占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙占쌔억옙占쏙옙
 	}
 }

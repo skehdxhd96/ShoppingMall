@@ -26,7 +26,6 @@ import lombok.extern.log4j.Log4j;
 import net.sf.json.JSONArray;
 
 @Controller
-@RequestMapping("/shop/")
 @Log4j
 public class MainController {
 	@Resource

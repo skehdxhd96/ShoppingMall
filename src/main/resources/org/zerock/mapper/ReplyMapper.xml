@@ -10,7 +10,7 @@
 </insert>
 
 <select id = "read" resultType = "org.zerock.domain.ReplyVO">
-	select * from review where product_code = #{product_code}
+	select * from review where review_code = #{review_code}
 </select>
 
 <delete id = "delete">
@@ -18,7 +18,7 @@
 </delete>
 
 <update id = "update">
-	update review set review_comment = #{review_comment} where review_code = #{review_code}
+	update review set review_comment = #{review_comment}, review_score = #{review_score} where review_code = #{review_code}
 </update>
 
 <!-- @param("customer_id") int customer_id 와 연결 -->

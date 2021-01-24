@@ -16,6 +16,7 @@
   src="https://code.jquery.com/jquery-3.5.1.js"
   integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
   crossorigin="anonymous"></script>
+  <script src="<%=request.getContextPath() %>/resources/ProductDetail/js/reply.js"></script>
   <title>Shop Item - Start Bootstrap Template</title>
 
   <!-- Bootstrap core CSS -->
@@ -123,21 +124,42 @@
         <div class="card card-outline-secondary my-4">
           <div class="card-header">
             Product Reviews
+            <button id = "replyBtn">New Reply</button>
           </div>
-          <div class="card-body">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <a href="#" class="btn btn-success">Leave a Review</a>
+          <div class="chat">
+            <!-- ajax reply -->
           </div>
         </div>
         <!-- /.card -->
+        <script>
+        
+        $(document).ready(function() {
+        	
+        	var product_code = '<c:out value = "${ProductById.product_code}"/>';
+        	var replyUL = $(".chat");
+        	
+        	function showList(page) {
+        		
+        		replyService.getList({product_code : product_code, page : page || 1}, function(list) {
+        			
+        			var str = "";
+        			if(list == null || list.length == 0) {
+        				replyUL.html("");
+        				
+        				return;
+        			}
+        			for(var i=0, len = list.length || 0; i<len; i++) {
+        				str += "<p data-rno = '" + list[i].review_code + "'>" + list[i].review_comment + "</p>";
+        				str += "<small class = 'review_text'>" + replyService.displayTime(list[i].review_date) + " posted by " + list[i].customer_code + " score : " + list[i].review_score + "</small><hr>";
+        			}
+        			replyUL.html(str);
+        		});
+        	}
+        	
+        	showList(1);
+        });
+        
+        </script>
 
       </div>
       <!-- /.col-lg-9 -->

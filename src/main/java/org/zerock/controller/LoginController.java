@@ -1,6 +1,5 @@
 package org.zerock.controller;
 
-import java.net.http.HttpRequest;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -33,7 +32,7 @@ public class LoginController {
 	@Inject
 	private CustomerServiceImpl customerService;
 	
-	//·Î±×ÀÎ ÆäÀÌÁö
+	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("/login")
 	public String login(Model model, HttpSession session) {
 		naver = new SocialLogin(naverLogin, session);
@@ -44,7 +43,7 @@ public class LoginController {
 		return "login";
 	}
 	
-	//¼Ò¼È·Î±×ÀÎ ÄÝ¹é
+	//ï¿½Ò¼È·Î±ï¿½ï¿½ï¿½ ï¿½Ý¹ï¿½
 	@RequestMapping(value="/login/{social}/callback", method=RequestMethod.GET)
 	public String loginCallback(Model model, @PathVariable String social, HttpSession session, 
 			@RequestParam String state, @RequestParam String code, RedirectAttributes redirectAttributes) throws Exception {
@@ -55,21 +54,21 @@ public class LoginController {
 			loginCustomer = naver.getProfile(accessToken);
 		}
 		
-		//À¯Àú Á¸Àç ¿©ºÎ È®ÀÎ
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 		CustomerVO checkCustomer = customerService.isCustomer(loginCustomer.getSocialId());
 		if (checkCustomer==null) {
-			System.out.println("È¸¿ø°¡ÀÔ ÆäÀÌÁö·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+			System.out.println("È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Õ´Ï´ï¿½.");
 			redirectAttributes.addFlashAttribute("newCustomer", loginCustomer);
 			
 			return "redirect:/signUp";
 		}
 		else {
-			System.out.println("Á¸ÀçÇÏ´Â Á¤º¸ÀÔ´Ï´Ù.");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.");
 		}
 		return "/";
 	}
 	
-	//È¸¿ø°¡ÀÔ ÆäÀÌÁö
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="/signUp", method=RequestMethod.GET)
 	public String signUpGet(Model model, HttpServletRequest request) {
 		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);

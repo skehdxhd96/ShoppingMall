@@ -17,6 +17,7 @@
   integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
   crossorigin="anonymous"></script>
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/js/reply.js"></script>
+        
   <title>Shop Item - Start Bootstrap Template</title>
 
   <!-- Bootstrap core CSS -->
@@ -99,8 +100,10 @@
             </div>
           </div>
         </div>
+        </form>
         <!-- /.card -->
         <!-- 상품end -->
+        
         
         <script>
 	        var formObj = $("form[role='form']");
@@ -131,12 +134,49 @@
           </div>
         </div>
         <!-- /.card -->
+        
+        <!-- reply add modal -->
+        <div class = "modal" tabindex = "-1" role = "dialog" aria-labelledby = "myModalLabel" aria-hidden = "true">
+        	<div class = "modal-dialog">
+        		<div class = "modal-content">
+        			<div class = "modal-header">
+        				<button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">&times;</button>
+        				<h4 class = "modal-title">REPLY MODAL</h4>
+        			</div>
+        			<div class = "form-group">
+        				<label>Reply</label>
+        				<input class = "form-control" name = 'review_comment' value = 'New Reply!!!!'>
+        			</div>
+        			<div class = "form-group">
+        				<label>Replyer</label>
+        				<input class = "form-control" name = 'customer_code' value = 'customer_code'>
+        			</div>
+        			<div class = "form-group">
+        				<label>Reply Date</label>
+        				<input class = "form-control" name = 'review_date' value = ''>
+        			</div>
+        			<div class = "form-group">
+        				<label>Review_score</label>
+        				<input class = "form-control" name = 'review_score' value = ''>
+        			</div>
+        		</div>
+        		<div class = "modal-footer">
+        			<button type = "button" id = "modalModifyBtn">Modify</button>
+        			<button type = "button" id = "modalRemoveBtn">Remove</button>
+        			<button type = "button" id = "modalRegisterBtn">Register</button>
+        			<button type = "button" id = "modalCloseBtn">Close</button>
+        		</div>
+        	</div>
+        </div>
+        
         <script>
         
         $(document).ready(function() {
         	
         	var product_code = '<c:out value = "${ProductById.product_code}"/>';
         	var replyUL = $(".chat");
+        	
+        	showList(1);
         	
         	function showList(page) {
         		
@@ -156,14 +196,66 @@
         		});
         	}
         	
-        	showList(1);
-        });
+        	var modal = $(".modal");
+        	var modalInputReply = modal.find("input[name = 'review_comment']");
+        	var modalInputReplyer = modal.find("input[name = 'customer_code']");
+        	var modalInputReplyDate = modal.find("input[name = 'review_date']");
+        	var modalInputReplyScore = modal.find("input[name = 'review_score']");
+        	
+        	var modalModifyBtn = $("#modalModifyBtn");
+        	var modalRemoveBtn = $("#modalRemoveBtn");
+        	var modalRegisterBtn = $("#modalRegisterBtn");
+        	var modalCloseBtn = $("#modalCloseBtn");
+        	
+        	$("#replyBtn").on("click", function(e) {
+        		
+        		modal.find("input").val("");
+        		modalInputReplyDate.closest("div").hide();
+        		modal.find("button[id != 'modalCloseBtn']").hide();
+
+        		modalRegisterBtn.show();
+        		
+        		$(".modal").modal("show");
+        	});
+        	
+        	$(".chat").on("click", "p", function(e) {
+        		console.log("ssibal");
+        		var review_code = $(this).data("rno");
+        		console.log(rno);
+        	});
+        	
+        	modalRegisterBtn.on("click", function(e) {
+				
+				console.log("hello");
+					
+				var reply = {
+					review_comment : modalInputReply.val(),
+					review_score : modalInputReplyScore.val(),
+					product_code : parseInt(product_code),
+					order_code : 1, //<!-- 로그인 로직 -->
+					customer_code : modalInputReplyer.val() //<!-- 로그인 로직 -->
+				};
+				
+				console.log("hello2");
+				        		
+				replyService.add(reply, function(result) {
+					
+					console.log("SSibal")
+				        			
+					alert(result);
+					        			
+					modal.find("input").val("");
+					modal.modal("hide");
+					        			
+					showList(1);
+				});
+			});
+		});
+        
+        
         
         </script>
-
-      </div>
-      <!-- /.col-lg-9 -->
-
+        </div>
 
     </div>
 
@@ -177,7 +269,6 @@
     </div>
     <!-- /.container -->
   </footer>
-
   <!-- Bootstrap core JavaScript -->
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/vendor/jquery/jquery.min.js"></script>
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

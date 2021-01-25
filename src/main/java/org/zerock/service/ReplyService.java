@@ -3,6 +3,7 @@ package org.zerock.service;
 import java.util.List;
 
 import org.zerock.domain.Criteria;
+import org.zerock.domain.ReplyPageVO;
 import org.zerock.domain.ReplyVO;
 
 public interface ReplyService {
@@ -16,4 +17,6 @@ public interface ReplyService {
 	public int delete(int review_code);
 	
 	public List<ReplyVO> getListWithPaging(Criteria cri, int product_code);
+	
+	public ReplyPageVO getListPage(Criteria cri, int product_code);
 }

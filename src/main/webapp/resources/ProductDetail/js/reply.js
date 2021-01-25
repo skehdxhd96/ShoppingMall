@@ -31,7 +31,7 @@ var replyService = (function() {
 		$.getJSON("replies/pages/" + product_code + "/" + page + ".json",
 				function(data) {
 				if(callback) {
-					callback(data);
+					callback(data.ReplyCount, data.list);
 				}
 		}).fail(function(xhr, status, err) {
 			if(error) {

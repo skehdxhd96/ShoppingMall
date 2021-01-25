@@ -17,4 +17,6 @@ public interface ReplyMapper {
 	public int update(ReplyVO r);
 	
 	public List<ReplyVO> getListWIthPaging(@Param("cri") Criteria cri, @Param("product_code") int product_code);
+	
+	public int getCountByProductCode(int product_code);
 }

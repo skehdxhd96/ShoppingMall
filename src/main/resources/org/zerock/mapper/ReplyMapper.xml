@@ -21,10 +21,17 @@
 	update review set review_comment = #{review_comment}, review_score = #{review_score} where review_code = #{review_code}
 </update>
 
-<!-- @param("customer_id") int customer_id 와 연결 -->
+<!--product_code @param("customer_id") int customer_id 와 연결 -->
 <select id = "getListWIthPaging" resultType = "org.zerock.domain.ReplyVO">
-	select review_code, review_date, review_comment, review_score, product_code, customer_code
-	from review
-	where product_code = #{product_code} order by review_date
+	<![CDATA[
+	select * from review 
+	where product_code = #{product_code} and review_code > (#{cri.pageNum}-1) * #{cri.amount} and review_code <= #{cri.pageNum} * #{cri.amount}
+	]]>
+</select>
+
+<select id = "getCountByProductCode" resultType = "int">
+	<![CDATA[
+		select count(review_code) from review where product_code = #{product_code}
+	]]>
 </select>
 </mapper>

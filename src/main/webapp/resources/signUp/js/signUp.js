@@ -1,5 +1,5 @@
 //구매자인지 판매자인지에 따라 다른 입력폼을 제공하는 이벤트
-$("select[name=customerCheck]").change(function() {
+$("select[name=customerType]").change(function() {
 	var formHtml = "";
 	var selectedValue = $(this).val();
 	
@@ -13,7 +13,7 @@ $("select[name=customerCheck]").change(function() {
 			"<span class=\"input-group-text\">" +
 			"<i class=\"fas fa-home\"></i></span>" +
 			"</div>" +
-			"<input name=\"address\" class=\"form-control\" placeholder=\"\" type=\"text\" value=\"\">" +
+			"<input name=\"customerAddress\" class=\"form-control\" placeholder=\"\" type=\"text\" value=\"\">" +
 			"</div>";
 	}
 	else if (selectedValue==2) {
@@ -32,7 +32,7 @@ $("select[name=customerCheck]").change(function() {
 			"<span class=\"input-group-text\">" +
 			"<i class=\"fas fa-building\"></i></span>" +
 			"</div>" +
-			"<input name=\"address\" class=\"form-control\" placeholder=\"\" type=\"text\" value=\"\">" +
+			"<input name=\"customerAddress\" class=\"form-control\" placeholder=\"\" type=\"text\" value=\"\">" +
 			"</div>" + 
 			"<div class=\"form-desc\">회사 전화번호</div>" +
 			"<div class=\"form-group input-group\">" +
@@ -60,6 +60,10 @@ $(".signupForm").submit(function() {
 			result = false;
 			break;
 		}
+	}
+	
+	if (result==true) {
+		alert("회원가입이 완료되었습니다!");
 	}
 	
 	return result;

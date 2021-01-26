@@ -100,7 +100,6 @@
             </div>
           </div>
         </div>
-        </form>
         <!-- /.card -->
         <!-- 상품end -->
         
@@ -132,8 +131,11 @@
           <div class="chat">
             <!-- ajax reply -->
           </div>
+          <div class = "panel-footer"></div>
         </div>
         <!-- /.card -->
+        
+        <div>
         
         <!-- reply add modal -->
         <div class = "modal" tabindex = "-1" role = "dialog" aria-labelledby = "myModalLabel" aria-hidden = "true">
@@ -180,19 +182,28 @@
         	
         	function showList(page) {
         		
-        		replyService.getList({product_code : product_code, page : page || 1}, function(list) {
+        		replyService.getList({product_code : product_code, page : page || 1}, function(ReplyCount, list) {
+        			
+        			if(page == -1) {
+        				pageNum = Math.ceil(ReplyCount/10.0);
+        				showList(pageNum);
+        				return;
+        			}
         			
         			var str = "";
+        			
         			if(list == null || list.length == 0) {
         				replyUL.html("");
         				
         				return;
         			}
+        			
         			for(var i=0, len = list.length || 0; i<len; i++) {
         				str += "<p data-rno = '" + list[i].review_code + "'>" + list[i].review_comment + "</p>";
         				str += "<small class = 'review_text'>" + replyService.displayTime(list[i].review_date) + " posted by " + list[i].customer_code + " score : " + list[i].review_score + "</small><hr>";
         			}
         			replyUL.html(str);
+        			showReplyPage(ReplyCount);
         		});
         	}
         	
@@ -219,12 +230,55 @@
         	});
         	
         	$(".chat").on("click", "p", function(e) {
-        		console.log("ssibal");
+        		
         		var review_code = $(this).data("rno");
-        		console.log(rno);
+        		
+        		replyService.get(review_code, function(reply) {
+        			
+        			modalInputReply.val(reply.review_comment);
+        			modalInputReplyer.val(reply.customer_code);
+        			modalInputReplyDate.val(replyService.displayTime(reply.review_date)).attr("readonly", "readonly");
+        			modalInputReplyScore.val(reply.review_score);
+        			modal.data("review_code", reply.review_code);
+        			
+        			modal.find("button[id != 'modalCloseBtn']").hide();
+        			modalModifyBtn.show();
+        			modalRemoveBtn.show();
+        			
+        			$(".modal").modal("show");
+        		});
         	});
         	
-        	modalRegisterBtn.on("click", function(e) {
+        	modalModifyBtn.on("click", function(e) {
+        		
+        		var reply = {
+        				
+        				review_code : modal.data("review_code"),
+        				review_comment : modalInputReply.val(),
+        				review_score : modalInputReplyScore.val()
+        		};
+        		
+        		replyService.update(reply, function(result) {
+        			
+        			alert(result);
+        			modal.modal("hide");
+        			showList(pageNum);
+        		});
+        	});
+        	
+        	modalRemoveBtn.on("click", function(e) {
+        		
+        		var review_code = modal.data("review_code");
+        		
+        		replyService.remove(review_code, function(result) {
+        			
+        			alert(result);
+        			modal.modal("hide");
+        			showList(pageNum);
+        		});
+        	});
+        	
+        	modalRegisterBtn.on("click", "button", function(e) {
 				
 				console.log("hello");
 					
@@ -250,12 +304,65 @@
 					showList(1);
 				});
 			});
+        	
+        	var pageNum = 1;
+        	var replyPageFooter = $(".panel-footer");
+        	
+        	function showReplyPage(ReplyCount) {
+        		
+        		var endNum = Math.ceil(pageNum / 10.0) * 10;
+        		var startNum = endNum - 9;
+        		
+        		var prev = startNum != 1;
+        		var next = false;
+        		
+        		if(endNum * 10 >= ReplyCount) {
+        			endNum = Math.ceil(ReplyCount/10.0);
+        		}
+        		
+        		if(endNum * 10 < ReplyCount) {
+        			next = true;
+        		}
+        		
+        		var str = "<ul class = 'pagination pull-right'>";
+        		
+        		if(prev) {
+        			
+        			str += "<li class = 'page-item'><a class = 'page-link' href = '" + (startNum -1) + "'>Previous</a></li>";
+        		}
+        		
+        		for(var i = startNum; i<=endNum; i++) {
+        			
+        			var active = pageNum == i? "active" : "";
+        			
+        			str += "<li class = 'page-item " + active + "'><a class = 'page-link' href = '" + i + "'>" + i + "</a></li>";
+        		}
+        		
+        		if(next) {
+        			
+        			str += "<li class = 'page-item'><a class = 'page-link' href = '" + (endNum + 1) + "'>Next</a></li>";
+        		}
+        		
+        		str += "</ul></div>";
+        		
+        		replyPageFooter.html(str);
+        	}
+        	
+        	replyPageFooter.on("click", "li a", function(e) {
+        		
+        		e.preventDefault();
+        		
+        		var targetPageNum = $(this).attr("href");
+        		
+        		pageNum = targetPageNum;
+        		
+        		showList(pageNum);
+        	});
 		});
         
         
         
         </script>
-        </div>
 
     </div>
 

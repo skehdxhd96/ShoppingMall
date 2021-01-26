@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.ReplyPageVO;
 import org.zerock.domain.ReplyVO;
 import org.zerock.service.ReplyService;
 
@@ -42,13 +43,13 @@ public class ReplyController {
 	@GetMapping(value = "ProductDetail/replies/pages/{product_code}/{page}",
 			produces = { MediaType.APPLICATION_XML_VALUE,
 					MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<List<ReplyVO>> getList(
+	public ResponseEntity<ReplyPageVO> getList(
 			@PathVariable("page") int page,
 			@PathVariable("product_code") int product_code) {
 		
 		Criteria cri = new Criteria(page, 10);
 		
-		return new ResponseEntity<>(rs.getListWithPaging(cri, product_code), HttpStatus.OK);
+		return new ResponseEntity<>(rs.getListPage(cri, product_code), HttpStatus.OK);
 	}
 	
 	

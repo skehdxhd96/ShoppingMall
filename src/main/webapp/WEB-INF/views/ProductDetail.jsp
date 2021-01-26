@@ -4,7 +4,7 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix = "fmt" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 
@@ -121,7 +121,7 @@
 	         	formObj.submit();}
 	        });
         </script>
-
+		</form>
 		<!-- 댓글/대댓글 -->
         <div class="card card-outline-secondary my-4">
           <div class="card-header">
@@ -135,41 +135,46 @@
         </div>
         <!-- /.card -->
         
-        <div>
-        
-        <!-- reply add modal -->
-        <div class = "modal" tabindex = "-1" role = "dialog" aria-labelledby = "myModalLabel" aria-hidden = "true">
-        	<div class = "modal-dialog">
-        		<div class = "modal-content">
-        			<div class = "modal-header">
-        				<button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">&times;</button>
-        				<h4 class = "modal-title">REPLY MODAL</h4>
-        			</div>
-        			<div class = "form-group">
-        				<label>Reply</label>
-        				<input class = "form-control" name = 'review_comment' value = 'New Reply!!!!'>
-        			</div>
-        			<div class = "form-group">
-        				<label>Replyer</label>
-        				<input class = "form-control" name = 'customer_code' value = 'customer_code'>
-        			</div>
-        			<div class = "form-group">
-        				<label>Reply Date</label>
-        				<input class = "form-control" name = 'review_date' value = ''>
-        			</div>
-        			<div class = "form-group">
-        				<label>Review_score</label>
-        				<input class = "form-control" name = 'review_score' value = ''>
-        			</div>
-        		</div>
-        		<div class = "modal-footer">
-        			<button type = "button" id = "modalModifyBtn">Modify</button>
-        			<button type = "button" id = "modalRemoveBtn">Remove</button>
-        			<button type = "button" id = "modalRegisterBtn">Register</button>
-        			<button type = "button" id = "modalCloseBtn">Close</button>
-        		</div>
-        	</div>
-        </div>
+        <!-- Modal -->
+      <div class="modal fade" id="modal" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"
+                aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">REPLY MODAL</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Reply</label> 
+                <input class="form-control" name='review_comment' value='New Reply!!!!'>
+              </div>      
+              <div class="form-group">
+                <label>Replyer</label> 
+                <input class="form-control" name='customer_code' value='replyer'>
+              </div>
+              <div class="form-group">
+                <label>DATE</label> 
+                <input class="form-control" name='review_date' value='2018-01-01 13:13'>
+              </div>
+              <div class="form-group">
+                <label>SCORE</label> 
+                <input class="form-control" name='review_score' value='2018-01-01 13:13'>
+              </div>
+      
+            </div>
+			<div class="modal-footer">
+			        <button id='modalModifyBtn' type="button" class="btn btn-warning">Modify</button>
+			        <button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
+			        <button id='modalRegisterBtn' type="button" class="btn btn-primary">Register</button>
+			        <button id='modalCloseBtn' type="button" class="btn btn-default">Close</button>
+			      </div>          </div>
+			          <!-- /.modal-content -->
+			        </div>
+			        <!-- /.modal-dialog -->
+			      </div>
+			      <!-- /.modal -->
         
         <script>
         
@@ -207,6 +212,60 @@
         		});
         	}
         	
+        	var pageNum = 1;
+        	var replyPageFooter = $(".panel-footer");
+        	
+        	function showReplyPage(ReplyCount) {
+        		
+        		var endNum = Math.ceil(pageNum / 10.0) * 10;
+        		var startNum = endNum - 9;
+        		
+        		var prev = startNum != 1;
+        		var next = false;
+        		
+        		if(endNum * 10 >= ReplyCount) {
+        			endNum = Math.ceil(ReplyCount/10.0);
+        		}
+        		
+        		if(endNum * 10 < ReplyCount) {
+        			next = true;
+        		}
+        		
+        		var str = "<ul class = 'pagination pull-right'>";
+        		
+        		if(prev) {
+        			
+        			str += "<li class = 'page-item'><a class = 'page-link' href = '" + (startNum -1) + "'>Previous</a></li>";
+        		}
+        		
+        		for(var i = startNum; i<=endNum; i++) {
+        			
+        			var active = pageNum == i? "active" : "";
+        			
+        			str += "<li class = 'page-item " + active + "'><a class = 'page-link' href = '" + i + "'>" + i + "</a></li>";
+        		}
+        		
+        		if(next) {
+        			
+        			str += "<li class = 'page-item'><a class = 'page-link' href = '" + (endNum + 1) + "'>Next</a></li>";
+        		}
+        		
+        		str += "</ul></div>";
+        		
+        		replyPageFooter.html(str);
+        	}
+        	
+        	replyPageFooter.on("click", "li a", function(e) {
+        		
+        		e.preventDefault();
+        		
+        		var targetPageNum = $(this).attr("href");
+        		
+        		pageNum = targetPageNum;
+        		
+        		showList(pageNum);
+        	});
+        	
         	var modal = $(".modal");
         	var modalInputReply = modal.find("input[name = 'review_comment']");
         	var modalInputReplyer = modal.find("input[name = 'customer_code']");
@@ -216,7 +275,11 @@
         	var modalModifyBtn = $("#modalModifyBtn");
         	var modalRemoveBtn = $("#modalRemoveBtn");
         	var modalRegisterBtn = $("#modalRegisterBtn");
-        	var modalCloseBtn = $("#modalCloseBtn");
+        	
+        	$("#modalCloseBtn").on("click", function(e){
+            	
+            	modal.modal('hide');
+            });
         	
         	$("#replyBtn").on("click", function(e) {
         		
@@ -278,7 +341,7 @@
         		});
         	});
         	
-        	modalRegisterBtn.on("click", "button", function(e) {
+        	modalRegisterBtn.on("click", function(e) {
 				
 				console.log("hello");
 					
@@ -304,66 +367,13 @@
 					showList(1);
 				});
 			});
-        	
-        	var pageNum = 1;
-        	var replyPageFooter = $(".panel-footer");
-        	
-        	function showReplyPage(ReplyCount) {
-        		
-        		var endNum = Math.ceil(pageNum / 10.0) * 10;
-        		var startNum = endNum - 9;
-        		
-        		var prev = startNum != 1;
-        		var next = false;
-        		
-        		if(endNum * 10 >= ReplyCount) {
-        			endNum = Math.ceil(ReplyCount/10.0);
-        		}
-        		
-        		if(endNum * 10 < ReplyCount) {
-        			next = true;
-        		}
-        		
-        		var str = "<ul class = 'pagination pull-right'>";
-        		
-        		if(prev) {
-        			
-        			str += "<li class = 'page-item'><a class = 'page-link' href = '" + (startNum -1) + "'>Previous</a></li>";
-        		}
-        		
-        		for(var i = startNum; i<=endNum; i++) {
-        			
-        			var active = pageNum == i? "active" : "";
-        			
-        			str += "<li class = 'page-item " + active + "'><a class = 'page-link' href = '" + i + "'>" + i + "</a></li>";
-        		}
-        		
-        		if(next) {
-        			
-        			str += "<li class = 'page-item'><a class = 'page-link' href = '" + (endNum + 1) + "'>Next</a></li>";
-        		}
-        		
-        		str += "</ul></div>";
-        		
-        		replyPageFooter.html(str);
-        	}
-        	
-        	replyPageFooter.on("click", "li a", function(e) {
-        		
-        		e.preventDefault();
-        		
-        		var targetPageNum = $(this).attr("href");
-        		
-        		pageNum = targetPageNum;
-        		
-        		showList(pageNum);
-        	});
 		});
         
         
         
         </script>
-
+		</div>
+	
     </div>
 
   </div>

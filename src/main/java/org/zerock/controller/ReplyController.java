@@ -37,7 +37,7 @@ public class ReplyController {
 		
 		int insertCount = rs.insert(r);
 		
-		return insertCount == 1 ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); 
+		return insertCount == 1 ? new ResponseEntity<>("Reply Register Success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); 
 	}
 	
 	@GetMapping(value = "ProductDetail/replies/pages/{product_code}/{page}",
@@ -66,7 +66,7 @@ public class ReplyController {
 	public ResponseEntity<String> remove(@PathVariable("review_code") int review_code) {
 		
 		return rs.delete(review_code) == 1?
-				new ResponseEntity<>("success", HttpStatus.OK) :
+				new ResponseEntity<>("Reply Remove Success", HttpStatus.OK) :
 					new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -79,7 +79,7 @@ public class ReplyController {
 		r.setReview_code(review_code);
 		
 		return rs.update(r) == 1?
-				new ResponseEntity<>("success", HttpStatus.OK) :
+				new ResponseEntity<>("Reply Modified Success", HttpStatus.OK) :
 					new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

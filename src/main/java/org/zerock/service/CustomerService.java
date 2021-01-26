@@ -1,7 +1,12 @@
 package org.zerock.service;
 
+import java.util.HashMap;
+
 import org.zerock.domain.CustomerVO;
 
 public interface CustomerService {
-	public CustomerVO isCustomer(String socialId);
+	public HashMap<String, Object> getLoginInfo(String socialId);
+	public String getCustomerName(long customerCode);
+	public void insertBuyer(CustomerVO customer);
+	public void insertSeller(CustomerVO customer);
 }

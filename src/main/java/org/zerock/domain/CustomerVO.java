@@ -9,9 +9,11 @@ public class CustomerVO {
 	String customerAddress;
 	String customerPhone;
 	String customerName;
-	int customerCheck;
+	int customerType;
 	String socialId;
 	int customerPoint;
 	String signupDate;
 	String socialType;
+	String companyName;
+	String companyPhone;
 }

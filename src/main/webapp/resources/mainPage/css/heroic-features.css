@@ -6,3 +6,9 @@
 body {
   padding-top: 56px;
 }
+
+.login-container {
+	padding: 0px 15px;
+	
+	background-color: #D6D6D6;
+}

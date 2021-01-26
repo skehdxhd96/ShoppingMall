@@ -26,7 +26,6 @@
 </head>
 
 <body>
-
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
@@ -48,21 +47,27 @@
             <a class="nav-link" href="#">Services</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
+          	<c:set var="isLogin" value="${ isLogin }" />
+          	<a class="nav-link" href="/${ isLogin }">${ isLogin }</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-
+  
   <!-- Page Content -->
   <div class="container">
-
     <!-- Jumbotron Header -->
     <header class="jumbotron my-4">
-      <h1 class="display-3">A Warm Welcome!</h1>
-      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
-      <a href="#" class="btn btn-primary btn-lg">Call to action!</a>
+      <c:if test="${ customerName!=''}">
+      	<h1 class="display-3">${ customerName }님 반갑습니다!</h1>
+      </c:if>
+      <c:if test="${ customerName==''}">
+      	<h1 class="display-3">Welcome to ShoppingMall!</h1>
+      </c:if>
+      <a href="#" class="btn btn-primary btn-lg">쇼핑하기!</a>
+      <!-- <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p> -->
+      
     </header>
 
     <!-- Page Features -->

@@ -1,5 +1,7 @@
 package org.zerock.controller;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -32,7 +34,7 @@ public class LoginController {
 	@Inject
 	private CustomerServiceImpl customerService;
 	
-	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//·Î±×ÀÎ ÆäÀÌÁö
 	@RequestMapping("/login")
 	public String login(Model model, HttpSession session) {
 		naver = new SocialLogin(naverLogin, session);
@@ -43,7 +45,7 @@ public class LoginController {
 		return "login";
 	}
 	
-	//ï¿½Ò¼È·Î±ï¿½ï¿½ï¿½ ï¿½Ý¹ï¿½
+	//¼Ò¼È·Î±×ÀÎ ÄÝ¹é
 	@RequestMapping(value="/login/{social}/callback", method=RequestMethod.GET)
 	public String loginCallback(Model model, @PathVariable String social, HttpSession session, 
 			@RequestParam String state, @RequestParam String code, RedirectAttributes redirectAttributes) throws Exception {
@@ -54,21 +56,30 @@ public class LoginController {
 			loginCustomer = naver.getProfile(accessToken);
 		}
 		
-		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
-		CustomerVO checkCustomer = customerService.isCustomer(loginCustomer.getSocialId());
-		if (checkCustomer==null) {
-			System.out.println("È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Õ´Ï´ï¿½.");
+		//À¯Àú Á¸Àç ¿©ºÎ È®ÀÎ
+		HashMap<String, Object> loginInfo = customerService.getLoginInfo(loginCustomer.getSocialId());
+		
+		if (loginInfo==null) {
+			System.out.println("È¸¿ø°¡ÀÔ ÆäÀÌÁö·Î ÀÌµ¿ÇÕ´Ï´Ù.");
 			redirectAttributes.addFlashAttribute("newCustomer", loginCustomer);
 			
 			return "redirect:/signUp";
 		}
 		else {
-			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.");
+			System.out.println("Á¸ÀçÇÏ´Â Á¤º¸ÀÔ´Ï´Ù.");
+			
+			session.removeAttribute("oauthState"); 
+			session.setAttribute("customerType", loginInfo.get("customer_type"));
+			session.setAttribute("customerCode", loginInfo.get("customer_code"));
+			
+			System.out.println("customerType : " + session.getAttribute("customerType"));
+			System.out.println("customerCode : " + session.getAttribute("customerCode"));
+			
+			return "redirect:/";
 		}
-		return "/";
 	}
 	
-	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//È¸¿ø°¡ÀÔ ÆäÀÌÁö
 	@RequestMapping(value="/signUp", method=RequestMethod.GET)
 	public String signUpGet(Model model, HttpServletRequest request) {
 		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -82,8 +93,24 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/signUp", method=RequestMethod.POST) 
-	public String signUpPost() {
+	public String signUpPost(CustomerVO customerInfo, HttpSession session) {
+		if (customerInfo.getCustomerType()==1) {	//»õ·Î °¡ÀÔÇÑ È¸¿øÀÌ ±¸¸ÅÀÚ¶ó¸é
+			customerService.insertBuyer(customerInfo);
+		}
+		else {	//»õ·Î °¡ÀÔÇÑ È¸¿øÀÌ ÆÇ¸ÅÀÚ¶ó¸é
+			customerService.insertSeller(customerInfo);
+		}
 		
-		return "signUp";
+		session.invalidate();
+		
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value="/logout")
+	public String logout(HttpSession session) {
+		System.out.println("·Î±×¾Æ¿ô ÇÕ´Ï´Ù!");
+		session.invalidate();
+		
+		return "redirect:/";
 	}
 }

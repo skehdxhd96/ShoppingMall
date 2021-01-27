@@ -22,7 +22,9 @@
 				<p class="divider-text">
 	        		<span class="bg-light">OR</span>
 	    		</p>
-				<a href="/signUp"><button type="button" class="btn btn-primary btn-block"> Create Account </button></a>
+	    		<div class="d-grid gap-2 col-6 mx-auto">
+					<a href="/signUp"><button type="button" class="btn btn-primary" id="signupButton"> Create Account </button></a>
+				</div>
 				<br>
 			</article>
 			<!-- article:card-body mx-auto -->

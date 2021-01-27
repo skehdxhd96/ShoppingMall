@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zerock.mapper.CustomerMapper">
-	<select id="isCustomer" resultType="org.zerock.domain.CustomerVO" parameterType="String">
-		select * from customer where customer_code=#{socialId};
+	<select id="getLoginInfo" resultType="hashmap" parameterType="String">
+		select customer_type, customer_code from customer where social_id=#{socialId};
 	</select>
+	<select id="getCustomerName" resultType="String" parameterType="long">
+		select customer_name from customer where customer_code=#{customerCode};
+	</select>
+	
+	<insert id="insertBuyer" parameterType="org.zerock.domain.CustomerVO">
+		insert into customer(social_id, social_type, customer_email, customer_address, customer_phone, 
+			customer_name, customer_type) 
+			values (#{socialId}, #{socialType}, #{customerEmail}, #{customerAddress}, 
+			#{customerPhone}, #{customerName}, #{customerType});
+	</insert>
+	<insert id="insertSeller" parameterType="org.zerock.domain.CustomerVO">
+		insert into customer(social_id, social_type, customer_email, customer_address, customer_phone, 
+			customer_name, customer_type, company_name, company_phone) 
+			values (#{socialId}, #{socialType}, #{customerEmail}, #{customerAddress}, 
+			#{customerPhone}, #{customerName}, #{customerType}, #{companyName}, #{companyPhone});
+	</insert>
 </mapper>

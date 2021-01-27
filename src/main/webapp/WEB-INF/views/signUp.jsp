@@ -21,13 +21,15 @@
 			    <br>   
 				<form class="signupForm" action="/signUp" method="POST">
 					<c:set var="customer" value="${ newCustomer }" />
+					<input type="hidden" name="socialId" value="${ newCustomer.socialId }">
+				  	<input type="hidden" name="socialType" value="${ newCustomer.socialType }">
 					<div class="form-desc">고객유형</div>
 					<div class="form-group input-group">
 					    <div class="input-group-prepend">
 							<span class="input-group-text"> <i class="fas fa-filter"></i> </span>
 						</div>
 						<!-- div:input-group-prepend -->
-						<select class="form-control" name="customerCheck">
+						<select class="form-control" name="customerType">
 							<option value="">고객 유형을 선택하세요</option>
 							<option value="1">구매자</option>
 							<option value="2">판매자</option>
@@ -52,7 +54,7 @@
 					    <input name="customerEmail" class="form-control" placeholder="${ customer.customerEmail }" type="email" value="${ customer.customerEmail }">
 					</div>
 					<!-- div:form-group input-group -->
-					<div class="form-desc">전화번호</div>
+					<div class="form-desc">전화번호(- 기호 포함)</div>
 					<div class="form-group input-group">
 					    <div class="input-group-prepend">
 							<span class="input-group-text"> <i class="fa fa-phone"></i> </span>

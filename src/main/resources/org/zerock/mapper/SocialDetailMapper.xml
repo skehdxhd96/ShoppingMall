@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.mapper.SocialDetailMapper">
+	<select id="findBySocialDetail" resultType="org.zerock.domain.SocialDetailVO" parameterType="Long">
+		select * from social_detail where customer_code=#{customerCode};
+	</select>
+	
+	<insert id="insertTokenData" parameterType="org.zerock.domain.SocialDetailVO">
+		insert into social_detail(customer_code, accessToken, refreshToken, expiredDate) 
+			values(#{customerCode}, #{accessToken}, #{refreshToken}, DATE_ADD(NOW(), INTERVAL 3600 SECOND));
+	</insert>
+	
+	<update id="updateTokenData" parameterType="org.zerock.domain.SocialDetailVO">
+		update social_detail set 
+		accessToken=#{accessToken}, refreshToken=#{refreshToken}, expiredDate=DATE_ADD(NOW(), INTERVAL 3600 SECOND)
+		where customer_code=#{customerCode};	
+	</update>
+</mapper>

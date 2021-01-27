@@ -1,5 +1,7 @@
 package org.zerock.controller;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -15,60 +17,91 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.zerock.domain.CustomerVO;
+import org.zerock.domain.SocialDetailVO;
 import org.zerock.oauth.SocialLogin;
 import org.zerock.oauth.SocialValue;
 import org.zerock.service.CustomerServiceImpl;
+import org.zerock.service.SocialDetailServiceImpl;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
 @Controller
 public class LoginController {
 	@Inject
-	private SocialValue naverLogin;
+	private SocialValue naverValue;
 	
 	@Inject
-	private SocialLogin naver;
+	private SocialLogin naverLogin;
 	
 	@Inject
 	private CustomerServiceImpl customerService;
 	
-	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	@Inject
+	private SocialDetailServiceImpl sdService;
+	
+	//·Î±×ÀÎ ÆäÀÌÁö
 	@RequestMapping("/login")
 	public String login(Model model, HttpSession session) {
-		naver = new SocialLogin(naverLogin, session);
-		String naverLoginUrl = naver.getAuthorizationUrl();
+		naverLogin = new SocialLogin(naverValue, session);
+		String naverLoginUrl = naverLogin.getAuthorizationUrl();
 	
 		model.addAttribute("naverLoginUrl", naverLoginUrl);
 		
 		return "login";
 	}
 	
-	//ï¿½Ò¼È·Î±ï¿½ï¿½ï¿½ ï¿½Ý¹ï¿½
+	//¼Ò¼È·Î±×ÀÎ ÄÝ¹é
 	@RequestMapping(value="/login/{social}/callback", method=RequestMethod.GET)
 	public String loginCallback(Model model, @PathVariable String social, HttpSession session, 
 			@RequestParam String state, @RequestParam String code, RedirectAttributes redirectAttributes) throws Exception {
+		
 		CustomerVO loginCustomer = null;
+		OAuth2AccessToken accessToken = null;
 		
 		if (social.equals("naver")) {
-			OAuth2AccessToken accessToken = naver.getAccessToken(code, state, session);
-			loginCustomer = naver.getProfile(accessToken);
+			accessToken = naverLogin.getAccessToken(code, state, session);
+			loginCustomer = naverLogin.getProfile(accessToken);
 		}
 		
-		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
-		CustomerVO checkCustomer = customerService.isCustomer(loginCustomer.getSocialId());
-		if (checkCustomer==null) {
-			System.out.println("È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Õ´Ï´ï¿½.");
+		//À¯Àú Á¸Àç ¿©ºÎ È®ÀÎ
+		HashMap<String, Object> loginInfo = customerService.getLoginInfo(loginCustomer.getSocialId());
+		long customerCode = (long) loginInfo.get("customer_code");
+		
+		if (loginInfo==null) {
+			System.out.println("È¸¿ø°¡ÀÔ ÆäÀÌÁö·Î ÀÌµ¿ÇÕ´Ï´Ù.");
 			redirectAttributes.addFlashAttribute("newCustomer", loginCustomer);
 			
 			return "redirect:/signUp";
 		}
 		else {
-			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.");
+			System.out.println("Á¸ÀçÇÏ´Â Á¤º¸ÀÔ´Ï´Ù.");
+			
+			//DB¿¡ accessToken ÀúÀå
+			//social_detail Å×ÀÌºí¿¡ customer_code µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏ´ÂÁö select
+			SocialDetailVO socialDetail = sdService.findBySocialDetail(customerCode);
+			
+			if (socialDetail==null) {
+				System.out.println("accessToken¿¡ ´ëÇÑ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+				socialDetail = naverLogin.getSocialDetail(customerCode, accessToken);
+				sdService.insertTokenData(socialDetail);
+			}
+			else {
+				System.out.println("accessToken¿¡ ´ëÇÑ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÕ´Ï´Ù.");
+				socialDetail = naverLogin.getSocialDetail(customerCode, accessToken);
+				sdService.updateTokenData(socialDetail);
+			}
+			
+			//·Î±×ÀÎ À¯È¿¼º °Ë»ç¸¦ À§ÇÑ session ÀúÀå
+			session.removeAttribute("oauthState"); 
+			session.setAttribute("customerType", loginInfo.get("customer_type"));
+			session.setAttribute("customerCode", customerCode);
+			System.out.println("login ¼º°ø!");
+			
+			return "redirect:/";
 		}
-		return "/";
 	}
 	
-	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//È¸¿ø°¡ÀÔ ÆäÀÌÁö
 	@RequestMapping(value="/signUp", method=RequestMethod.GET)
 	public String signUpGet(Model model, HttpServletRequest request) {
 		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -82,8 +115,24 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/signUp", method=RequestMethod.POST) 
-	public String signUpPost() {
+	public String signUpPost(CustomerVO customerInfo, HttpSession session) {
+		if (customerInfo.getCustomerType()==1) {	//»õ·Î °¡ÀÔÇÑ È¸¿øÀÌ ±¸¸ÅÀÚ¶ó¸é
+			customerService.insertBuyer(customerInfo);
+		}
+		else {	//»õ·Î °¡ÀÔÇÑ È¸¿øÀÌ ÆÇ¸ÅÀÚ¶ó¸é
+			customerService.insertSeller(customerInfo);
+		}
 		
-		return "signUp";
+		session.invalidate();
+		
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value="/logout")
+	public String logout(HttpSession session) {
+		System.out.println("·Î±×¾Æ¿ô ÇÕ´Ï´Ù!");
+		session.invalidate();
+		
+		return "redirect:/";
 	}
 }

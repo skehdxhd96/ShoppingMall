@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.zerock.domain.CategoryVO;
 import org.zerock.domain.DetailVO;
 import org.zerock.domain.ProductVO;
+import org.zerock.service.CustomerServiceImpl;
 import org.zerock.service.ProductServiceImpl;
 import org.zerock.utils.UploadFileUtils;
 
@@ -33,9 +36,26 @@ public class MainController {
 	
 	@Resource(name = "uploadPath")
 	private String uploadPath; // servlet-context占쏙옙占쏙옙占쏙옙 占쌍억옙占�
+	
+	@Inject
+	CustomerServiceImpl customerService;
 
 	@RequestMapping("/")
-	public String toMainPage() {
+	public String toMainPage(HttpSession session, Model model) {
+		String isLogin = "";
+		String customerName = "";
+		Long customerCode = (Long) session.getAttribute("customerCode");
+		
+		if (customerCode!=null) {
+			isLogin = "logout";
+			customerName = customerService.getCustomerName(customerCode);
+		}
+		else {
+			isLogin = "login";
+		}
+		
+		model.addAttribute("isLogin", isLogin);
+		model.addAttribute("customerName", customerName);
 		
 		return "mainPage";
 	}

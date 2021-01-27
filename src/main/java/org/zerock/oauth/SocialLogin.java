@@ -1,8 +1,11 @@
 package org.zerock.oauth;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -10,6 +13,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.CustomerVO;
+import org.zerock.domain.SocialDetailVO;
+import org.zerock.service.SocialDetailServiceImpl;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -57,6 +62,7 @@ public class SocialLogin {
 	
 	//accessToken 가져오기
 	public OAuth2AccessToken getAccessToken(String code, String state, HttpSession session) throws Exception {
+		//넘어온 state와 session에 저장한 oauthState가 일치하면
 		if (state.equals(session.getAttribute("oauthState"))) {
 			System.out.println("state, session의 oauthState 일치!");
 			System.out.println("accessToken 전달!");
@@ -100,5 +106,18 @@ public class SocialLogin {
 		}
 		
 		return customer;
+	}
+
+	public SocialDetailVO getSocialDetail(long customerCode, OAuth2AccessToken accessToken) {
+		System.out.println("\n여기는 SocialLogin의 insertTokenData");
+		System.out.println(accessToken);
+		
+		SocialDetailVO newTokenData = new SocialDetailVO();
+		
+		newTokenData.setCustomerCode(customerCode);
+		newTokenData.setAccessToken(accessToken.getAccessToken());
+		newTokenData.setRefreshToken(accessToken.getRefreshToken());
+
+		return newTokenData;
 	}
 }

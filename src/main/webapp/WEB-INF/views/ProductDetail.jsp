@@ -187,10 +187,10 @@
         	
         	function showList(page) {
         		
-        		replyService.getList({product_code : product_code, page : page || 1}, function(ReplyCount, list) {
+        		replyService.getList({product_code : product_code, page : page || 1}, function(replyCount, list) {
         			
         			if(page == -1) {
-        				pageNum = Math.ceil(ReplyCount/10.0);
+        				pageNum = Math.ceil(replyCount/10.0);
         				showList(pageNum);
         				return;
         			}
@@ -208,7 +208,7 @@
         				str += "<small class = 'review_text'>" + replyService.displayTime(list[i].review_date) + " posted by " + list[i].customer_code + " score : " + list[i].review_score + "</small><hr>";
         			}
         			replyUL.html(str);
-        			showReplyPage(ReplyCount);
+        			showReplyPage(replyCount);
         		});
         	}
         	

@@ -47,11 +47,12 @@ $("select[name=customerType]").change(function() {
 	$(".addinput").append(formHtml);
 });
 
-//제출 시 null값이 존재하는지 확인하는 유효성 검사
+//회원가입 submit 전 유효성 검사하는 함수
 $(".signupForm").submit(function() {
 	var formControls = $(".form-control");
 	var result = true;
 	
+	//제출 시 null값이 존재하는지 확인하는 유효성 검사
 	for (var i=0; i<formControls.length; i++) {
 		console.log(formControls[i].value);
 		if (formControls[i].value=="") {
@@ -62,6 +63,15 @@ $(".signupForm").submit(function() {
 		}
 	}
 	
+	//전화번호 형식 유효성 검사
+	var regPhone = /^\d{3}-\d{3,4}-\d{4}$/;
+	var inputPhone = $(".form-control[name=customerPhone]");
+	if (!regPhone.test(inputPhone.val())) {
+		alert("휴대전화 형식을 맞춰주세요");
+		inputPhone.focus();
+		result = false;
+	}
+
 	if (result==true) {
 		alert("회원가입이 완료되었습니다!");
 	}

@@ -1,8 +1,10 @@
 .divider-text {
     position: relative;
     text-align: center;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin: 15px 30px;
+    /* margin-top: 15px;
+    margin-bottom: 15px; */
+    
 }
 .divider-text span {
     padding: 7px;
@@ -21,15 +23,20 @@
     z-index: 1;
 }
 
-.btn-facebook {
+/* .btn-facebook {
     background-color: #405D9D;
     color: #fff;
 }
 .btn-twitter {
     background-color: #42AEEC;
     color: #fff;
-}
+} */
 #naverLoginImg {
 	max-width: 65%;
 	height: auto;
 }
+
+/* #signupButton {
+	margin-left: 30px;
+	margin-right: 30px;
+} */

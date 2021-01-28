@@ -29,7 +29,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Start Bootstrap</a>
+      <a class="navbar-brand" href="/">ShoppingMall</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -59,15 +59,12 @@
   <div class="container">
     <!-- Jumbotron Header -->
     <header class="jumbotron my-4">
+      <h1 class="display-3">ShoppingMall</h1>
+      <br>
       <c:if test="${ customerName!=''}">
-      	<h1 class="display-3">${ customerName }님 반갑습니다!</h1>
+      	<p class="lead">${ customerName }님 반갑습니다!</p>
       </c:if>
-      <c:if test="${ customerName==''}">
-      	<h1 class="display-3">Welcome to ShoppingMall!</h1>
-      </c:if>
-      <a href="#" class="btn btn-primary btn-lg">쇼핑하기!</a>
-      <!-- <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p> -->
-      
+      <a href="/ProductList/1" class="btn btn-primary btn-lg">쇼핑하러 가기</a>
     </header>
 
     <!-- Page Features -->

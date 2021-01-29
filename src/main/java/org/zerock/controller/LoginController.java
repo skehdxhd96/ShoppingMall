@@ -65,7 +65,6 @@ public class LoginController {
 		
 		//유저 존재 여부 확인
 		HashMap<String, Object> loginInfo = customerService.getLoginInfo(loginCustomer.getSocialId());
-		long customerCode = (long) loginInfo.get("customer_code");
 		
 		if (loginInfo==null) {
 			System.out.println("회원가입 페이지로 이동합니다.");
@@ -75,6 +74,8 @@ public class LoginController {
 		}
 		else {
 			System.out.println("존재하는 정보입니다.");
+			
+			long customerCode = (long) loginInfo.get("customer_code");
 			
 			//DB에 accessToken 저장
 			//social_detail 테이블에 customer_code 데이터가 존재하는지 select

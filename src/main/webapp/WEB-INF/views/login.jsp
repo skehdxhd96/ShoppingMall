@@ -14,6 +14,9 @@
 	<div class="container">
 		<p class="text-center">More bootstrap 4 components on <a href="http://bootstrap-ecommerce.com/"> Bootstrap-ecommerce.com</a></p>
 		<hr>
+		<div id="logoContainer">
+			<a href="/"><h1>ShoppingMall</h1></a>
+		</div>
 		<div class="card bg-light">
 			<article class="card-body mx-auto" style="max-width: 400px;">
 				<h4 class="card-title mt-3 text-center">LOGIN</h4>

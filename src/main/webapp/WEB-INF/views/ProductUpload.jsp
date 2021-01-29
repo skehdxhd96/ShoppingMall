@@ -101,7 +101,12 @@
 	
 	<div class="inputArea">
 	 <label for="point">판매사</label>
-	 <input type="text" id = "product_point" name="product_seller" value = "${CompanyName }" readonly = "true"/>
+	 <input type="text" id = "product_seller" name="product_seller" value = "${CompanyName }" readonly = "true"/>
+	</div>
+	
+	<div class="inputArea">
+	 <label for="point">판매자</label>
+	 <input type="text" id = "customerName" name="customerName" value = "${customerName }" readonly = "true"/>
 	</div>
 	
 	<div class="inputArea">

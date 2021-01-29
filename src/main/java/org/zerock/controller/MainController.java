@@ -117,16 +117,19 @@ public class MainController {
 	public void toUploadPage(Model model, HttpSession session) {
 		
 		String CompanyName = "";
+		String customerName = "";
 		Long customerCode = (Long) session.getAttribute("customerCode");
 		
 		if (customerCode!=null) {
 			CompanyName = customerService.getCompanyName(customerCode);
+			customerName = customerService.getCustomerName(customerCode);
 		}
 		
 		List<CategoryVO> category = null;
 		category = pm.getCategory();
 		model.addAttribute("category", JSONArray.fromObject(category));
 		model.addAttribute("CompanyName", CompanyName);
+		model.addAttribute("customerName", customerName);
 	}
 	
 	@PostMapping("/ProductUpload")
@@ -153,10 +156,21 @@ public class MainController {
 	}
 	
 	@GetMapping("/ProductDetail/{product_code}")
-	public String toDetail(@PathVariable("product_code") int product_code ,Model model) {
+	public String toDetail(@PathVariable("product_code") int product_code ,Model model, HttpSession session) {
+		
+		String CompanyName = "";
+		String customerName = "";
+		Long customerCode = (Long) session.getAttribute("customerCode");
+		
+		if (customerCode!=null) {
+			CompanyName = customerService.getCompanyName(customerCode);
+			customerName = customerService.getCustomerName(customerCode);
+		}
 		
 		DetailVO d = pm.getById(product_code);
 		model.addAttribute("ProductById", d);
+		model.addAttribute("CompanyName", CompanyName);
+		model.addAttribute("customerName", customerName);
 		
 		return "/ProductDetail";
 	}

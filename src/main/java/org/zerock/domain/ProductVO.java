@@ -8,6 +8,7 @@ public class ProductVO {
 	private String product_name; 
 	private String product_manufacturer;
 	private String product_seller; //�����Ұ�
+	private String customerName;
 	private int product_price;
 	private int product_stock;
 	private int product_point; //�����Ұ�

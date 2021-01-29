@@ -5,8 +5,8 @@
 <mapper namespace = "org.zerock.mapper.ProductMapper">
 
 <insert id = "register">
-	insert into product(product_name, product_manufacturer, product_price, product_stock, product_point, product_seller, product_score, category_code, image_url, thumbnail_url) 
-	values (#{product_name}, #{product_manufacturer}, #{product_price}, #{product_stock}, #{product_point}, #{product_seller}, #{product_score} ,#{category_code}, #{image_url}, #{thumbnail_url})
+	insert into product(product_name, product_manufacturer, product_price, product_stock, product_point, product_seller, customerName, product_score, category_code, image_url, thumbnail_url) 
+	values (#{product_name}, #{product_manufacturer}, #{product_price}, #{product_stock}, #{product_point}, #{product_seller}, #{customerName}, #{product_score} ,#{category_code}, #{image_url}, #{thumbnail_url})
 </insert>
 
 <!-- 카테고리 select -->
@@ -40,7 +40,7 @@
 </select> -->
 
 <select id = "getById" resultType = "org.zerock.domain.DetailVO">
-	select p.product_code, p.product_name, p.product_manufacturer, p.product_seller, p.product_price, p.product_stock, p.product_point, p.product_score, p.image_url, p.thumbnail_url, c.category_code ,c.category_name
+	select p.product_code, p.product_name, p.product_manufacturer, p.product_seller, p.customerName, p.product_price, p.product_stock, p.product_point, p.product_score, p.image_url, p.thumbnail_url, c.category_code ,c.category_name
 	from product as p join category as c
 	on p.category_code = c.category_code
 	where p.product_code = #{product_code}
@@ -56,7 +56,8 @@
 				product_manufacturer = #{product_manufacturer}, 
 				product_price = #{product_price}, 
 				product_stock = #{product_stock},
-				product_stock = #{product_stock},
+				product_seller = #{product_seller},
+				customerName = #{customerName},
 				category_code = #{category_code}
 			where product_code = ${product_code}
 </update>

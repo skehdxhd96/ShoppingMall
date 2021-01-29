@@ -9,6 +9,7 @@ public class DetailVO {
 	private String product_name; 
 	private String product_manufacturer;
 	private String product_seller;
+	private String customerName;
 	private int product_price;
 	private int product_stock;
 	private int product_point;

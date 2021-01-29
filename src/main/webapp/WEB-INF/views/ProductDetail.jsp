@@ -97,13 +97,14 @@
             <h3 class="card-title">${ProductById.product_name }</h3>
             <h4>${ProductById.product_price }원</h4>
             <p class="card-text">제조사 : ${ProductById.product_manufacturer }</p>
-            <p class="card-text">판매자 : ${ProductById.product_seller }</p>
+            <p class="card-text">판매사 : ${ProductById.product_seller }</p>
+            <p class="card-text">판매자 : ${ProductById.customerName }</p>
             <p class="card-text">포인트 : ${ProductById.product_point }</p>
             <p class="card-text">재고 : ${ProductById.product_stock }</p>
             <p class="card-text">카테고리 : ${ProductById.category_name }</p>
             <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span> <!-- 별점 이미지는 나중에 -->
             ${ProductById.product_score }
-            <c:if test = "${customerType == 2 }">
+            <c:if test = "${customerType == 2 && ProductById.customerName == customerName && ProductById.product_seller == CompanyName}">
             <div>
 	            <button type="button" id="modify_Btn" class="btn btn-warning">수정</button>
 				<button type="button" id="delete_Btn" class="btn btn-danger">삭제</button>

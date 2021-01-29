@@ -96,12 +96,17 @@
 	
 	<div class="inputArea">
 	 <label for="point">적립포인트</label>
-	 <input type="text" id = "product_point" name = "product_point" value ="${ModifyProduct.product_point }" readonly = "true"/>
+	 <input type="text" id = "product_point" name = "product_point" value ="${ModifyProduct.product_point }"/>
 	</div>
 	
 	<div class="inputArea">
-	 <label for="point">파는사람(SQL Null 방지용 기입)</label>
-	 <input type="text" name = "product_seller" value ="${ModifyProduct.product_seller }" />
+	 <label for="point">판매사</label>
+	 <input type="text" name = "product_seller" value ="${ModifyProduct.product_seller }" readonly = "true"/>
+	</div>
+	
+	<div class="inputArea">
+	 <label for="point">판매자</label>
+	 <input type="text" name = "customerName" value ="${ModifyProduct.customerName }" readonly = "true"/>
 	</div>
 	
 	<div class="inputArea">

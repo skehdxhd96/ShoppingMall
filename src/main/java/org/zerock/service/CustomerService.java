@@ -9,4 +9,5 @@ public interface CustomerService {
 	public String getCustomerName(long customerCode);
 	public void insertBuyer(CustomerVO customer);
 	public void insertSeller(CustomerVO customer);
+	public String getCompanyName(long customerCode);
 }

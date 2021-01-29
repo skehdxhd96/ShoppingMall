@@ -100,8 +100,8 @@
 	</div>
 	
 	<div class="inputArea">
-	 <label for="point">파는사람(SQL Null 방지용 기입)</label>
-	 <input type="text" id = "product_point" name="product_seller" />
+	 <label for="point">판매사</label>
+	 <input type="text" id = "product_point" name="product_seller" value = "${CompanyName }" readonly = "true"/>
 	</div>
 	
 	<div class="inputArea">
@@ -152,6 +152,17 @@
 	for(var i = 0; i < cate1Arr.length; i++) {
 	 cate1Select.append("<option value='" + cate1Arr[i].category_code + "'>"
 	      + cate1Arr[i].category_name + "</option>"); 
+	}
+	
+	var regExp = /[^0-9]/gi;
+
+	$("#product_price").keyup(function(){ numCheck($(this)); });
+	$("#product_stock").keyup(function(){ numCheck($(this)); });
+	$("#product_point").keyup(function(){ numCheck($(this)); });
+
+	function numCheck(selector) {
+	 var tempVal = selector.val();
+	 selector.val(tempVal.replace(regExp, ""));
 	}
 	
 	</script>

@@ -121,7 +121,7 @@
             <c:if test="${product.thumbnail_url != 'none.png'}">
               <a href="#"><img class="card-img-top" src="${product.thumbnail_url}" alt=""></a></c:if>
             <c:if test="${product.thumbnail_url == 'none.png'}">
-              <a href="#"><img class="card-img-top" src="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif" alt="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif"></a>
+              <a href="#"><img class="card-img-top" src="<%=request.getContextPath() %>/resources/ProductList/image/noimage.png" alt="no_image"></a>
             </c:if>
               <div class="card-body">
                 <h4 class="card-title">

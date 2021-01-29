@@ -86,17 +86,17 @@
 	
 	<div class="inputArea">
 	 <label for="price">상품가격</label>
-	 <input type="text" name = "product_price" value ="${ModifyProduct.product_price}" />
+	 <input type="text" id = "product_price" name = "product_price" value ="${ModifyProduct.product_price}" />
 	</div>
 	
 	<div class="inputArea">
 	 <label for="stock">상품수량</label>
-	 <input type="text" name = "product_stock" value ="${ModifyProduct.product_stock }" />
+	 <input type="text" id = "product_stock" name = "product_stock" value ="${ModifyProduct.product_stock }" />
 	</div>
 	
 	<div class="inputArea">
 	 <label for="point">적립포인트</label>
-	 <input type="text" name = "product_point" value ="${ModifyProduct.product_point }" readonly = "true"/>
+	 <input type="text" id = "product_point" name = "product_point" value ="${ModifyProduct.product_point }" readonly = "true"/>
 	</div>
 	
 	<div class="inputArea">
@@ -187,6 +187,17 @@
 			if(con) {
 			location.href = "/ProductDetail/${ModifyProduct.product_code}";}
 		});
+		
+		var regExp = /[^0-9]/gi;
+
+		$("#product_price").keyup(function(){ numCheck($(this)); });
+		$("#product_stock").keyup(function(){ numCheck($(this)); });
+		$("#product_point").keyup(function(){ numCheck($(this)); });
+
+		function numCheck(selector) {
+		 var tempVal = selector.val();
+		 selector.val(tempVal.replace(regExp, ""));
+		}
 	</script>
 
   <!-- Footer -->

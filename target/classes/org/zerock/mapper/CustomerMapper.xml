@@ -20,4 +20,7 @@
 			values (#{socialId}, #{socialType}, #{customerEmail}, #{customerAddress}, 
 			#{customerPhone}, #{customerName}, #{customerType}, #{companyName}, #{companyPhone});
 	</insert>
+	<select id = "getCompanyName" resultType = "String" parameterType = "Long">
+		select company_name from customer where customer_code = #{customer_code}
+	</select>
 </mapper>

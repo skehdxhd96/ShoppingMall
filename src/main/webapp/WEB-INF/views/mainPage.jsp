@@ -65,6 +65,9 @@
       	<p class="lead">${ customerName }님 반갑습니다!</p>
       </c:if>
       <a href="/ProductList/1" class="btn btn-primary btn-lg">쇼핑하러 가기</a>
+      <c:if test = "${customerType == 2 }">
+      <a href="/ProductUpload" class="btn btn-primary btn-lg">상품 업로드</a>
+      </c:if>
     </header>
 
     <!-- Page Features -->

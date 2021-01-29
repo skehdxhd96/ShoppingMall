@@ -114,11 +114,19 @@ public class MainController {
 	}
 	
 	@GetMapping("/ProductUpload")
-	public void toUploadPage(Model model) {
+	public void toUploadPage(Model model, HttpSession session) {
+		
+		String CompanyName = "";
+		Long customerCode = (Long) session.getAttribute("customerCode");
+		
+		if (customerCode!=null) {
+			CompanyName = customerService.getCompanyName(customerCode);
+		}
 		
 		List<CategoryVO> category = null;
 		category = pm.getCategory();
 		model.addAttribute("category", JSONArray.fromObject(category));
+		model.addAttribute("CompanyName", CompanyName);
 	}
 	
 	@PostMapping("/ProductUpload")

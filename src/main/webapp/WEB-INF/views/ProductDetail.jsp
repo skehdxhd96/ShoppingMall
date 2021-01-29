@@ -103,10 +103,12 @@
             <p class="card-text">카테고리 : ${ProductById.category_name }</p>
             <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span> <!-- 별점 이미지는 나중에 -->
             ${ProductById.product_score }
+            <c:if test = "${customerType == 2 }">
             <div>
 	            <button type="button" id="modify_Btn" class="btn btn-warning">수정</button>
 				<button type="button" id="delete_Btn" class="btn btn-danger">삭제</button>
             </div>
+            </c:if>
           </div>
         </div>
         <!-- /.card -->

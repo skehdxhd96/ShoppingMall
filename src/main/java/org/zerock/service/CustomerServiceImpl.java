@@ -17,7 +17,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void insertBuyer(CustomerVO customer) {
 		cm.insertBuyer(customer);
-		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ insert ï¿½Ï·ï¿½!");
+		System.out.println("±¸¸ÅÀÚ insert ¼º°ø!");
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void insertSeller(CustomerVO customer) {
 		cm.insertSeller(customer);
-		System.out.println("ï¿½Ç¸ï¿½ï¿½ï¿½ insert ï¿½Ï·ï¿½!");
+		System.out.println("ÆÇ¸ÅÀÚ insert ¼º°ø!");
 	}
 
 	@Override
@@ -46,5 +46,19 @@ public class CustomerServiceImpl implements CustomerService {
 		String CompanyName = cm.getCompanyName(customerCode);
 		
 		return CompanyName;
+	}
+
+	@Override
+	public HashMap<String, Object> getBuyerProfile(long customerCode) {
+		HashMap<String, Object> buyerProfile = cm.getBuyerProfile(customerCode);
+		
+		return buyerProfile;
+	}
+
+	@Override
+	public HashMap<String, Object> getSellerProfile(long customerCode) {
+		HashMap<String, Object> sellerProfile = cm.getSellerProfile(customerCode);
+		
+		return sellerProfile;
 	}
 }

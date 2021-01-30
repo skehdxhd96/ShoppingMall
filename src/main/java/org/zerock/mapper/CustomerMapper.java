@@ -10,4 +10,6 @@ public interface CustomerMapper {
 	public void insertBuyer(CustomerVO customer);
 	public void insertSeller(CustomerVO customer);
 	public String getCompanyName(long customerCode);
+	public HashMap<String, Object> getBuyerProfile(long customerCode);
+	public HashMap<String, Object> getSellerProfile(long customerCode);
 }

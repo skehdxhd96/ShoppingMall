@@ -39,7 +39,7 @@ public class LoginController {
 	@Inject
 	private SocialDetailServiceImpl sdService;
 	
-	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//·Î±×ÀÎ ÆäÀÌÁö
 	@RequestMapping("/login")
 	public String login(Model model, HttpSession session) {
 		naverLogin = new SocialLogin(naverValue, session);
@@ -50,7 +50,7 @@ public class LoginController {
 		return "login";
 	}
 	
-	//ï¿½Ò¼È·Î±ï¿½ï¿½ï¿½ ï¿½Ý¹ï¿½
+	//¼Ò¼È·Î±×ÀÎ ÄÝ¹é
 	@RequestMapping(value="/login/{social}/callback", method=RequestMethod.GET)
 	public String loginCallback(Model model, @PathVariable String social, HttpSession session, 
 			@RequestParam String state, @RequestParam String code, RedirectAttributes redirectAttributes) throws Exception {
@@ -63,36 +63,36 @@ public class LoginController {
 			loginCustomer = naverLogin.getProfile(accessToken);
 		}
 		
-		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+		//À¯Àú Á¸Àç ¿©ºÎ È®ÀÎ
 		HashMap<String, Object> loginInfo = customerService.getLoginInfo(loginCustomer.getSocialId());
 		
 		if (loginInfo==null) {
-			System.out.println("È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Õ´Ï´ï¿½.");
+			System.out.println("È¸¿ø°¡ÀÔ ÆäÀÌÁö·Î ÀÌµ¿ÇÕ´Ï´Ù.");
 			redirectAttributes.addFlashAttribute("newCustomer", loginCustomer);
 			
 			return "redirect:/signUp";
 		}
 		else {
-			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.");
+			System.out.println("Á¸ÀçÇÏ´Â Á¤º¸ÀÔ´Ï´Ù.");
 			
 			long customerCode = (long) loginInfo.get("customer_code");
 			
-			//DBï¿½ï¿½ accessToken ï¿½ï¿½ï¿½ï¿½
-			//social_detail ï¿½ï¿½ï¿½Ìºï¿½ customer_code ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ select
+			//DB¿¡ accessToken ÀúÀå
+			//social_detail Å×ÀÌºí¿¡ customer_code µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏ´ÂÁö select
 			SocialDetailVO socialDetail = sdService.findBySocialDetail(customerCode);
 			
 			if (socialDetail==null) {
-				System.out.println("accessTokenï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
+				System.out.println("accessToken¿¡ ´ëÇÑ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
 				socialDetail = naverLogin.getSocialDetail(customerCode, accessToken);
 				sdService.insertTokenData(socialDetail);
 			}
 			else {
-				System.out.println("accessTokenï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
+				System.out.println("accessToken¿¡ ´ëÇÑ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÕ´Ï´Ù.");
 				socialDetail = naverLogin.getSocialDetail(customerCode, accessToken);
 				sdService.updateTokenData(socialDetail);
 			}
 			
-			//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ ï¿½Ë»ç¸¦ ï¿½ï¿½ï¿½ï¿½ session ï¿½ï¿½ï¿½ï¿½
+			//·Î±×ÀÎ À¯È¿¼º °Ë»ç¸¦ À§ÇÑ session ÀúÀå
 			session.removeAttribute("oauthState"); 
 			session.setAttribute("customerType", loginInfo.get("customer_type"));
 			session.setAttribute("customerCode", customerCode);
@@ -102,7 +102,7 @@ public class LoginController {
 		}
 	}
 	
-	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//È¸¿ø°¡ÀÔ ÆäÀÌÁö
 	@RequestMapping(value="/signUp", method=RequestMethod.GET)
 	public String signUpGet(Model model, HttpServletRequest request) {
 		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -117,10 +117,10 @@ public class LoginController {
 	
 	@RequestMapping(value="/signUp", method=RequestMethod.POST) 
 	public String signUpPost(CustomerVO customerInfo, HttpSession session) {
-		if (customerInfo.getCustomerType()==1) {	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½
+		if (customerInfo.getCustomerType()==1) {	//»õ·Î °¡ÀÔÇÑ È¸¿øÀÌ ±¸¸ÅÀÚ¶ó¸é
 			customerService.insertBuyer(customerInfo);
 		}
-		else {	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ï¿½Ú¶ï¿½ï¿½
+		else {	//»õ·Î °¡ÀÔÇÑ È¸¿øÀÌ ÆÇ¸ÅÀÚ¶ó¸é
 			customerService.insertSeller(customerInfo);
 		}
 		
@@ -129,9 +129,29 @@ public class LoginController {
 		return "redirect:/";
 	}
 	
+	@RequestMapping(value="/login/userModify")
+	public String userModify(HttpSession session, Model model) {
+		System.out.println("¿©±â´Â È¸¿øÁ¤º¸ ¼öÁ¤ ÆäÀÌÁö");
+		System.out.println(session.getAttribute("customerType"));
+		HashMap<String, Object> profile = null;
+		//È¸¿ø Å¸ÀÔ¿¡ µû¶ó ÇÊ¿äÇÑ ÇÁ·ÎÇÊÁ¤º¸¸¦ ´Ù¸£°Ô °¡Á®¿Â´Ù.
+		if (session.getAttribute("customerType").equals(1)) {
+			//±¸¸ÅÀÚ¶ó¸é ÀÌ¸§, ÀÌ¸ÞÀÏ, ÀüÈ­¹øÈ£, ÁÖ¼Ò¸¸
+			profile = customerService.getBuyerProfile((long) session.getAttribute("customerCode"));	
+		}
+		else {
+			//±¸¸ÅÀÚ¶ó¸é ÀÌ¸§, ÀÌ¸ÞÀÏ, ÀüÈ­¹øÈ£, È¸»ç¸í, È¸»ç ÀüÈ­¹øÈ£, È¸»ç ÁÖ¼Ò
+			profile = customerService.getSellerProfile((long) session.getAttribute("customerCode"));
+		}
+		model.addAttribute("profile", profile);
+		System.out.println(profile.keySet());
+		
+		return "/myPage/updateProfile";
+	}
+	
 	@RequestMapping(value="/logout")
 	public String logout(HttpSession session) {
-		System.out.println("ï¿½Î±×¾Æ¿ï¿½ ï¿½Õ´Ï´ï¿½!");
+		System.out.println("·Î±×¾Æ¿ô ÇÕ´Ï´Ù!");
 		session.invalidate();
 		
 		return "redirect:/";

@@ -10,7 +10,10 @@
 </insert>
 
 <select id = "read" resultType = "org.zerock.domain.ReplyVO">
-	select * from review where review_code = #{review_code}
+	select r.review_code, r.review_date, r.review_comment, r.review_score, r.order_code, r.product_code, r.customer_code, c.customer_name
+	from review as r join customer as c
+	on r.customer_code = c.customer_code
+	where r.review_code = #{review_code}
 </select>
 
 <delete id = "delete">
@@ -24,8 +27,10 @@
 <!--product_code @param("customer_id") int customer_id 와 연결 -->
 <select id = "getListWIthPaging" resultType = "org.zerock.domain.ReplyVO">
 	<![CDATA[
-	select * from review 
-	where product_code = #{product_code} and review_code > (#{cri.pageNum}-1) * #{cri.amount} and review_code <= #{cri.pageNum} * #{cri.amount}
+		select r.review_code, r.review_date, r.review_comment, r.review_score, r.order_code, r.product_code, r.customer_code, c.customer_name 
+		from review as r join customer as c 
+		on r.customer_code = c.customer_code 
+		where r.product_code = #{product_code} and r.review_code > (#{cri.pageNum}-1) * #{cri.amount} and r.review_code <= #{cri.pageNum} * #{cri.amount}
 	]]>
 </select>
 

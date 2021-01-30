@@ -164,7 +164,7 @@
               </div>      
               <div class="form-group">
                 <label>Replyer</label> 
-                <input class="form-control" name='customer_code' value='replyer'>
+                <input class="form-control" name='customer_name' value='replyer'>
               </div>
               <div class="form-group">
                 <label>DATE</label> 
@@ -217,7 +217,7 @@
         			
         			for(var i=0, len = list.length || 0; i<len; i++) {
         				str += "<p data-rno = '" + list[i].review_code + "'>" + list[i].review_comment + "</p>";
-        				str += "<small class = 'review_text'>" + replyService.displayTime(list[i].review_date) + " posted by " + list[i].customer_code + " score : " + list[i].review_score + "</small><hr>";
+        				str += "<small class = 'review_text'>" + replyService.displayTime(list[i].review_date) + " posted by " + list[i].customer_name + " score : " + list[i].review_score + "</small><hr>";
         			}
         			replyUL.html(str);
         			showReplyPage(replyCount);
@@ -280,7 +280,7 @@
         	
         	var modal = $(".modal");
         	var modalInputReply = modal.find("input[name = 'review_comment']");
-        	var modalInputReplyer = modal.find("input[name = 'customer_code']");
+        	var modalInputReplyer = modal.find("input[name = 'customer_name']");
         	var modalInputReplyDate = modal.find("input[name = 'review_date']");
         	var modalInputReplyScore = modal.find("input[name = 'review_score']");
         	
@@ -294,14 +294,15 @@
             });
         	
         	$("#replyBtn").on("click", function(e) {
-        		
+    
         		modal.find("input").val("");
-        		modalInputReplyDate.closest("div").hide();
-        		modal.find("button[id != 'modalCloseBtn']").hide();
+            	modalInputReplyDate.closest("div").hide();
+            	modalInputReplyer.val("${customerName}").attr("readonly", "readonly");
+            	modal.find("button[id != 'modalCloseBtn']").hide();
 
-        		modalRegisterBtn.show();
-        		
-        		$(".modal").modal("show");
+            	modalRegisterBtn.show();
+            		
+            	$(".modal").modal("show");
         	});
         	
         	$(".chat").on("click", "p", function(e) {
@@ -311,7 +312,7 @@
         		replyService.get(review_code, function(reply) {
         			
         			modalInputReply.val(reply.review_comment);
-        			modalInputReplyer.val(reply.customer_code);
+        			modalInputReplyer.val(reply.customer_name).attr("readonly", "readonly");
         			modalInputReplyDate.val(replyService.displayTime(reply.review_date)).attr("readonly", "readonly");
         			modalInputReplyScore.val(reply.review_score);
         			modal.data("review_code", reply.review_code);

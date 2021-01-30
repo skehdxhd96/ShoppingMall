@@ -39,7 +39,7 @@ public class LoginController {
 	@Inject
 	private SocialDetailServiceImpl sdService;
 	
-	//·Î±×ÀÎ ÆäÀÌÁö
+	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("/login")
 	public String login(Model model, HttpSession session) {
 		naverLogin = new SocialLogin(naverValue, session);
@@ -50,7 +50,7 @@ public class LoginController {
 		return "login";
 	}
 	
-	//¼Ò¼È·Î±×ÀÎ ÄÝ¹é
+	//ï¿½Ò¼È·Î±ï¿½ï¿½ï¿½ ï¿½Ý¹ï¿½
 	@RequestMapping(value="/login/{social}/callback", method=RequestMethod.GET)
 	public String loginCallback(Model model, @PathVariable String social, HttpSession session, 
 			@RequestParam String state, @RequestParam String code, RedirectAttributes redirectAttributes) throws Exception {
@@ -63,46 +63,46 @@ public class LoginController {
 			loginCustomer = naverLogin.getProfile(accessToken);
 		}
 		
-		//À¯Àú Á¸Àç ¿©ºÎ È®ÀÎ
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 		HashMap<String, Object> loginInfo = customerService.getLoginInfo(loginCustomer.getSocialId());
 		
 		if (loginInfo==null) {
-			System.out.println("È¸¿ø°¡ÀÔ ÆäÀÌÁö·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+			System.out.println("È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Õ´Ï´ï¿½.");
 			redirectAttributes.addFlashAttribute("newCustomer", loginCustomer);
 			
 			return "redirect:/signUp";
 		}
 		else {
-			System.out.println("Á¸ÀçÇÏ´Â Á¤º¸ÀÔ´Ï´Ù.");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.");
 			
 			long customerCode = (long) loginInfo.get("customer_code");
 			
-			//DB¿¡ accessToken ÀúÀå
-			//social_detail Å×ÀÌºí¿¡ customer_code µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏ´ÂÁö select
+			//DBï¿½ï¿½ accessToken ï¿½ï¿½ï¿½ï¿½
+			//social_detail ï¿½ï¿½ï¿½Ìºï¿½ customer_code ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ select
 			SocialDetailVO socialDetail = sdService.findBySocialDetail(customerCode);
 			
 			if (socialDetail==null) {
-				System.out.println("accessToken¿¡ ´ëÇÑ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+				System.out.println("accessTokenï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
 				socialDetail = naverLogin.getSocialDetail(customerCode, accessToken);
 				sdService.insertTokenData(socialDetail);
 			}
 			else {
-				System.out.println("accessToken¿¡ ´ëÇÑ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÕ´Ï´Ù.");
+				System.out.println("accessTokenï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
 				socialDetail = naverLogin.getSocialDetail(customerCode, accessToken);
 				sdService.updateTokenData(socialDetail);
 			}
 			
-			//·Î±×ÀÎ À¯È¿¼º °Ë»ç¸¦ À§ÇÑ session ÀúÀå
+			//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ ï¿½Ë»ç¸¦ ï¿½ï¿½ï¿½ï¿½ session ï¿½ï¿½ï¿½ï¿½
 			session.removeAttribute("oauthState"); 
 			session.setAttribute("customerType", loginInfo.get("customer_type"));
 			session.setAttribute("customerCode", customerCode);
-			System.out.println("login ¼º°ø!");
+			System.out.println("login ï¿½ï¿½ï¿½ï¿½!");
 			
 			return "redirect:/";
 		}
 	}
 	
-	//È¸¿ø°¡ÀÔ ÆäÀÌÁö
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="/signUp", method=RequestMethod.GET)
 	public String signUpGet(Model model, HttpServletRequest request) {
 		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -117,10 +117,10 @@ public class LoginController {
 	
 	@RequestMapping(value="/signUp", method=RequestMethod.POST) 
 	public String signUpPost(CustomerVO customerInfo, HttpSession session) {
-		if (customerInfo.getCustomerType()==1) {	//»õ·Î °¡ÀÔÇÑ È¸¿øÀÌ ±¸¸ÅÀÚ¶ó¸é
+		if (customerInfo.getCustomerType()==1) {	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½
 			customerService.insertBuyer(customerInfo);
 		}
-		else {	//»õ·Î °¡ÀÔÇÑ È¸¿øÀÌ ÆÇ¸ÅÀÚ¶ó¸é
+		else {	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ï¿½Ú¶ï¿½ï¿½
 			customerService.insertSeller(customerInfo);
 		}
 		
@@ -131,7 +131,7 @@ public class LoginController {
 	
 	@RequestMapping(value="/logout")
 	public String logout(HttpSession session) {
-		System.out.println("·Î±×¾Æ¿ô ÇÕ´Ï´Ù!");
+		System.out.println("ï¿½Î±×¾Æ¿ï¿½ ï¿½Õ´Ï´ï¿½!");
 		session.invalidate();
 		
 		return "redirect:/";

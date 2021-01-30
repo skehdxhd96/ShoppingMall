@@ -1,5 +1,6 @@
 package org.zerock.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -19,4 +20,12 @@ public interface ReplyMapper {
 	public List<ReplyVO> getListWIthPaging(@Param("cri") Criteria cri, @Param("product_code") int product_code);
 	
 	public int getCountByProductCode(int product_code);
+	
+	public int ReplyAuthorityCustomer(int product_code);
+	
+	public int ReplyAuthorityProduct(long customer_code);
+	
+	public int getOrderCode(long customerCode);
+	
+	public String ReplyAuthorityStatus(int order_code);
 }

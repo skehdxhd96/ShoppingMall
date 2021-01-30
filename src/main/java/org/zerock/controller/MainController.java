@@ -23,6 +23,7 @@ import org.zerock.domain.DetailVO;
 import org.zerock.domain.ProductVO;
 import org.zerock.service.CustomerServiceImpl;
 import org.zerock.service.ProductServiceImpl;
+import org.zerock.service.ReplyService;
 import org.zerock.utils.UploadFileUtils;
 
 import lombok.extern.log4j.Log4j;
@@ -33,6 +34,9 @@ import net.sf.json.JSONArray;
 public class MainController {
 	@Resource
 	private ProductServiceImpl pm;
+	
+	@Resource
+	private ReplyService rm;
 	
 	@Resource(name = "uploadPath")
 	private String uploadPath; // servlet-context占쏙옙占쏙옙占쏙옙 占쌍억옙占�
@@ -165,12 +169,16 @@ public class MainController {
 		if (customerCode!=null) {
 			CompanyName = customerService.getCompanyName(customerCode);
 			customerName = customerService.getCustomerName(customerCode);
+			
+			model.addAttribute("CompanyName", CompanyName);
+			model.addAttribute("customerName", customerName);
+			model.addAttribute("ReplyAuthorityCustomer", rm.ReplyAuthorityCustomer(product_code));
+			model.addAttribute("ReplyAuthorityProduct", rm.ReplyAuthorityProduct(customerCode));
+			model.addAttribute("order_status", rm.ReplyAuthorityStatus(rm.getOrderCode(customerCode)));
 		}
 		
 		DetailVO d = pm.getById(product_code);
 		model.addAttribute("ProductById", d);
-		model.addAttribute("CompanyName", CompanyName);
-		model.addAttribute("customerName", customerName);
 		
 		return "/ProductDetail";
 	}

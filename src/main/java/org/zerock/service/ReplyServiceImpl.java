@@ -1,5 +1,6 @@
 package org.zerock.service;
 
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,5 +53,29 @@ public class ReplyServiceImpl implements ReplyService{
 	public ReplyPageVO getListPage(Criteria cri, int product_code) {
 		
 		return new ReplyPageVO(rm.getCountByProductCode(product_code), rm.getListWIthPaging(cri, product_code));
+	}
+	
+	@Override
+	public int ReplyAuthorityCustomer(int product_code) {
+		
+		return rm.ReplyAuthorityCustomer(product_code);
+	}
+	
+	@Override
+	public int ReplyAuthorityProduct(long customer_code) {
+		
+		return rm.ReplyAuthorityProduct(customer_code);
+	}
+	
+	@Override
+	public int getOrderCode(long customerCode) {
+		
+		return rm.getOrderCode(customerCode);
+	}
+	
+	@Override
+	public String ReplyAuthorityStatus(int order_code) {
+		
+		return rm.ReplyAuthorityStatus(order_code);
 	}
 }

@@ -1,5 +1,6 @@
 package org.zerock.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.zerock.domain.Criteria;
@@ -19,4 +20,12 @@ public interface ReplyService {
 	public List<ReplyVO> getListWithPaging(Criteria cri, int product_code);
 	
 	public ReplyPageVO getListPage(Criteria cri, int product_code);
+	
+	public int ReplyAuthorityCustomer(int product_code);
+	
+	public int ReplyAuthorityProduct(long customer_code);
+	
+	public int getOrderCode(long customerCode);
+	
+	public String ReplyAuthorityStatus(int order_code);
 }

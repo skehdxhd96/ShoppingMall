@@ -39,4 +39,32 @@
 		select count(review_code) from review where product_code = #{product_code}
 	]]>
 </select>
+
+<!-- 댓글 권한용 쿼리 -->
+<select id = "ReplyAuthorityCustomer" resultType = "int">
+	<![CDATA[
+		select exists (
+			select ob.customer_code 
+			from order_basket as ob join customer as c
+			on ob.customer_code = c.customer_code
+			where ob.product_code = #{product_code} )
+	]]>
+</select>
+
+<select id = "ReplyAuthorityProduct" resultType = "int">
+	<![CDATA[
+		select exists (
+		select product_code from order_basket where customer_code = #{customer_code})
+	]]>
+</select>
+
+<select id = "getOrderCode" resultType = "int">
+	select order_code from order_basket where customer_code = #{customer_code}
+</select>
+
+<select id = "ReplyAuthorityStatus" resultType = "String">
+	<![CDATA[
+		select order_status from `order` where order_code = #{order_code}
+	]]>
+</select>
 </mapper>

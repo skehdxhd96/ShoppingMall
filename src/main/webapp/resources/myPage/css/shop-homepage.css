@@ -1,0 +1,19 @@
+/*!
+ * Start Bootstrap - Shop Homepage (https://startbootstrap.com/template/shop-homepage)
+ * Copyright 2013-2020 Start Bootstrap
+ * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-shop-homepage/blob/master/LICENSE)
+ */
+body {
+  padding-top: 56px;
+}
+
+/*
+	여기서부터는 내가 추가적으로 작성한 스타일
+*/
+.main-container {
+	padding: 50px;
+}
+.main-title {
+	margin-bottom: 10px;
+	font-weight: bold;
+}

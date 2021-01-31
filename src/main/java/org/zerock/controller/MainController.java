@@ -46,19 +46,12 @@ public class MainController {
 
 	@RequestMapping("/")
 	public String toMainPage(HttpSession session, Model model) {
-		String isLogin = "";
 		String customerName = "";
 		Long customerCode = (Long) session.getAttribute("customerCode");
 		
 		if (customerCode!=null) {
-			isLogin = "logout";
 			customerName = customerService.getCustomerName(customerCode);
 		}
-		else {
-			isLogin = "login";
-		}
-		
-		model.addAttribute("isLogin", isLogin);
 		model.addAttribute("customerName", customerName);
 		
 		return "mainPage";
@@ -212,5 +205,12 @@ public class MainController {
 		pm.ProductDelete(product_code);
 		
 		return "redirect:/ProductList/1"; //占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙占쌔억옙占쏙옙
+	}
+	
+	//마이페이지-마이페이지 초기화면은 주문목록
+	@RequestMapping("/myPage/order/list")
+	public String orderList() {
+		
+		return "myPage/orderList";
 	}
 }

@@ -7,6 +7,16 @@
 	<select id="getCustomerName" resultType="String" parameterType="long">
 		select customer_name from customer where customer_code=#{customerCode};
 	</select>
+	<select id="getBuyerProfile" resultType="hashmap" parameterType="long">
+		select customer_name, customer_email, customer_phone, customer_address
+		from customer
+		where customer_type=1 AND customer_code=#{customerCode};
+	</select>
+	<select id="getSellerProfile" resultType="hashmap" parameterType="long">
+		select customer_name, customer_email, customer_phone, customer_address, company_name, company_phone
+		from customer
+		where customer_type=2 AND customer_code=#{customerCode};
+	</select>
 	
 	<insert id="insertBuyer" parameterType="org.zerock.domain.CustomerVO">
 		insert into customer(social_id, social_type, customer_email, customer_address, customer_phone, 

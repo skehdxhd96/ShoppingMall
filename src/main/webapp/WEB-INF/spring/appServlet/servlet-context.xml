@@ -21,13 +21,14 @@
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
+	<!-- naver 소셜로그인 API -->
+	<context:property-placeholder location="/config/naverLogin.properties" />
+	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
-	<context:component-scan base-package="org.zerock" />
 	
 	<!-- 업로드 패스 설정 -->
 	<!-- 경로 맞춰주세요 -->
@@ -43,26 +44,26 @@
 	 <beans:property name="maxUploadSize" value="10485760"/>
 	</beans:bean>
 	
-	<!-- naver 소셜로그인 API -->
-	<context:property-placeholder location="/config/naverLogin.properties" />
-	
 	<!-- OAuth Social Login : NAVER -->
 	<!-- NAVER API 정보는 src/main/webapp/config/naverLogin.properties 파일에! -> .gitignore 파일 -->
 	<!-- 절대 clientSecret 노출되면 안됨!!!!!!!! -->
-	<beans:bean id="naverLogin" class="org.zerock.oauth.SocialValue">
+	<beans:bean id="naverValue" class="org.zerock.oauth.SocialValue">
 		<beans:constructor-arg name="socialType" value="naver"></beans:constructor-arg>
 		<beans:constructor-arg name="clientId" value="${naver.clientId}"></beans:constructor-arg>
 		<beans:constructor-arg name="clientSecret" value="${naver.clientSecret}"></beans:constructor-arg>
 		<beans:constructor-arg name="callbackUrl" value="${naver.callbackUrl}"></beans:constructor-arg>
+		<beans:constructor-arg name="reauthCallbackUrl" value="${naver.reauthCallbackUrl}"></beans:constructor-arg>
 	</beans:bean>
 	
 	<!-- 권한에 따른 페이지 막기 -->
 	<beans:bean id="BasicInterceptor" class="org.zerock.Interceptor.BasicInterceptor" />
-
+	
 	<interceptors>
 	 <interceptor>
 	  <mapping path="/ProductUpload" />
 	  <beans:ref bean="BasicInterceptor" />
 	 </interceptor>
 	</interceptors>
+	
+	<context:component-scan base-package="org.zerock" />
 </beans:beans>

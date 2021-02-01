@@ -10,14 +10,16 @@ public class SocialValue {
 	private String clientId;
 	private String clientSecret;
 	private String callbackUrl;
+	private String reauthCallbackUrl;
 	private DefaultApi20 api20Instance;
 	private String profileUrl;
 	
-	public SocialValue(String socialType, String clientId, String clientSecret, String callbackUrl) {
+	public SocialValue(String socialType, String clientId, String clientSecret, String callbackUrl, String reauthCallbackUrl) {
 		this.socialType = socialType;
 		this.clientId = clientId;
 		this.clientSecret = clientSecret;
 		this.callbackUrl = callbackUrl;
+		this.reauthCallbackUrl = reauthCallbackUrl;
 		
 		if (socialType.equals("naver")) {
 			this.api20Instance = NaverAPI20.instance();

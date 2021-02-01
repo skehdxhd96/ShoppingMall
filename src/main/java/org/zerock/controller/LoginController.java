@@ -1,5 +1,6 @@
 package org.zerock.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +43,8 @@ public class LoginController {
 	//·Î±×ÀÎ ÆäÀÌÁö
 	@RequestMapping("/login")
 	public String login(Model model, HttpSession session) {
-		naverLogin = new SocialLogin(naverValue, session);
-		String naverLoginUrl = naverLogin.getAuthorizationUrl();
+		naverLogin.updateTest(naverValue);
+		String naverLoginUrl = naverLogin.getAuthorizationUrl(session);
 	
 		model.addAttribute("naverLoginUrl", naverLoginUrl);
 		
@@ -96,7 +97,8 @@ public class LoginController {
 			session.removeAttribute("oauthState"); 
 			session.setAttribute("customerType", loginInfo.get("customer_type"));
 			session.setAttribute("customerCode", customerCode);
-			System.out.println("login ï¿½ï¿½ï¿½ï¿½!");
+			session.setAttribute("socialType", social);
+			System.out.println("login ¼º°ø!");
 			
 			return "redirect:/";
 		}
@@ -147,6 +149,39 @@ public class LoginController {
 		System.out.println(profile.keySet());
 		
 		return "/myPage/updateProfile";
+	}
+	
+	@RequestMapping(value="/login/userDelete")
+	public String userDelete(HttpSession session, Model model) {
+		String reauthUrl = "";
+		
+		System.out.println("=========================================================");
+		System.out.println("¿©±â´Â È¸¿øÅ»Åð ÆäÀÌÁö");
+		
+		if (session.getAttribute("socialType").equals("naver")) {
+			naverLogin.updateTest(naverValue);
+			reauthUrl  = naverLogin.getReauthorizationUrl(session);
+		}
+		
+		model.addAttribute("reauthUrl", reauthUrl);
+		System.out.println("ÀçÀÎÁõ url : " + reauthUrl);
+		System.out.println("=========================================================");
+		
+		return "myPage/deleteUser";
+	}
+	
+	@RequestMapping(value="/login/reauth/{social}/callback", method=RequestMethod.GET)
+	public String userDeleteCallback(HttpSession session, @PathVariable String social, 
+			@RequestParam String code, @RequestParam String state) throws Exception {
+		OAuth2AccessToken accessToken = null;
+		
+		if (social.equals("naver")) {
+			naverLogin.updateTest(naverValue);
+			accessToken = naverLogin.compareAccessToken(session, code, state);
+		}
+		
+		session.removeAttribute("reauthState");
+		return "reauthRedirect";
 	}
 	
 	@RequestMapping(value="/logout")

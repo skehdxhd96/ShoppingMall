@@ -4,16 +4,16 @@ import lombok.Data;
 
 @Data
 public class CustomerVO {
-	int customerCode;
-	String customerEmail;
-	String customerAddress;
-	String customerPhone;
-	String customerName;
-	int customerType;
-	String socialId;
-	int customerPoint;
-	String signupDate;
-	String socialType;
-	String companyName;
-	String companyPhone;
+	private int customerCode;
+	private String customerEmail;
+	private String customerAddress;
+	private String customerPhone;
+	private String customerName;
+	private int customerType;
+	private String socialId;
+	private int customerPoint;
+	private String signupDate;
+	private String socialType;
+	private String companyName;
+	private String companyPhone;
 }

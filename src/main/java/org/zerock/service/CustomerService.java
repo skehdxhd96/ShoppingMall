@@ -12,4 +12,6 @@ public interface CustomerService {
 	public String getCompanyName(long customerCode);
 	public HashMap<String, Object> getBuyerProfile(long customerCode);
 	public HashMap<String, Object> getSellerProfile(long customerCode);
+	public String getSocialId(long customerCode);
+	public void deleteCustomer(long customerCode);
 }

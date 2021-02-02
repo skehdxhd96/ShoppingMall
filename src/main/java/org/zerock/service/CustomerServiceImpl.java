@@ -61,4 +61,17 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		return sellerProfile;
 	}
+
+	@Override
+	public String getSocialId(long customerCode) {
+		String socialId = cm.getSocialId(customerCode);
+		
+		return socialId;
+	}
+
+	@Override
+	public void deleteCustomer(long customerCode) {
+		cm.deleteCustomer(customerCode);
+		System.out.println("customerCode : " + customerCode + " 회원 삭제를 완료했습니다.");
+	}
 }

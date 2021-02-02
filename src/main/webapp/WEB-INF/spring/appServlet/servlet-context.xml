@@ -55,6 +55,10 @@
 		<beans:constructor-arg name="reauthCallbackUrl" value="${naver.reauthCallbackUrl}"></beans:constructor-arg>
 	</beans:bean>
 	
+	<beans:bean id="naverLogin" class="org.zerock.oauth.SocialLogin">
+		<beans:constructor-arg name="socialValue" ref="naverValue"></beans:constructor-arg>
+	</beans:bean>
+	
 	<!-- 권한에 따른 페이지 막기 -->
 	<beans:bean id="BasicInterceptor" class="org.zerock.Interceptor.BasicInterceptor" />
 	

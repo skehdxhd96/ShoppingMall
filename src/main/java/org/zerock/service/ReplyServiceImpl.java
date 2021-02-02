@@ -1,7 +1,10 @@
 package org.zerock.service;
 
+import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.Criteria;
@@ -54,28 +57,22 @@ public class ReplyServiceImpl implements ReplyService{
 		
 		return new ReplyPageVO(rm.getCountByProductCode(product_code), rm.getListWIthPaging(cri, product_code));
 	}
-	
+
 	@Override
-	public int ReplyAuthorityCustomer(int product_code) {
+	public int CustomerReply(Map map) {
 		
-		return rm.ReplyAuthorityCustomer(product_code);
+		return rm.CustomerReply(map);
 	}
 	
 	@Override
-	public int ReplyAuthorityProduct(long customer_code) {
+	public int OrderStatusIsDone(Map map) {
 		
-		return rm.ReplyAuthorityProduct(customer_code);
+		return rm.OrderStatusIsDone(map);
 	}
 	
 	@Override
-	public int getOrderCode(long customerCode) {
+	public int getOrderCode(Map map) {
 		
-		return rm.getOrderCode(customerCode);
-	}
-	
-	@Override
-	public String ReplyAuthorityStatus(int order_code) {
-		
-		return rm.ReplyAuthorityStatus(order_code);
+		return rm.getOrderCode(map);
 	}
 }

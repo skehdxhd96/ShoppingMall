@@ -3,6 +3,7 @@ package org.zerock.controller;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -158,16 +159,20 @@ public class MainController {
 		String CompanyName = "";
 		String customerName = "";
 		Long customerCode = (Long) session.getAttribute("customerCode");
+		Map map = new HashMap<>();
 		
 		if (customerCode!=null) {
 			CompanyName = customerService.getCompanyName(customerCode);
 			customerName = customerService.getCustomerName(customerCode);
+			map.put("product_code", product_code);
+			map.put("customer_code", customerCode);
 			
 			model.addAttribute("CompanyName", CompanyName);
 			model.addAttribute("customerName", customerName);
-			model.addAttribute("ReplyAuthorityCustomer", rm.ReplyAuthorityCustomer(product_code));
-			model.addAttribute("ReplyAuthorityProduct", rm.ReplyAuthorityProduct(customerCode));
-			model.addAttribute("order_status", rm.ReplyAuthorityStatus(rm.getOrderCode(customerCode)));
+			
+			model.addAttribute("CustomerReply", rm.CustomerReply(map));
+			model.addAttribute("OrderCodeIsDone", rm.OrderStatusIsDone(map));
+			model.addAttribute("getOrderCode", rm.getOrderCode(map));
 		}
 		
 		DetailVO d = pm.getById(product_code);

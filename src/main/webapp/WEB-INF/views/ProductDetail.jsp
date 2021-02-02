@@ -253,6 +253,12 @@
         	var modalRemoveBtn = $("#modalRemoveBtn");
         	var modalRegisterBtn = $("#modalRegisterBtn");
         	
+        	var getOrderCode = '<c:out value = "${getOrderCode}"/>';
+        	var getCustomerCode = '<c:out value = "${customerCode}"/>';
+        	
+        	console.log(getOrderCode);
+        	console.log(getCustomerCode);
+        	
         	$("#modalCloseBtn").on("click", function(e){
             	
             	modal.modal('hide');
@@ -261,18 +267,37 @@
         	$("#replyBtn").on("click", function(e) {
 
         			if(${customerCode != null}) { //로그인 여부
-            			if(${ReplyAuthorityCustomer == 1 && ReplyAuthorityProduct == 1 && order_status == "done"}) { // 이사람이 물건을 산 사람인가
-            				modal.find("input").val("");
-                        	modalInputReplyDate.closest("div").hide();
-                        	modalInputReplyer.val("${customerName}").attr("readonly", "readonly");
-                        	modal.find("button[id != 'modalCloseBtn']").hide();
-
-                        	modalRegisterBtn.show();
-                        		
-                        	$(".modal").modal("show");
-            			} else {
-            				confirm("물건을 산 사람만 댓글을 남길 수 있습니다.");
-            			}
+        				if(${customerType == 1}) { // 구매자타입
+	            			if(${CustomerReply == 1}) { // 이사람이 물건을 산 사람인가
+	            				if(${OrderCodeIsDone == 1}) {
+		            				modal.find("input").val("");
+		                        	modalInputReplyDate.closest("div").hide();
+		                        	modalInputReplyer.val("${customerName}").attr("readonly", "readonly");
+		                        	modal.find("button[id != 'modalCloseBtn']").hide();
+		
+		                        	modalRegisterBtn.show();
+		                        		
+		                        	$(".modal").modal("show");
+	            				} else {
+	            					confirm("배송을 받으신 후에 댓글을 남길 수 있습니다.");
+	            				}
+	            			} else {
+	            				confirm("물건을 산 사람만 댓글을 남길 수 있습니다.");
+	            			}
+        				} else { //판매자 타입
+        					if(${ProductById.customerName == customerName}) { //판매자 본인
+        						modal.find("input").val("");
+	                        	modalInputReplyDate.closest("div").hide();
+	                        	modalInputReplyer.val("${customerName}").attr("readonly", "readonly");
+	                        	modal.find("button[id != 'modalCloseBtn']").hide();
+	
+	                        	modalRegisterBtn.show();
+	                        		
+	                        	$(".modal").modal("show");
+        					} else {
+        						confirm("이 물건의 판매자가 아닙니다.");
+        					}
+        				}
             		} else {
             			var con = confirm("로그인이 필요합니다. 로그인페이지로 이동하시겠습니까?");
             			
@@ -337,8 +362,10 @@
 					review_comment : modalInputReply.val(),
 					review_score : modalInputReplyScore.val(),
 					product_code : parseInt(product_code),
-					order_code : 1, //<!-- 로그인 로직 -->
-					customer_code : modalInputReplyer.val() //<!-- 로그인 로직 -->
+					order_code : getOrderCode,
+					//order_code : 1, //<!-- 로그인 로직 -->
+					customer_code : getCustomerCode
+				//customer_code : modalInputReplyer.val() //<!-- 로그인 로직 -->
 				};
 				
 				        		

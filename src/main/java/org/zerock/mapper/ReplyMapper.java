@@ -1,7 +1,9 @@
 package org.zerock.mapper;
 
+import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.zerock.domain.Criteria;
@@ -21,11 +23,9 @@ public interface ReplyMapper {
 	
 	public int getCountByProductCode(int product_code);
 	
-	public int ReplyAuthorityCustomer(int product_code);
+	public int CustomerReply(Map map);
 	
-	public int ReplyAuthorityProduct(long customer_code);
+	public int OrderStatusIsDone(Map map);
 	
-	public int getOrderCode(long customerCode);
-	
-	public String ReplyAuthorityStatus(int order_code);
+	public int getOrderCode(Map map);
 }

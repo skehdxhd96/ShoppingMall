@@ -60,8 +60,6 @@ var replyService = (function() {
 	
 	function update(reply, callback, error) {
 		
-		console.log("review_code: " + reply.reiew_code);
-		
 		$.ajax({
 			type : 'PUT',
 			url : '/replies/' + reply.review_code,

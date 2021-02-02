@@ -40,31 +40,22 @@
 	]]>
 </select>
 
-<!-- 댓글 권한용 쿼리 -->
-<select id = "ReplyAuthorityCustomer" resultType = "int">
-	<![CDATA[
-		select exists (
-			select ob.customer_code 
-			from order_basket as ob join customer as c
-			on ob.customer_code = c.customer_code
-			where ob.product_code = #{product_code} )
-	]]>
+<select id = "CustomerReply" resultType = "int" parameterType = "HashMap">
+	select exists (select customer_code from (select customer_code from order_basket where product_code = #{product_code}) t
+	 where customer_code = #{customer_code})
 </select>
 
-<select id = "ReplyAuthorityProduct" resultType = "int">
-	<![CDATA[
-		select exists (
-		select product_code from order_basket where customer_code = #{customer_code})
-	]]>
+<select id = "OrderStatusIsDone" resultType = "int" parameterType = "HashMap">
+	select exists (select o.order_status
+	from `order` as o join (select order_code from order_basket where product_code = #{product_code} and customer_code = #{customer_code}) as a 
+	on o.order_code = a.order_code
+	where o.order_status = "done")
 </select>
 
 <select id = "getOrderCode" resultType = "int">
-	select order_code from order_basket where customer_code = #{customer_code}
-</select>
-
-<select id = "ReplyAuthorityStatus" resultType = "String">
-	<![CDATA[
-		select order_status from `order` where order_code = #{order_code}
-	]]>
+	select o.order_code
+	from `order` as o join (select order_code from order_basket where product_code = #{product_code} and customer_code = #{customer_code}) as a 
+	on o.order_code = a.order_code
+	where o.order_status = "done" order by o.order_code desc limit 1;
 </select>
 </mapper>

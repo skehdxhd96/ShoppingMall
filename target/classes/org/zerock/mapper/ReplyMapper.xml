@@ -27,10 +27,13 @@
 <!--product_code @param("customer_id") int customer_id 와 연결 -->
 <select id = "getListWIthPaging" resultType = "org.zerock.domain.ReplyVO">
 	<![CDATA[
-		select r.review_code, r.review_date, r.review_comment, r.review_score, r.order_code, r.product_code, r.customer_code, c.customer_name 
+		set @rownum := 0;
+        select * from (
+        select @rownum:=@rownum+1 rownum, r.review_code, r.review_date, r.review_comment, r.review_score, r.order_code, r.product_code, r.customer_code, c.customer_name 
 		from review as r join customer as c 
-		on r.customer_code = c.customer_code 
-		where r.product_code = #{product_code} and r.review_code > (#{cri.pageNum}-1) * #{cri.amount} and r.review_code <= #{cri.pageNum} * #{cri.amount}
+		on r.customer_code = c.customer_code,
+		(SELECT @rownum:=0) Tmp
+		where r.product_code = #{product_code} and r.review_code > 0 and @rownum < #{cri.pageNum} * #{cri.amount}) a where a.rownum > (#{cri.pageNum} -1) * #{cri.amount}
 	]]>
 </select>
 
@@ -52,7 +55,7 @@
 	where o.order_status = "done")
 </select>
 
-<select id = "getOrderCode" resultType = "int">
+<select id = "getOrderCode" resultType = "Integer">
 	select o.order_code
 	from `order` as o join (select order_code from order_basket where product_code = #{product_code} and customer_code = #{customer_code}) as a 
 	on o.order_code = a.order_code

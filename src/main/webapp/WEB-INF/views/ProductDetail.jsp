@@ -363,9 +363,7 @@
 					review_score : modalInputReplyScore.val(),
 					product_code : parseInt(product_code),
 					order_code : getOrderCode,
-					//order_code : 1, //<!-- 로그인 로직 -->
 					customer_code : getCustomerCode
-				//customer_code : modalInputReplyer.val() //<!-- 로그인 로직 -->
 				};
 				
 				        		

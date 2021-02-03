@@ -27,5 +27,5 @@ public interface ReplyService {
 	
 	public int OrderStatusIsDone(Map map);
 	
-	public int getOrderCode(Map map);
+	public Integer getOrderCode(Map map);
 }

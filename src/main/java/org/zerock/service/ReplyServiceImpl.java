@@ -71,7 +71,7 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 	
 	@Override
-	public int getOrderCode(Map map) {
+	public Integer getOrderCode(Map map) {
 		
 		return rm.getOrderCode(map);
 	}

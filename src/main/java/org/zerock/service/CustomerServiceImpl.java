@@ -74,4 +74,16 @@ public class CustomerServiceImpl implements CustomerService {
 		cm.deleteCustomer(customerCode);
 		System.out.println("customerCode : " + customerCode + " 회원 삭제를 완료했습니다.");
 	}
+
+	@Override
+	public void updateBuyer(CustomerVO updateCustomer) {
+		cm.updateBuyer(updateCustomer);
+		System.out.println("customerCode : " + updateCustomer.getCustomerCode() + "구매자 회원 수정 완료");
+	}
+
+	@Override
+	public void updateSeller(CustomerVO updateCustomer) {
+		cm.updateSeller(updateCustomer);
+		System.out.println("customerCode : " + updateCustomer.getCustomerCode() + "판매자 회원 수정 완료");
+	}
 }

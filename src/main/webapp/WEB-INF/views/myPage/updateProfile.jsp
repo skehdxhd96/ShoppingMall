@@ -11,7 +11,8 @@
   	<link href="<%=request.getContextPath() %>/resources/myPage/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   	<!-- Custom styles for this template -->
-  	<link href="<%=request.getContextPath() %>/resources/myPage/css/shop-homepage.css" rel="stylesheet">
+  	<link href="<%=request.getContextPath() %>/resources/common/css/shop-homepage.css" rel="stylesheet">
+  	<link href="<%=request.getContextPath() %>/resources/common/css/common.css" rel="stylesheet">
   	<link href="<%=request.getContextPath() %>/resources/myPage/css/updateProfile.css" rel="stylesheet">
 <body>
 	<jsp:include page="/WEB-INF/views/common/nav.jsp"></jsp:include>
@@ -21,9 +22,9 @@
     	<div class="row">
       		<jsp:include page="/WEB-INF/views/common/myPageNav.jsp"></jsp:include>
       		
-      		<div class="col-lg-9 main-container">
+      		<div class="col-lg-9 main-col-lg-9">
         		<h2 class="main-title">회원정보 수정</h2>
-        		<form action="" method="post">
+        		<form action="/login/userModify" method="post" class="modifySubmit">
 			    	<table class="table">
 					  <tbody>
 					  	<c:set var="profile" value="${ profile }" />
@@ -36,7 +37,7 @@
 						    <td><input name="customerName" class="form-control" placeholder="${ profile.customer_name }" type="text" value="${ profile.customer_name }"></td>
 						</tr>
 						<tr>
-						    <th scope="row">전화번호</th>
+						    <th scope="row">전화번호 (-기호 포함)</th>
 						    <td colspan="2"><input name="customerPhone" class="form-control" placeholder="${ profile.customer_phone }" type="text" value="${ profile.customer_phone }"></td>
 						</tr>
 					  	<% if(session.getAttribute("customerType").equals(1)){ %>
@@ -78,5 +79,7 @@
 	<!-- Bootstrap core JavaScript -->
   	<script src="<%=request.getContextPath() %>/resources/myPage/vendor/jquery/jquery.min.js"></script>
   	<script src="<%=request.getContextPath() %>/resources/myPage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  	<script src="<%=request.getContextPath() %>/resources/common/js/common_submit.js"></script>
 </body>
 </html>

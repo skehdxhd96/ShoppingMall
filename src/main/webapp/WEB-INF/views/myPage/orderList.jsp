@@ -12,18 +12,19 @@
   	<link href="<%=request.getContextPath() %>/resources/myPage/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   	<!-- Custom styles for this template -->
-  	<link href="<%=request.getContextPath() %>/resources/myPage/css/shop-homepage.css" rel="stylesheet">
+  	<link href="<%=request.getContextPath() %>/resources/common/css/shop-homepage.css" rel="stylesheet">
+  	<link href="<%=request.getContextPath() %>/resources/common/css/common.css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/nav.jsp"></jsp:include>
 	
 	<!-- Page Content -->
-  	<div class="container">
+  	<div class="container top-container">
     	<div class="row">
       		<jsp:include page="/WEB-INF/views/common/myPageNav.jsp"></jsp:include>
       		
-      		<div class="col-lg-9">
-        		<h1>여기는 주문목록 페이지</h1>
+      		<div class="col-lg-9 main-col-lg-9">
+        		<h2 class="main-title">주문목록</h2>
 		    </div>
 		    <!-- /.col-lg-9 -->
 		</div>

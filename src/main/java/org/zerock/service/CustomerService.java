@@ -14,4 +14,6 @@ public interface CustomerService {
 	public HashMap<String, Object> getSellerProfile(long customerCode);
 	public String getSocialId(long customerCode);
 	public void deleteCustomer(long customerCode);
+	public void updateBuyer(CustomerVO updateCustomer);
+	public void updateSeller(CustomerVO updateCustomer);
 }

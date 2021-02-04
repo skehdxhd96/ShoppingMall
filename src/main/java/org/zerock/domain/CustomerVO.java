@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CustomerVO {
-	private int customerCode;
+	private long customerCode;
 	private String customerEmail;
 	private String customerAddress;
 	private String customerPhone;

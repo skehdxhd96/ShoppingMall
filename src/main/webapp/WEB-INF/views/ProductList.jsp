@@ -24,7 +24,9 @@
   <link href="<%=request.getContextPath() %>/resources/ProductList/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   
   <!-- Custom styles for this template -->
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/ProductList/css/shop-homepage.css">
+  <link href="<%=request.getContextPath() %>/resources/common/css/shop-homepage.css" rel="stylesheet">
+  <link href="<%=request.getContextPath() %>/resources/common/css/common.css" rel="stylesheet">
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/ProductList/css/productList.css">
 
 </head>
 
@@ -37,9 +39,9 @@
 
     <div class="row">
 
-      <div class="col-lg-3">
+      <div class="col-lg-3 nav-col-lg-3">
 
-        <h1 class="my-4">Shop Name</h1>
+        <h1 class="my-4 nav-title">Shop Name</h1>
         <div id="categories" class="list-group">
 	        <c:forEach items="${ categories }" var="category">
 	          	<a href="/ProductList/${ category.category_code }" class="list-group-item">${ category.category_name }</a>
@@ -49,7 +51,7 @@
       </div>
       <!-- /.col-lg-3 -->
 
-      <div class="col-lg-9">
+      <div class="col-lg-9 main-col-lg-9">
 
         <!-- <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
           <ol class="carousel-indicators">

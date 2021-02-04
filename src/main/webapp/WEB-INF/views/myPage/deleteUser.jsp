@@ -11,7 +11,8 @@
   	<link href="<%=request.getContextPath() %>/resources/myPage/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   	<!-- Custom styles for this template -->
-  	<link href="<%=request.getContextPath() %>/resources/myPage/css/shop-homepage.css" rel="stylesheet">
+  	<link href="<%=request.getContextPath() %>/resources/common/css/shop-homepage.css" rel="stylesheet">
+  	<link href="<%=request.getContextPath() %>/resources/common/css/common.css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/nav.jsp"></jsp:include>
@@ -20,7 +21,7 @@
     	<div class="row">
       		<jsp:include page="/WEB-INF/views/common/myPageNav.jsp"></jsp:include>
       		
-      		<div class="col-lg-9 main-container">
+      		<div class="col-lg-9 main-col-lg-9">
         		<h2 class="main-title">회원탈퇴</h2>
         		<p>회원탈퇴를 진행하고 싶다면 가입한 소셜로그인 인증이 필요합니다.</p>
         		<a href=${ reauthUrl }><button type="button" class="btn btn-dark btn-lg">인증하기</button></a>

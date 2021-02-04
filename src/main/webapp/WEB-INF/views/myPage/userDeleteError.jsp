@@ -5,8 +5,16 @@
 <head>
 <meta charset="UTF-8">
 <title>회원탈퇴 오류페이지</title>
+<!-- Bootstrap core CSS -->
+<link href="<%=request.getContextPath() %>/resources/myPage/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- CSS -->
+<link href="<%=request.getContextPath() %>/resources/myPage/css/userDeleteError.css" rel="stylesheet">
 </head>
 <body>
-	<h1>socialId가 일치하지 않음! 홈으로 이동합니다. 이동버튼</h1>
+	<div class="container header-container">
+		<h3 class="header-title">회원 탈퇴 진행 과정에서 오류가 발생하였습니다.</h3>
+		<a href="/"><button type="button" class="btn btn-primary">홈으로 이동</button></a>
+		<a href="/login/userDelete"><button type="button" class="btn btn-light">다시 시도</button></a>
+	</div>
 </body>
 </html>

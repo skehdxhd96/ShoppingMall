@@ -136,25 +136,43 @@ public class LoginController {
 	}
 	
 	//회원정보 수정하기 - 여기서는 재인증 필요 없음.
-	@RequestMapping(value="/login/userModify")
-	public String userModify(HttpSession session, Model model) {
+	@RequestMapping(value="/login/userModify", method=RequestMethod.GET)
+	public String userModifyGET(HttpSession session, Model model) {
 		System.out.println("여기는 회원정보 수정 페이지");
-		System.out.println(session.getAttribute("customerType"));
 		HashMap<String, Object> profile = null;
+		
 		//회원 타입에 따라 필요한 프로필정보를 다르게 가져온다.
 		if (session.getAttribute("customerType").equals(1)) {
 			//구매자라면 이름, 이메일, 전화번호, 주소만
 			profile = customerService.getBuyerProfile((long) session.getAttribute("customerCode"));	
 		}
 		else {
-			//구매자라면 이름, 이메일, 전화번호, 회사명, 회사 전화번호, 회사 주소
+			//판매자라면 이름, 이메일, 전화번호, 회사명, 회사 전화번호, 회사 주소
 			profile = customerService.getSellerProfile((long) session.getAttribute("customerCode"));
 		}
-		
 		//customer 테이블에서 가져온 프로필 데이터를 view에 전달.
 		model.addAttribute("profile", profile);
 		
 		return "/myPage/updateProfile";
+	}
+	
+	@RequestMapping(value="/login/userModify", method=RequestMethod.POST)
+	public String userModifyPOST(HttpSession session, Model model, CustomerVO updateCustomer) {
+		System.out.println("회원정보 수정 페이지에서 제출 버튼을 눌렀습니다");
+		System.out.println("수정된 회원 정보");
+		
+		//받아온 업데이트 정보에 자신의 고객코드 저장.
+		updateCustomer.setCustomerCode((long) session.getAttribute("customerCode"));
+		
+		//회원 타입에 따라 수정할 수 있는 프로필 정보가 다르다.
+		if (session.getAttribute("customerType").equals(1)) {	//구매자라면 이름, 이메일, 전화번호, 주소만		
+			customerService.updateBuyer(updateCustomer);
+		}
+		else {	//판매자라면 이름, 이메일, 전화번호, 회사명, 회사 전화번호, 회사 주소
+			customerService.updateSeller(updateCustomer);
+		}
+		
+		return "redirect:/login/userModify";
 	}
 	
 	//회원탈퇴 페이지
@@ -208,7 +226,8 @@ public class LoginController {
 	}
 	
 	//회원탈퇴 과정에 실패했을 때 이동하는 오류페이지
-	@RequestMapping(value="/login/userDelete/error", method=RequestMethod.POST)
+	//페이지 작성 후 POST로 변경
+	@RequestMapping(value="/login/userDelete/error")
 	public String userDeleteError() {
 	
 		return "myPage/userDeleteError";

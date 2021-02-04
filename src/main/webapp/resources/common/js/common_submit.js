@@ -17,12 +17,21 @@ function checkBeforeSubmit() {
 	
 	//전화번호 형식 유효성 검사
 	var regPhone = /^\d{3}-\d{3,4}-\d{4}$/;
+	var inputCustomerType = $(".form-control[name=customerType]");
 	var inputCustomerPhone = $(".form-control[name=customerPhone]");
-	var inputCompanyPhone = $(".form-control[name=companyPhone]");
 	
-	if (!regPhone.test(inputCustomerPhone.val())||!regPhone.test(inputCompanyPhone.val())) {
-		alert("휴대전화 형식을 맞춰주세요");
-		result = false;
+	if (inputCustomerType.val()==2) {
+		var inputCompanyPhone = $(".form-control[name=companyPhone]");
+		if (!regPhone.test(inputCustomerPhone.val())||!regPhone.test(inputCompanyPhone.val())) {
+			alert("휴대전화 형식을 맞춰주세요");
+			result = false;
+		}
+	}
+	else {
+		if (!regPhone.test(inputCustomerPhone.val())) {
+			alert("휴대전화 형식을 맞춰주세요");
+			result = false;
+		}
 	}
 	
 	return result;

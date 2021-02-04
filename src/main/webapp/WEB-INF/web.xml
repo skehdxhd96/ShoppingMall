@@ -37,6 +37,19 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+	<!-- form post 전달 시 한글깨짐 방지 -->
+	<filter> 
+		<filter-name>Set Character Encoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class> 
+		<init-param> 
+			<param-name>encoding</param-name> 
+			<param-value>utf-8</param-value> 
+		</init-param> 
+	</filter> 
+	<filter-mapping> 
+		<filter-name>Set Character Encoding</filter-name> 
+		<url-pattern>/*</url-pattern> 
+	</filter-mapping>
 	<filter>
 		<filter-name>encoding</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -49,5 +62,15 @@
 	<filter-mapping>
 		<filter-name>encoding</filter-name>
 		<servlet-name>appServlet</servlet-name>
+	</filter-mapping>
+	
+	<!-- HTTP Method Filter -->
+	<filter>
+	    <filter-name>httpMethodFilter</filter-name>
+	    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	    <filter-name>httpMethodFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
 	</filter-mapping>
 </web-app>

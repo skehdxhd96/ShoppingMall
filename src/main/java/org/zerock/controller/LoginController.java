@@ -136,7 +136,7 @@ public class LoginController {
 	}
 	
 	//회원정보 수정하기 - 여기서는 재인증 필요 없음.
-	@RequestMapping(value="/login/userModify", method=RequestMethod.GET)
+	@RequestMapping(value="/login/userModify")
 	public String userModifyGET(HttpSession session, Model model) {
 		System.out.println("여기는 회원정보 수정 페이지");
 		HashMap<String, Object> profile = null;
@@ -152,17 +152,18 @@ public class LoginController {
 		}
 		//customer 테이블에서 가져온 프로필 데이터를 view에 전달.
 		model.addAttribute("profile", profile);
+		model.addAttribute("customerCode", session.getAttribute("customerCode"));
 		
 		return "/myPage/updateProfile";
 	}
 	
-	@RequestMapping(value="/login/userModify", method=RequestMethod.POST)
-	public String userModifyPOST(HttpSession session, Model model, CustomerVO updateCustomer) {
+	@RequestMapping(value="/login/userModify/{customerCode}", method=RequestMethod.PUT)
+	public String userModifyPOST(HttpSession session, @PathVariable Long customerCode,  CustomerVO updateCustomer) {
 		System.out.println("회원정보 수정 페이지에서 제출 버튼을 눌렀습니다");
 		System.out.println("수정된 회원 정보");
 		
 		//받아온 업데이트 정보에 자신의 고객코드 저장.
-		updateCustomer.setCustomerCode((long) session.getAttribute("customerCode"));
+		updateCustomer.setCustomerCode(customerCode);
 		
 		//회원 타입에 따라 수정할 수 있는 프로필 정보가 다르다.
 		if (session.getAttribute("customerType").equals(1)) {	//구매자라면 이름, 이메일, 전화번호, 주소만		

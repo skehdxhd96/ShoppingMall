@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   	<meta name="description" content="">
   	<meta name="author" content="">
@@ -24,7 +25,8 @@
       		
       		<div class="col-lg-9 main-col-lg-9">
         		<h2 class="main-title">회원정보 수정</h2>
-        		<form action="/login/userModify" method="post" class="modifySubmit">
+        		<form action="/login/userModify/${ customerCode }" method="post" class="modifySubmit">
+			    	<input type="hidden" name="_method" value="put" />
 			    	<table class="table">
 					  <tbody>
 					  	<c:set var="profile" value="${ profile }" />

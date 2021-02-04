@@ -68,6 +68,6 @@
 	  <beans:ref bean="BasicInterceptor" />
 	 </interceptor>
 	</interceptors>
-	
+
 	<context:component-scan base-package="org.zerock" />
 </beans:beans>

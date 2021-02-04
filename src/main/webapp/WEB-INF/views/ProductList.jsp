@@ -98,9 +98,6 @@
                 <h5>${product.product_price }원</h5>
                 <p class="card-text">${product.product_manufacturer }</p>
               </div>
-              <div class="card-footer">
-              	<c:out value="${ product.product_score }" /> <!-- 나중에 바꿔야됩니다. -->
-              </div>
             </div>
           </div>
 		</c:forEach>

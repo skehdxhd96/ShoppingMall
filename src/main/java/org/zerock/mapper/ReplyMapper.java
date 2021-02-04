@@ -1,6 +1,7 @@
 package org.zerock.mapper;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,4 +29,6 @@ public interface ReplyMapper {
 	public int OrderStatusIsDone(Map map);
 	
 	public Integer getOrderCode(Map map);
+	
+	public ArrayList<Integer> getScore(int product_code);
 }

@@ -67,8 +67,18 @@
             <p class="card-text">포인트 : ${ProductById.product_point }</p>
             <p class="card-text">재고 : ${ProductById.product_stock }</p>
             <p class="card-text">카테고리 : ${ProductById.category_name }</p>
-            <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span> <!-- 별점 이미지는 나중에 -->
-            ${ProductById.product_score }
+            <c:if test = "${AverageScore == 0}">
+            	<span class = "test_warning">댓글로 평점을 남겨주세요!!</span></c:if>
+            <c:if test = "${AverageScore == 1}">
+            	<span class = "test_warning">평점 : &#9733;&#9734;&#9734;&#9734;&#9734;</span></c:if>
+           	<c:if test = "${AverageScore == 2}">
+           	  	<span class = "test_warning">평점 : &#9733;&#9733;&#9734;&#9734;&#9734;</span></c:if>
+           	<c:if test = "${AverageScore == 3}">
+           	    <span class = "test_warning">평점 : &#9733;&#9733;&#9733;&#9734;&#9734;</span></c:if>
+            <c:if test = "${AverageScore == 4}">
+              	<span class = "test_warning">평점 : &#9733;&#9733;&#9733;&#9733;&#9734;</span></c:if>
+            <c:if test = "${AverageScore == 5}">
+              	<span class = "test_warning">평점 : &#9733;&#9733;&#9733;&#9733;&#9733;</span></c:if>
             <c:if test = "${customerType == 2 && ProductById.customerName == customerName && ProductById.product_seller == CompanyName}">
             <div>
 	            <button type="button" id="modify_Btn" class="btn btn-warning">수정</button>
@@ -311,20 +321,44 @@
         		
         		var review_code = $(this).data("rno");
         		
-        		replyService.get(review_code, function(reply) {
-        			
-        			modalInputReply.val(reply.review_comment);
-        			modalInputReplyer.val(reply.customer_name).attr("readonly", "readonly");
-        			modalInputReplyDate.val(replyService.displayTime(reply.review_date)).attr("readonly", "readonly");
-        			modalInputReplyScore.val(reply.review_score);
-        			modal.data("review_code", reply.review_code);
-        			
-        			modal.find("button[id != 'modalCloseBtn']").hide();
-        			modalModifyBtn.show();
-        			modalRemoveBtn.show();
-        			
-        			$(".modal").modal("show");
-        		});
+        		if(${customerCode != null}) { //로그인 여부
+    				if(${customerType == 1}) { // 구매자타입
+            			if(${CustomerReply == 1}) { // 이사람이 물건을 산 사람인가
+            				if(${OrderCodeIsDone == 1}) {
+            					replyService.get(review_code, function(reply) {
+            	        			
+            	        			modalInputReply.val(reply.review_comment);
+            	        			modalInputReplyer.val(reply.customer_name).attr("readonly", "readonly");
+            	        			modalInputReplyDate.val(replyService.displayTime(reply.review_date)).attr("readonly", "readonly");
+            	        			modalInputReplyScore.val(reply.review_score);
+            	        			modal.data("review_code", reply.review_code);
+            	        			
+            	        			modal.find("button[id != 'modalCloseBtn']").hide();
+            	        			modalModifyBtn.show();
+            	        			modalRemoveBtn.show();
+            	        			
+            	        			$(".modal").modal("show");
+            	        		});
+            				}
+            			}
+    				} else { //판매자 타입
+    					if(${ProductById.customerName == customerName}) { //판매자 본인
+    						replyService.get(review_code, function(reply) {
+    		        			
+    		        			modalInputReply.val(reply.review_comment).attr("readonly", "readonly");
+    		        			modalInputReplyer.val(reply.customer_name).attr("readonly", "readonly");
+    		        			modalInputReplyDate.val(replyService.displayTime(reply.review_date)).attr("readonly", "readonly");
+    		        			modalInputReplyScore.val(reply.review_score).attr("readonly", "readonly");;
+    		        			modal.data("review_code", reply.review_code);
+    		        			
+    		        			modal.find("button[id != 'modalCloseBtn']").hide();
+    		        			modalRemoveBtn.show();
+    		        			
+    		        			$(".modal").modal("show");
+    		        		});
+    					}
+    				}
+        		}
         	});
         	
         	modalModifyBtn.on("click", function(e) {

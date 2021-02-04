@@ -1,6 +1,7 @@
 package org.zerock.service;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,5 +75,17 @@ public class ReplyServiceImpl implements ReplyService{
 	public Integer getOrderCode(Map map) {
 		
 		return rm.getOrderCode(map);
+	}
+	
+	@Override
+	public ArrayList<Integer> getScore(int product_code) {
+		
+		ArrayList<Integer> score = new ArrayList<>();
+		
+		for(int i=0; i<rm.getScore(product_code).size(); i++) {
+			score.add(rm.getScore(product_code).get(i));
+		}
+		
+		return score;
 	}
 }

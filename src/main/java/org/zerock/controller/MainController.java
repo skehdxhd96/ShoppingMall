@@ -1,6 +1,7 @@
 package org.zerock.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import org.zerock.domain.ProductVO;
 import org.zerock.service.CustomerServiceImpl;
 import org.zerock.service.ProductServiceImpl;
 import org.zerock.service.ReplyService;
+import org.zerock.utils.GetScoreUtils;
 import org.zerock.utils.UploadFileUtils;
 
 import lombok.extern.log4j.Log4j;
@@ -160,6 +162,8 @@ public class MainController {
 		String customerName = "";
 		Long customerCode = (Long) session.getAttribute("customerCode");
 		Map map = new HashMap<>();
+		ArrayList<Integer> score = rm.getScore(product_code);
+		int AverageScore = GetScoreUtils.getScore(score);
 		
 		if (customerCode!=null) {
 			CompanyName = customerService.getCompanyName(customerCode);
@@ -177,7 +181,7 @@ public class MainController {
 		
 		DetailVO d = pm.getById(product_code);
 		model.addAttribute("ProductById", d);
-		
+		model.addAttribute("AverageScore", AverageScore);
 		return "/ProductDetail";
 	}
 	

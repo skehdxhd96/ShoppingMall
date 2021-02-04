@@ -75,8 +75,8 @@
 	</div>
 	
 	<div class="inputArea">
-	 <label for="point">평점(SQL Null 방지용 기입)</label>
-	 <input type="text" id = "product_point" name="product_score" />
+	 <label for="point">평점</label>
+	 <input type="text" id = "product_point" name="product_score" value = "0" readonly = "true "/>
 	</div>
 	
 	<div class = "inputArea">

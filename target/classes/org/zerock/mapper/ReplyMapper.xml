@@ -61,4 +61,8 @@
 	on o.order_code = a.order_code
 	where o.order_status = "done" order by o.order_code desc limit 1;
 </select>
+
+<select id = "getScore" resultType = "int">
+	select review_score from review where product_code = #{product_code}
+</select>
 </mapper>

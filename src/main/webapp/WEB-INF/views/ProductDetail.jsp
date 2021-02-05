@@ -147,7 +147,7 @@
               </div>
               <div class="form-group">
                 <label>SCORE</label> 
-                <input class="form-control" name='review_score' value='2018-01-01 13:13'>
+                <input class="form-control" id = "review_score" name='review_score' value='' placeholder="1부터 5까지 자연수만 입력해 주십시오">
               </div>
       
             </div>

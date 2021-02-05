@@ -68,6 +68,24 @@
 	  <beans:ref bean="BasicInterceptor" />
 	 </interceptor>
 	</interceptors>
+	
+	<beans:bean id="LoginInterceptor" class="org.zerock.Interceptor.LoginInterceptor" />
+	
+	<interceptors>
+	<interceptor>
+	  <mapping path="/login/userModify" />
+	  <beans:ref bean="LoginInterceptor" />
+	 </interceptor>
+	 <interceptor>
+	  <mapping path="/myPage/order/list" />
+	  <beans:ref bean="LoginInterceptor" />
+	 </interceptor>
+	 <interceptor>
+	  <mapping path="/myPage/basket" />
+	  <beans:ref bean="LoginInterceptor" />
+	 </interceptor>
+	</interceptors>
+	
 
 	<context:component-scan base-package="org.zerock" />
 </beans:beans>

@@ -63,6 +63,7 @@ public class MainController {
 	//카테고리별 상품 리스트 페이지
 	   @RequestMapping("/ProductList/{categoryCode}")
 	   public String productByCategory(@PathVariable("categoryCode") int categoryCode, Model model) {
+
 		 //카테고리 항목
 	      List<CategoryVO> categoryVOList = pm.getCategory();
 	      model.addAttribute("categories", categoryVOList);
@@ -221,5 +222,11 @@ public class MainController {
 	public String orderList() {
 		
 		return "myPage/orderList";
+	}
+	
+	@RequestMapping("/myPage/basket")
+	public String basket() {
+		
+		return "myPage/basket";
 	}
 }

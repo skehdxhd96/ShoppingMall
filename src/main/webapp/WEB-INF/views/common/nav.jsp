@@ -19,7 +19,7 @@
 			            	<a class="nav-link" href="/logout">logout</a>
 			          	</li>
 			          	<li class="nav-item">
-			            	<a class="nav-link" href="/myPage/order/list"">마이페이지</a>
+			            	<a class="nav-link" href="/myPage/order/list">마이페이지</a>
 			          	</li>
 			 		<% } else { %>
 			 		  	<li class="nav-item">

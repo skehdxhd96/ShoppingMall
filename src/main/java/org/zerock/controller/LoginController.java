@@ -38,10 +38,10 @@ public class LoginController {
 	@Inject
 	private SocialDetailServiceImpl sdService;
 	
-	//·Î±×ÀÎ ÆäÀÌÁö
+	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("/login")
 	public String login(Model model, HttpSession session) {
-		//ÀÎÁõÀ» À§ÇÑ ÀÎÁõ api url ÆäÀÌÁö
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ api url ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		String naverLoginUrl = naverLogin.getAuthorizationUrl(session);
 	
 		model.addAttribute("naverLoginUrl", naverLoginUrl);
@@ -49,7 +49,7 @@ public class LoginController {
 		return "login";
 	}
 	
-	//¼Ò¼È·Î±×ÀÎ ÄÝ¹é
+	//ï¿½Ò¼È·Î±ï¿½ï¿½ï¿½ ï¿½Ý¹ï¿½
 	@RequestMapping(value="/login/{social}/callback", method=RequestMethod.GET)
 	public String loginCallback(Model model, @PathVariable String social, HttpSession session, 
 			@RequestParam String state, @RequestParam String code, RedirectAttributes redirectAttributes) throws Exception {
@@ -57,61 +57,61 @@ public class LoginController {
 		CustomerVO loginCustomer = null;
 		OAuth2AccessToken accessToken = null;
 		
-		//³ªÁß¿¡ ¼Ò¼È·Î±×ÀÎ Á¾·ù°¡ Ä«Ä«¿Àµµ Ãß°¡µÉ °ÍÀ» ´ëºñÇØ socialType¿¡ µû¶ó accessToken ¹Þ´Â ¹æ¹ýÀÌ ´Þ¶óÁ®¼­ if¹® »ç¿ë.
+		//ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½Ò¼È·Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«Ä«ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ socialTypeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ accessToken ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¶ï¿½ï¿½ï¿½ï¿½ï¿½ ifï¿½ï¿½ ï¿½ï¿½ï¿½.
 		if (social.equals("naver")) {
 			accessToken = naverLogin.getAccessToken(code, state, session);
 			loginCustomer = naverLogin.getProfile(accessToken);
 		}
 		
-		//À¯Àú Á¸Àç ¿©ºÎ È®ÀÎ
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 		HashMap<String, Object> loginInfo = customerService.getLoginInfo(loginCustomer.getSocialId());
 		
-		if (loginInfo==null) {	//customer Å×ÀÌºí¿¡ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é
-			System.out.println("È¸¿ø°¡ÀÔ ÆäÀÌÁö·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+		if (loginInfo==null) {	//customer ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			System.out.println("È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Õ´Ï´ï¿½.");
 			redirectAttributes.addFlashAttribute("newCustomer", loginCustomer);
 			
 			return "redirect:/signUp";
 		}
-		else {	//customer Å×ÀÌºí¿¡ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏ¸é
-			System.out.println("Á¸ÀçÇÏ´Â Á¤º¸ÀÔ´Ï´Ù.");
+		else {	//customer ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.");
 			
 			long customerCode = (long) loginInfo.get("customer_code");
 			
-			//DB¿¡ accessToken ÀúÀå
-			//social_detail Å×ÀÌºí¿¡ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏ´ÂÁö È®ÀÎ
+			//DBï¿½ï¿½ accessToken ï¿½ï¿½ï¿½ï¿½
+			//social_detail ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 			SocialDetailVO socialDetail = sdService.findBySocialDetail(customerCode);
 			
-			if (socialDetail==null) {	//social_detail Å×ÀÌºí¿¡ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é
-				System.out.println("accessToken¿¡ ´ëÇÑ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
-				socialDetail = naverLogin.getSocialDetail(customerCode, accessToken);	//ÇØ´ç accessToken µ¥ÀÌÅÍ insert
+			if (socialDetail==null) {	//social_detail ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				System.out.println("accessTokenï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
+				socialDetail = naverLogin.getSocialDetail(customerCode, accessToken);	//ï¿½Ø´ï¿½ accessToken ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ insert
 				sdService.insertTokenData(socialDetail);
 			}
-			else {	//social_detail Å×ÀÌºí¿¡ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÑ´Ù¸é
-				System.out.println("accessToken¿¡ ´ëÇÑ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÕ´Ï´Ù.");
-				socialDetail = naverLogin.getSocialDetail(customerCode, accessToken);	//accessToken µ¥ÀÌÅÍ update
+			else {	//social_detail ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´Ù¸ï¿½
+				System.out.println("accessTokenï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
+				socialDetail = naverLogin.getSocialDetail(customerCode, accessToken);	//accessToken ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ update
 				sdService.updateTokenData(socialDetail);
 			}
 			
-			//·Î±×ÀÎ À¯È¿¼º °Ë»ç¸¦ À§ÇÑ session ÀúÀå - °í°´À¯Çü, °í°´ÄÚµå, ¼Ò¼È·Î±×ÀÎÀ¯Çü ÀúÀå.
+			//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ ï¿½Ë»ç¸¦ ï¿½ï¿½ï¿½ï¿½ session ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Úµï¿½, ï¿½Ò¼È·Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			session.removeAttribute("oauthState"); 
 			session.setAttribute("customerType", loginInfo.get("customer_type"));
 			session.setAttribute("customerCode", customerCode);
 			session.setAttribute("socialType", social);
-			System.out.println("login ¼º°ø!");
+			System.out.println("login ï¿½ï¿½ï¿½ï¿½!");
 			
 			return "redirect:/";
 		}
 	}
 	
-	//È¸¿ø°¡ÀÔ ÆäÀÌÁö
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="/signUp", method=RequestMethod.GET)
 	public String signUpGet(Model model, HttpServletRequest request) {
 		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
 		
-		//¼Ò¼È·Î±×ÀÎÀ¸·Î ·Î±×ÀÎÀ» Çß´Ù¸é ´ç¿¬È÷ flashMap¿¡ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÒ°Å°í
-		//³ªÁß¿¡ ÀÏ¹Ý·Î±×ÀÎÀ» ±¸ÇöÇÑ´Ù¸é flashMap¿¡ µ¥ÀÌÅÍ°¡ nullÀÏ °ÍÀÓ.
+		//ï¿½Ò¼È·Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß´Ù¸ï¿½ ï¿½ç¿¬ï¿½ï¿½ flashMapï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò°Å°ï¿½
+		//ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½Ï¹Ý·Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´Ù¸ï¿½ flashMapï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ nullï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		if (flashMap!=null) {
-			//redirect·Î ·Î±×ÀÎÆäÀÌÁö¿¡¼­ °¡Á®¿Â »õ °í°´ ÇÁ·ÎÇÊ µ¥ÀÌÅÍ
+			//redirectï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			CustomerVO newCustomer = (CustomerVO) flashMap.get("newCustomer");
 			model.addAttribute("newCustomer", newCustomer);
 		}
@@ -119,38 +119,38 @@ public class LoginController {
 		return "signUp";
 	}
 	
-	//È¸¿ø°¡ÀÔ ÆäÀÌÁö¿¡¼­ submit ÇßÀ» ¶§
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ submit ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	@RequestMapping(value="/signUp", method=RequestMethod.POST) 
 	public String signUpPost(CustomerVO customerInfo, HttpSession session) {
-		if (customerInfo.getCustomerType()==1) {	//»õ·Î °¡ÀÔÇÑ È¸¿øÀÌ ±¸¸ÅÀÚ¶ó¸é
+		if (customerInfo.getCustomerType()==1) {	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½
 			customerService.insertBuyer(customerInfo);
 		}
-		else {	//»õ·Î °¡ÀÔÇÑ È¸¿øÀÌ ÆÇ¸ÅÀÚ¶ó¸é
+		else {	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ï¿½Ú¶ï¿½ï¿½
 			customerService.insertSeller(customerInfo);
 		}
 		
-		//Àç·Î±×ÀÎÀ» À§ÇØ session ¹«È¿È­.
+		//ï¿½ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ session ï¿½ï¿½È¿È­.
 		session.invalidate();
 		
 		return "redirect:/";
 	}
 	
-	//È¸¿øÁ¤º¸ ¼öÁ¤ÇÏ±â - ¿©±â¼­´Â ÀçÀÎÁõ ÇÊ¿ä ¾øÀ½.
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ - ï¿½ï¿½ï¿½â¼­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	@RequestMapping(value="/login/userModify")
 	public String userModifyGET(HttpSession session, Model model) {
-		System.out.println("¿©±â´Â È¸¿øÁ¤º¸ ¼öÁ¤ ÆäÀÌÁö");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		HashMap<String, Object> profile = null;
 		
-		//È¸¿ø Å¸ÀÔ¿¡ µû¶ó ÇÊ¿äÇÑ ÇÁ·ÎÇÊÁ¤º¸¸¦ ´Ù¸£°Ô °¡Á®¿Â´Ù.
+		//È¸ï¿½ï¿½ Å¸ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
 		if (session.getAttribute("customerType").equals(1)) {
-			//±¸¸ÅÀÚ¶ó¸é ÀÌ¸§, ÀÌ¸ÞÀÏ, ÀüÈ­¹øÈ£, ÁÖ¼Ò¸¸
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ ï¿½Ì¸ï¿½, ï¿½Ì¸ï¿½ï¿½ï¿½, ï¿½ï¿½È­ï¿½ï¿½È£, ï¿½Ö¼Ò¸ï¿½
 			profile = customerService.getBuyerProfile((long) session.getAttribute("customerCode"));	
 		}
 		else {
-			//ÆÇ¸ÅÀÚ¶ó¸é ÀÌ¸§, ÀÌ¸ÞÀÏ, ÀüÈ­¹øÈ£, È¸»ç¸í, È¸»ç ÀüÈ­¹øÈ£, È¸»ç ÁÖ¼Ò
+			//ï¿½Ç¸ï¿½ï¿½Ú¶ï¿½ï¿½ ï¿½Ì¸ï¿½, ï¿½Ì¸ï¿½ï¿½ï¿½, ï¿½ï¿½È­ï¿½ï¿½È£, È¸ï¿½ï¿½ï¿½, È¸ï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½È£, È¸ï¿½ï¿½ ï¿½Ö¼ï¿½
 			profile = customerService.getSellerProfile((long) session.getAttribute("customerCode"));
 		}
-		//customer Å×ÀÌºí¿¡¼­ °¡Á®¿Â ÇÁ·ÎÇÊ µ¥ÀÌÅÍ¸¦ view¿¡ Àü´Þ.
+		//customer ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ viewï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		model.addAttribute("profile", profile);
 		model.addAttribute("customerCode", session.getAttribute("customerCode"));
 		
@@ -159,86 +159,86 @@ public class LoginController {
 	
 	@RequestMapping(value="/login/userModify/{customerCode}", method=RequestMethod.PUT)
 	public String userModifyPOST(HttpSession session, @PathVariable Long customerCode,  CustomerVO updateCustomer) {
-		System.out.println("È¸¿øÁ¤º¸ ¼öÁ¤ ÆäÀÌÁö¿¡¼­ Á¦Ãâ ¹öÆ°À» ´­·¶½À´Ï´Ù");
-		System.out.println("¼öÁ¤µÈ È¸¿ø Á¤º¸");
+		System.out.println("È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 		
-		//¹Þ¾Æ¿Â ¾÷µ¥ÀÌÆ® Á¤º¸¿¡ ÀÚ½ÅÀÇ °í°´ÄÚµå ÀúÀå.
+		//ï¿½Þ¾Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½.
 		updateCustomer.setCustomerCode(customerCode);
 		
-		//È¸¿ø Å¸ÀÔ¿¡ µû¶ó ¼öÁ¤ÇÒ ¼ö ÀÖ´Â ÇÁ·ÎÇÊ Á¤º¸°¡ ´Ù¸£´Ù.
-		if (session.getAttribute("customerType").equals(1)) {	//±¸¸ÅÀÚ¶ó¸é ÀÌ¸§, ÀÌ¸ÞÀÏ, ÀüÈ­¹øÈ£, ÁÖ¼Ò¸¸		
+		//È¸ï¿½ï¿½ Å¸ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½.
+		if (session.getAttribute("customerType").equals(1)) {	//ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ ï¿½Ì¸ï¿½, ï¿½Ì¸ï¿½ï¿½ï¿½, ï¿½ï¿½È­ï¿½ï¿½È£, ï¿½Ö¼Ò¸ï¿½		
 			customerService.updateBuyer(updateCustomer);
 		}
-		else {	//ÆÇ¸ÅÀÚ¶ó¸é ÀÌ¸§, ÀÌ¸ÞÀÏ, ÀüÈ­¹øÈ£, È¸»ç¸í, È¸»ç ÀüÈ­¹øÈ£, È¸»ç ÁÖ¼Ò
+		else {	//ï¿½Ç¸ï¿½ï¿½Ú¶ï¿½ï¿½ ï¿½Ì¸ï¿½, ï¿½Ì¸ï¿½ï¿½ï¿½, ï¿½ï¿½È­ï¿½ï¿½È£, È¸ï¿½ï¿½ï¿½, È¸ï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½È£, È¸ï¿½ï¿½ ï¿½Ö¼ï¿½
 			customerService.updateSeller(updateCustomer);
 		}
 		
 		return "redirect:/login/userModify";
 	}
 	
-	//È¸¿øÅ»Åð ÆäÀÌÁö
+	//È¸ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="/login/userDelete")
 	public String userDelete(HttpSession session, Model model) {
 		String reauthUrl = "";
 		
 		System.out.println("=========================================================");
-		System.out.println("¿©±â´Â È¸¿øÅ»Åð ÆäÀÌÁö");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		
-		//ÀÌ°Íµµ ¼Ò¼È·Î±×ÀÎ Á¾·ù¿¡ Ä«Ä«¿À°¡ »ý±æ °æ¿ì¸¦ ´ëºñÇØ if¹® ÀÛ¼º. -> ¼Ò¼È·Î±×ÀÎ¸¶´Ù ÀçÀÎÁõÀ» À§ÇÑ api urlÀÌ ´Ù¸£±â ¶§¹®
+		//ï¿½Ì°Íµï¿½ ï¿½Ò¼È·Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«Ä«ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ ifï¿½ï¿½ ï¿½Û¼ï¿½. -> ï¿½Ò¼È·Î±ï¿½ï¿½Î¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ api urlï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if (session.getAttribute("socialType").equals("naver")) {
-			reauthUrl  = naverLogin.getReauthorizationUrl(session);	//ÀçÀÎÁõ api url
+			reauthUrl  = naverLogin.getReauthorizationUrl(session);	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ api url
 		}
 		
-		//ÀçÀÎÁõ api urlÀ» view¿¡ Àü´Þ.
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ api urlï¿½ï¿½ viewï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		model.addAttribute("reauthUrl", reauthUrl);
 		System.out.println("=========================================================");
 		
 		return "myPage/deleteUser";
 	}
 	
-	//È¸¿øÅ»Åð¸¦ À§ÇÑ ÀçÀÎÁõ½Ã ÄÝ¹é ÆäÀÌÁö
+	//È¸ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="/login/reauth/{social}/callback", method=RequestMethod.GET)
 	public String userDeleteCallback(HttpSession session, @PathVariable String social, 
 			@RequestParam String code, @RequestParam String state) throws Exception {
-		System.out.println("\n¿©±â´Â È¸¿øÅ»Åð½Ã ÀçÀÎÁõ ÄÝ¹é ÆäÀÌÁö");
-		boolean isComplete = false;	//È¸¿øÅ»Åð°¡ socialLogin Å¬·¡½º¿¡¼­ ¼º°øÇß´ÂÁö¸¦ ´ã±â À§ÇÑ booleanÇü º¯¼ö
+		System.out.println("\nï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½Å»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		boolean isComplete = false;	//È¸ï¿½ï¿½Å»ï¿½ï¿½ socialLogin Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ booleanï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
-		//ÀÌ°Íµµ Ä«Ä«¿À¿Í ³×ÀÌ¹öÀÇ È¸¿ø Å»Åð ¹æ½ÄÀÌ ´Ù¸¦ °ÍÀÌ±â ¶§¹®¿¡ ¿ì¼± if¹®À¸·Î ÀÛ¼º.
+		//ï¿½Ì°Íµï¿½ Ä«Ä«ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½Ì±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ì¼± ifï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½.
 		if (social.equals("naver")) {
 			isComplete = naverLogin.compareAccessToken(session, code, state);
 			System.out.println("isComplete : " + isComplete);
 		}
-		//ÀçÀÎÁõÀÌ ³¡³µÀ¸¹Ç·Î session¿¡¼­ reauthState »èÁ¦.
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ sessionï¿½ï¿½ï¿½ï¿½ reauthState ï¿½ï¿½ï¿½ï¿½.
 		session.removeAttribute("reauthState");
 		
-		if (isComplete==true) {	//Å»Åð Ã³¸®(ÅäÅ«¸¸ ¸¸·á)°¡ ¼º°øÇßÀ¸¸é
-			System.out.println("deleteToken »èÁ¦¸¦ ¿Ï·áÇß½À´Ï´Ù.");
-			System.out.println("ÇØ´ç °í°´ÀÇ µ¥ÀÌÅÍ¸¦ DB¿¡¼­ »èÁ¦ÇÕ´Ï´Ù.");
-			//ÅäÅ«¸¸ ¸¸·á µÇ¾úÀ¸¹Ç·Î customer Å×ÀÌºí¿¡¼­ ÇØ´ç customerCode¿¡ ´ëÇÑ µ¥ÀÌÅÍ »èÁ¦
+		if (isComplete==true) {	//Å»ï¿½ï¿½ Ã³ï¿½ï¿½(ï¿½ï¿½Å«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			System.out.println("deleteToken ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
+			System.out.println("ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
+			//ï¿½ï¿½Å«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ customer ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ customerCodeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			customerService.deleteCustomer((long) session.getAttribute("customerCode"));
-			session.invalidate();	//È¸¿ø Å»Åð°¡ Á¤¸»·Î ¿Ï·áµÇ¾úÀ¸¹Ç·Î session°ª ¹«È¿È­.
+			session.invalidate();	//È¸ï¿½ï¿½ Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ sessionï¿½ï¿½ ï¿½ï¿½È¿È­.
 			
 			return "redirect:/";
 		}
 		else {
-			//È¸¿øÅ»Åð ½ÇÆÐ½Ã ¿¡·¯ÆäÀÌÁö·Î ÀÌµ¿.
+			//È¸ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½Ð½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½.
 			return "redirect:/login/userDelete/error";
 		}
 	}
 	
-	//È¸¿øÅ»Åð °úÁ¤¿¡ ½ÇÆÐÇßÀ» ¶§ ÀÌµ¿ÇÏ´Â ¿À·ùÆäÀÌÁö
-	//ÆäÀÌÁö ÀÛ¼º ÈÄ POST·Î º¯°æ
+	//È¸ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ ï¿½ï¿½ POSTï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="/login/userDelete/error")
 	public String userDeleteError() {
 	
 		return "myPage/userDeleteError";
 	}
 	
-	//·Î±×¾Æ¿ô ÆäÀÌÁö
+	//ï¿½Î±×¾Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="/logout")
 	public String logout(HttpSession session) {
-		System.out.println("·Î±×¾Æ¿ô ÇÕ´Ï´Ù!");
-		session.invalidate();	//·Î±×¾Æ¿ô µÇ¾úÀ¸¹Ç·Î ¼¼¼Ç ¸¸·á.
+		System.out.println("ï¿½Î±×¾Æ¿ï¿½ ï¿½Õ´Ï´ï¿½!");
+		session.invalidate();	//ï¿½Î±×¾Æ¿ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		
 		return "redirect:/";
 	}

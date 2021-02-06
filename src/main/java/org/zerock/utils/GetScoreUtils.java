@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class GetScoreUtils {
 
-	public static int getScore(ArrayList<Integer> score) {
+	public static double getScore(ArrayList<Integer> score) {
 		
-		int AverageScore = 0;
+		double AverageScore = 0;
 		
 		for(int i=0; i<score.size(); i++) {
 			
@@ -14,7 +14,10 @@ public class GetScoreUtils {
 		}
 		
 		try {
-			AverageScore = Math.round(AverageScore/score.size());
+			System.out.println(AverageScore);
+			System.out.println(score.size());
+			AverageScore = Math.round(AverageScore/(double)score.size());
+			System.out.println(AverageScore);
 		} catch(ArithmeticException e) {
 			AverageScore = 0;
 		}

@@ -164,8 +164,7 @@ public class MainController {
 		Long customerCode = (Long) session.getAttribute("customerCode");
 		Map map = new HashMap<>();
 		ArrayList<Integer> score = rm.getScore(product_code);
-		int AverageScore = GetScoreUtils.getScore(score);
-		
+		double AverageScore = GetScoreUtils.getScore(score);
 		if (customerCode!=null) {
 			CompanyName = customerService.getCompanyName(customerCode);
 			customerName = customerService.getCustomerName(customerCode);

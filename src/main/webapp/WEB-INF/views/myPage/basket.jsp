@@ -35,6 +35,7 @@
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- Bootstrap core JavaScript -->
   	<script src="<%=request.getContextPath() %>/resources/myPage/vendor/jquery/jquery.min.js"></script>
+  	<script src="<%=request.getContextPath() %>/resources/myPage/js/basket.js"></script>
   	<script src="<%=request.getContextPath() %>/resources/myPage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

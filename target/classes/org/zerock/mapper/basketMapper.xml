@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "org.zerock.mapper.basketMapper">
+
+<select id = "getList" resultType = "org.zerock.domain.basketVO">
+	<![CDATA[
+	set @rownum := 0;
+	select distinct product_code, product_name, product_price, product_manufacturer
+	from (select distinct @rownum:=@rownum+1 rownum, p.product_code, p.product_name, p.product_price, p.product_manufacturer
+	from customer as c join basket as b on c.customer_code = b.customer_code
+	inner join product as p on p.product_code = b.product_code,
+	(SELECT @rownum := 0) Tmp where c.customer_code = #{customerCode} and @rownum < #{cri.pageNum} * #{cri.amount}) a where a.rownum > (#{cri.pageNum}-1) * #{cri.amount};
+	]]>
+</select>
+</mapper>

@@ -85,6 +85,15 @@
 				<button type="button" id="delete_Btn" class="btn btn-danger">삭제</button>
             </div>
             </c:if>
+            <c:if test = "${customerType == 1}">
+            <div><br>
+            		<div class="inputArea">
+					 <label for="name">수량</label>
+					 <input type="text" id = "product_quantity" name="product_quantity"/>
+					</div>
+            		<button type = "button" id = "Basket_Btn">장바구니에 담기</button>
+            </div>
+            </c:if>
           </div>
         </div>
         <!-- /.card -->
@@ -266,9 +275,6 @@
         	var getOrderCode = '<c:out value = "${getOrderCode}"/>';
         	var getCustomerCode = '<c:out value = "${customerCode}"/>';
         	
-        	console.log(getOrderCode);
-        	console.log(getCustomerCode);
-        	
         	$("#modalCloseBtn").on("click", function(e){
             	
             	modal.modal('hide');
@@ -411,6 +417,20 @@
 					showList(1);
 				});
 			});
+        	
+				$("#Basket_Btn").on("click", function(e) {
+				
+					var basket = {
+							product_quantity : $("#product_quantity").val(),
+							customer_code : ${customerCode},
+							product_code : parseInt(product_code)
+					};
+
+					BasketService.add(basket, function(result) {
+		        		
+						alert(result);
+					});	
+				});
 		});
         
         
@@ -427,6 +447,7 @@
   
   <!-- Bootstrap core JavaScript -->
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/vendor/jquery/jquery.min.js"></script>
+  <script src="<%=request.getContextPath() %>/resources/myPage/js/basket.js"></script>
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 

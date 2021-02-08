@@ -1,4 +1,4 @@
-var replyService = (function() {
+var BasketService = (function() {
 	
 	function getList(param, callback, error) {
 		
@@ -16,8 +16,29 @@ var replyService = (function() {
 			}
 		});
 	}
+	
+	function add(basket, callback, error) {
+		
+		$.ajax({
+			type : 'POST',
+			url : '/myPage/basket/new',
+			data : JSON.stringify(basket),
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if(callback) {
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er) {
+				if(error) {
+					error(er);
+				}
+			}
+		})
+	}
 
 	return {
-		getList : getList
+		getList : getList,
+		add : add
 	};
 })();

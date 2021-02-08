@@ -14,10 +14,7 @@ public class GetScoreUtils {
 		}
 		
 		try {
-			System.out.println(AverageScore);
-			System.out.println(score.size());
 			AverageScore = Math.round(AverageScore/(double)score.size());
-			System.out.println(AverageScore);
 		} catch(ArithmeticException e) {
 			AverageScore = 0;
 		}

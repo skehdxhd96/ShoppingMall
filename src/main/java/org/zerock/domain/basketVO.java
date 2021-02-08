@@ -9,4 +9,6 @@ public class basketVO {
 	private String product_name;
 	private int product_price;
 	private String product_manufacturer;
+	private long customer_code;
+	private int product_quantity;
 }

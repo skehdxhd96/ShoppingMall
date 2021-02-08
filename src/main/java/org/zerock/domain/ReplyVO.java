@@ -15,5 +15,4 @@ public class ReplyVO {
 	private int product_code;
 	private int customer_code;
 	private String customer_name;
-	//두개는 로그인 후에 xml에도 추가해야함.
 }

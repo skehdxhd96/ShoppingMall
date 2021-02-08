@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.zerock.domain.CategoryVO;
+import org.zerock.domain.CodeVO;
 import org.zerock.domain.DetailVO;
 import org.zerock.domain.ProductVO;
 import org.zerock.service.CustomerServiceImpl;
 import org.zerock.service.ProductServiceImpl;
 import org.zerock.service.ReplyService;
+import org.zerock.service.basketService;
 import org.zerock.utils.GetScoreUtils;
 import org.zerock.utils.UploadFileUtils;
 
@@ -37,6 +39,9 @@ import net.sf.json.JSONArray;
 public class MainController {
 	@Resource
 	private ProductServiceImpl pm;
+	
+	@Resource
+	private basketService bm;
 	
 	@Resource
 	private ReplyService rm;

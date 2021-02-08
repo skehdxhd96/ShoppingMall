@@ -5,11 +5,14 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.zerock.domain.Criteria;
 import org.zerock.domain.ReplyPageVO;
@@ -35,5 +38,15 @@ public class basketController {
 		Criteria cri = new Criteria(page, 6);
 		
 		return new ResponseEntity<>(bs.getList(cri, customerCode), HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/myPage/basket/new",
+			consumes = "application/json",
+			produces = {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> addBasketProduct(@RequestBody basketVO b) {
+
+		int insertCount = bs.getBasketProduct(b);
+			
+		return insertCount == 1 ? new ResponseEntity<>("Finish to add Product to Your Basket", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

@@ -84,8 +84,11 @@
 	  <mapping path="/myPage/basket" />
 	  <beans:ref bean="LoginInterceptor" />
 	 </interceptor>
+	 <interceptor>
+	 	<mapping path="/order/delivery/form"></mapping>
+	 	<beans:ref bean="LoginInterceptor"></beans:ref>
+	 </interceptor>
 	</interceptors>
 	
-
 	<context:component-scan base-package="org.zerock" />
 </beans:beans>

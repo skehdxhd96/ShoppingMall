@@ -85,13 +85,14 @@
 				<button type="button" id="delete_Btn" class="btn btn-danger">삭제</button>
             </div>
             </c:if>
-            <c:if test = "${customerType == 1}">
+            <c:if test = "${customerType != 2}">
             <div><br>
             		<div class="inputArea">
 					 <label for="name">수량</label>
 					 <input type="text" id = "product_quantity" name="product_quantity"/>
 					</div>
             		<button type = "button" id = "Basket_Btn">장바구니에 담기</button>
+            		<a href="/order/delivery/form"><button type="button" id="Order_Btn">바로 주문하기</button></a>
             </div>
             </c:if>
           </div>

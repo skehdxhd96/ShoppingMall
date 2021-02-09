@@ -34,12 +34,17 @@
     <header class="jumbotron my-4">
       <h1 class="display-3">ShoppingMall</h1>
       <br>
-      <c:if test="${ customerName!=''}">
-      	<p class="lead">${ customerName }님 반갑습니다!</p>
+      <c:if test="${ customerName == ''}">
+      	<a href="/ProductList/1" class="btn btn-primary btn-lg">쇼핑하러 가기</a>
       </c:if>
-      <a href="/ProductList/1" class="btn btn-primary btn-lg">쇼핑하러 가기</a>
+      <c:if test="${ customerType == 1}">
+      	<p class="lead">${ customerName }님 반갑습니다!</p>
+      	<a href="/ProductList/1" class="btn btn-primary btn-lg">쇼핑하러 가기</a>
+      </c:if>
       <c:if test = "${customerType == 2 }">
-      <a href="/ProductUpload" class="btn btn-primary btn-lg">상품 업로드</a>
+      	<p class="lead">${ customerName }님 반갑습니다!</p>
+	    <a href="/ProductList/1" class="btn btn-primary btn-lg">상품 보기</a>
+	    <a href="/ProductUpload" class="btn btn-primary btn-lg">상품 업로드</a>
       </c:if>
     </header>
 

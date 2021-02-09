@@ -12,7 +12,7 @@
 	            		<a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
 	          		</li>
 	          		<li class="nav-item">
-	            		<a class="nav-link" href="#">About</a>
+	            		<a class="nav-link" href="/ProductList/1">Category</a>
 	          		</li>
 	          		<% if(session.getAttribute("customerCode")!=null){ %>
 			          	<li class="nav-item">

@@ -5,11 +5,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.CustomerVO;
 import org.zerock.mapper.CustomerMapper;
 
-@Service
+@Repository
 public class CustomerServiceImpl implements CustomerService {
 	@Inject
 	private CustomerMapper cm;

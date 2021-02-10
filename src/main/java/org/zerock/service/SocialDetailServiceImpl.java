@@ -3,13 +3,14 @@ package org.zerock.service;
 import javax.inject.Inject;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.SocialDetailVO;
 import org.zerock.mapper.SocialDetailMapper;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Repository
 public class SocialDetailServiceImpl implements SocialDetailService {
 	@Inject
 	SocialDetailMapper scm;

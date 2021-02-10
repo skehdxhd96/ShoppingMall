@@ -60,7 +60,7 @@
               <img class="card-img-top" src="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif" alt="https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif"></c:if>
           <div class="card-body">
             <h3 class="card-title">${ProductById.product_name }</h3>
-            <h4>${ProductById.product_price }원</h4>
+            <h4 id="productPrice">${ProductById.product_price }원</h4>
             <p class="card-text">제조사 : ${ProductById.product_manufacturer }</p>
             <p class="card-text">판매사 : ${ProductById.product_seller }</p>
             <p class="card-text">판매자 : ${ProductById.customerName }</p>
@@ -92,7 +92,7 @@
 					 <input type="text" id = "product_quantity" name="product_quantity"/>
 					</div>
             		<button type = "button" id = "Basket_Btn">장바구니에 담기</button>
-            		<a href="/order/delivery/form"><button type="button" id="Order_Btn">바로 주문하기</button></a>
+            		<button type="button" id="Order_Btn">바로 주문하기</button>
             </div>
             </c:if>
           </div>
@@ -419,7 +419,7 @@
 				});
 			});
         	
-				$("#Basket_Btn").on("click", function(e) {
+				/* $("#Basket_Btn").on("click", function(e) {
 				
 					var basket = {
 							product_quantity : $("#product_quantity").val(),
@@ -431,7 +431,7 @@
 		        		
 						alert(result);
 					});	
-				});
+				}); */
 		});
         
         
@@ -449,7 +449,9 @@
   <!-- Bootstrap core JavaScript -->
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/vendor/jquery/jquery.min.js"></script>
   <script src="<%=request.getContextPath() %>/resources/myPage/js/basket.js"></script>
+  <script src="<%=request.getContextPath() %>/resources/ProductDetail/js/order.js"></script>
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
 
 </html>

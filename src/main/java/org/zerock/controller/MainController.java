@@ -233,4 +233,11 @@ public class MainController {
 		
 		return "myPage/basket";
 	}
+	
+	//접근 불가능 오류 페이지
+	@RequestMapping("/error/accessDenied")
+	public String accessDenied() {
+		
+		return "accessDenied";
+	}
 }

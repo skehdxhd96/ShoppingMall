@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zerock.mapper.DeliveryMapper">
-	<insert id="createDelivery"  parameterType="org.zerock.domain.DeliveryVO" useGeneratedKeys="true" keyProperty="deliveryCode">
-		INSERT INTO delivery(delivery_status, order_code) VALUES ("in progress", #{orderCode});
+	<select id="getDelivery" parameterType="int" resultType="hashMap">
+		SELECT shipping_address, recipient
+		FROM delivery
+		WHERE delivery_code=#{delivery_code};
+	</select>
+	
+	<insert id="createDelivery"  parameterType="hashMap" useGeneratedKeys="true" keyProperty="deliveryVO.deliveryCode">
+		insert into delivery(shipping_address, delivery_status, deliver_phone, order_code, recipient)
+		select customer_address, "in progress", customer_phone, #{deliveryVO.orderCode}, customer_name
+	    from customer
+	    where customer_code=#{customerCode};
 	</insert>
 </mapper>

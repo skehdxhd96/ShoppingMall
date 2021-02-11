@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.zerock.mapper.OrderBasketMapper">
-	<insert id="createOrderBasket" parameterType="org.zerock.domain.OrderBasketVO">
-		INSERT INTO order_basket(order_code, customer_code, product_code, product_quantity)
-		VALUES (#{orderCode}, #{customerCode}, #{productCode}, #{productQuantity});
-	</insert>
-</mapper>

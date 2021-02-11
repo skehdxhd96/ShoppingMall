@@ -1,0 +1,15 @@
+.sub-container {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+.buyer-title {
+	margin-bottom: 30px;
+	font-weight: bold;
+}
+.row-title {
+	width: 20%;
+	text-align: right;
+}
+.submit-container {
+	text-align: center;
+}

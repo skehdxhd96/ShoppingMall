@@ -1,7 +1,10 @@
 package org.zerock.mapper;
 
+import java.util.HashMap;
+
 import org.zerock.domain.DeliveryVO;
 
 public interface DeliveryMapper {
-	public int createDelivery(DeliveryVO deliveryVO);
+	public HashMap<String, Object> getDelivery(int deliveryCode);
+	public int createDelivery(HashMap<String, Object> parameterHm);
 }

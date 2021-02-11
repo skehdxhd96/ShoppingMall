@@ -28,7 +28,6 @@ public class basketServiceImpl implements basketService{
 
 	@Override
 	public int getBasketProduct(basketVO b) {
-		
 		return bm.getBasketProduct(b);
 	}
 	
@@ -36,5 +35,11 @@ public class basketServiceImpl implements basketService{
 	public CodeVO getPK(int product_code, long customer_code) {
 		
 		return bm.getPK(product_code, customer_code);
+	}
+
+	@Override
+	public int updateBasket(basketVO b) {
+		
+		return bm.updateBasket(b);
 	}
 }

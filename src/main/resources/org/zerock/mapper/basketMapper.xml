@@ -24,4 +24,8 @@
 	(SELECT @rownum := 0) Tmp where c.customer_code = #{customerCode} and @rownum < #{cri.pageNum} * #{cri.amount}) a where a.rownum > (#{cri.pageNum}-1) * #{cri.amount};
 	]]>
 </select>
+
+<update id="updateBasket" parameterType="org.zerock.domain.basketVO">
+	update basket set product_quantity=#{productQuantity} where customer_code=#{customerCode} and product_code=#{productCode};
+</update>
 </mapper>

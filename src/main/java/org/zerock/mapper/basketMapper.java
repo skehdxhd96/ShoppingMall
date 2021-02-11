@@ -14,4 +14,6 @@ public interface basketMapper {
 	public int getBasketProduct(basketVO b);
 	
 	public CodeVO getPK(@Param("product_code") int product_code, @Param("customer_code") Long customer_code);
+	
+	public int updateBasket(basketVO b);
 }

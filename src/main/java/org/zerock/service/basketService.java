@@ -13,4 +13,6 @@ public interface basketService {
 	public int getBasketProduct(basketVO b);
 	
 	public CodeVO getPK(int product_code, long customer_code);
+	
+	public int updateBasket(basketVO b);
 }

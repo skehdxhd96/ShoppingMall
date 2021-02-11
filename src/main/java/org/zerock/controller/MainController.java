@@ -43,8 +43,8 @@ public class MainController {
 	@Resource
 	private basketService bm;
 	
-	@Resource
-	private ReplyService rm;
+//	@Resource
+//	private ReplyService rm;
 	
 	@Resource(name = "uploadPath")
 	private String uploadPath; // servlet-context占쏙옙占쏙옙占쏙옙 占쌍억옙占�
@@ -168,8 +168,8 @@ public class MainController {
 		String customerName = "";
 		Long customerCode = (Long) session.getAttribute("customerCode");
 		Map map = new HashMap<>();
-		ArrayList<Integer> score = rm.getScore(product_code);
-		double AverageScore = GetScoreUtils.getScore(score);
+//		ArrayList<Integer> score = rm.getScore(product_code);
+//		double AverageScore = GetScoreUtils.getScore(score);
 		if (customerCode!=null) {
 			CompanyName = customerService.getCompanyName(customerCode);
 			customerName = customerService.getCustomerName(customerCode);
@@ -179,14 +179,14 @@ public class MainController {
 			model.addAttribute("CompanyName", CompanyName);
 			model.addAttribute("customerName", customerName);
 			
-			model.addAttribute("CustomerReply", rm.CustomerReply(map));
-			model.addAttribute("OrderCodeIsDone", rm.OrderStatusIsDone(map));
-			model.addAttribute("getOrderCode", rm.getOrderCode(map));
+//			model.addAttribute("CustomerReply", rm.CustomerReply(map));
+//			model.addAttribute("OrderCodeIsDone", rm.OrderStatusIsDone(map));
+//			model.addAttribute("getOrderCode", rm.getOrderCode(map));
 		}
 		
 		DetailVO d = pm.getById(product_code);
 		model.addAttribute("ProductById", d);
-		model.addAttribute("AverageScore", AverageScore);
+//		model.addAttribute("AverageScore", AverageScore);
 		return "/ProductDetail";
 	}
 	

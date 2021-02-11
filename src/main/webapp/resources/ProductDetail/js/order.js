@@ -5,7 +5,7 @@ $("#Order_Btn").on('click', function() {
 	var totalPrice = productPrice*productQuantity;
 	
 	axios.post("/order/delivery", {
-		"history" : "detail", 
+		"reqUrl" : window.location.href, 
 		"products" : [
 			{"productCode" : productCode, 
 			 "productQuantity" : productQuantity, 
@@ -17,14 +17,14 @@ $("#Order_Btn").on('click', function() {
 		console.log(response.data);
 		if (response.data.result==0) {
 			alert("로그인이 필요합니다.");
-		}
-		else if (response.data.result==2) {
-			alert("접근 권한이 없습니다.");
+			location.href = "/login";
 		}
 		else {
 			var url="/order/delivery/form?deliveryCode=" + response.data.deliveryCode;
 			alert("주문이 완료되었습니다.");
 			location.href = url;
 		}
+	}).catch(function(err) {
+		alert("주문 과정 중 오류가 발생하였습니다.");
 	})
 })

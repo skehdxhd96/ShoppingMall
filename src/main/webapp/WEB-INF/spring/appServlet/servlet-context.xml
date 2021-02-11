@@ -86,11 +86,11 @@
 	 </interceptor>
 	</interceptors>
 	
-	<beans:bean id="ErrorPageIntercepter" class="org.zerock.Interceptor.ErrorPageIntercepter"></beans:bean>
+	<beans:bean id="DeliveryIntercepter" class="org.zerock.Interceptor.DeliveryIntercepter"></beans:bean>
 	<interceptors>
 		<interceptor>
 		 	<mapping path="/order/delivery/form"></mapping>
-		 	<beans:ref bean="ErrorPageIntercepter"></beans:ref>
+		 	<beans:ref bean="DeliveryIntercepter"></beans:ref>
 	 	</interceptor>
 	</interceptors>
 	

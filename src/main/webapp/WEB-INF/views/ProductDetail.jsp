@@ -173,7 +173,7 @@
 			      </div>
 			      <!-- /.modal -->
         
-        <script>
+        <!-- <script>
         
         $(document).ready(function() {
         	
@@ -436,7 +436,7 @@
         
         
         
-        </script>
+        </script> -->
 		</div>
 	
     </div>
@@ -448,7 +448,7 @@
   
   <!-- Bootstrap core JavaScript -->
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/vendor/jquery/jquery.min.js"></script>
-  <script src="<%=request.getContextPath() %>/resources/myPage/js/basket.js"></script>
+  <%-- <script src="<%=request.getContextPath() %>/resources/myPage/js/basket.js"></script> --%>
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/js/order.js"></script>
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

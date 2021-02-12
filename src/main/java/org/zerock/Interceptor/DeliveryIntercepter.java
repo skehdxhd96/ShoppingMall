@@ -26,7 +26,18 @@ public class DeliveryIntercepter extends HandlerInterceptorAdapter{
 			
 			return false;
 		} else {
-			long customerCode = orderService.getCustomerCode(Integer.parseInt(req.getQueryString().split("=")[1]));
+			long customerCode=0;
+			
+			try {
+				if (req.getQueryString().split("=")[0].equals("deliveryCode")) {
+					customerCode = orderService.getCustomerCodeByDeliery(Integer.parseInt(req.getQueryString().split("=")[1]));
+				}
+				else {
+					customerCode = orderService.getCustomerCodeByOrder(Integer.parseInt(req.getQueryString().split("=")[1]));
+				}
+			} catch(NullPointerException e) {
+				return true;
+			}
 			
 			if (customerCode!=(long) session.getAttribute("customerCode")) {
 				res.sendRedirect("/error/accessDenied");

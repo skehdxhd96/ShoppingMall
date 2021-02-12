@@ -92,6 +92,10 @@
 		 	<mapping path="/order/delivery/form"></mapping>
 		 	<beans:ref bean="DeliveryIntercepter"></beans:ref>
 	 	</interceptor>
+	 	<interceptor>
+		 	<mapping path="/order/orderSuccess"></mapping>
+		 	<beans:ref bean="DeliveryIntercepter"></beans:ref>
+	 	</interceptor>
 	</interceptors>
 	
 	<context:component-scan base-package="org.zerock" />

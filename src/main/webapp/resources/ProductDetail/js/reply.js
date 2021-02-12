@@ -15,7 +15,8 @@ var replyService = (function() {
 			},
 			error : function(xhr, status, er) {
 				if(error) {
-					error(er);
+					//error(er);
+					confirm("권한이 없습니다.");
 				}
 			}
 		})

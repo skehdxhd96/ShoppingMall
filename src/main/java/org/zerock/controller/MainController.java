@@ -29,6 +29,7 @@ import org.zerock.service.ProductServiceImpl;
 import org.zerock.service.ReplyService;
 import org.zerock.service.basketService;
 import org.zerock.utils.GetScoreUtils;
+import org.zerock.utils.ReviewListUtils;
 import org.zerock.utils.UploadFileUtils;
 
 import lombok.extern.log4j.Log4j;
@@ -167,10 +168,11 @@ public class MainController {
 		String CompanyName = "";
 		String customerName = "";
 		Long customerCode = (Long) session.getAttribute("customerCode");
+		
+
 		Map map = new HashMap<>();
-		ArrayList<Integer> score = rm.getScore(product_code);
-		double AverageScore = GetScoreUtils.getScore(score);
 		if (customerCode!=null) {
+			List<HashMap<String, Integer>> rl = rm.getReviewList(customerCode, product_code);
 			CompanyName = customerService.getCompanyName(customerCode);
 			customerName = customerService.getCustomerName(customerCode);
 			map.put("product_code", product_code);
@@ -178,15 +180,12 @@ public class MainController {
 			
 			model.addAttribute("CompanyName", CompanyName);
 			model.addAttribute("customerName", customerName);
-			
-			model.addAttribute("CustomerReply", rm.CustomerReply(map));
-			model.addAttribute("OrderCodeIsDone", rm.OrderStatusIsDone(map));
-			model.addAttribute("getOrderCode", rm.getOrderCode(map));
+			model.addAttribute("getOrderDetailCode", rm.getOrderDetailCode(customerCode, product_code));
+			model.addAttribute("getReviewList", ReviewListUtils.getReviewList(rl));
 		}
 		
 		DetailVO d = pm.getById(product_code);
 		model.addAttribute("ProductById", d);
-		model.addAttribute("AverageScore", AverageScore);
 		return "/ProductDetail";
 	}
 	

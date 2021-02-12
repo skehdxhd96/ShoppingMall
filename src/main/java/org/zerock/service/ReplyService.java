@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.zerock.domain.Criteria;
 import org.zerock.domain.ReplyPageVO;
 import org.zerock.domain.ReplyVO;
@@ -23,12 +24,8 @@ public interface ReplyService {
 	public List<ReplyVO> getListWithPaging(Criteria cri, int product_code);
 	
 	public ReplyPageVO getListPage(Criteria cri, int product_code);
+
+	public Integer getOrderDetailCode(Long customer_code, int product_code);
 	
-	public int CustomerReply(Map map);
-	
-	public int OrderStatusIsDone(Map map);
-	
-	public Integer getOrderCode(Map map);
-	
-	public ArrayList<Integer> getScore(int product_code);
+	public List<HashMap<String, Integer>> getReviewList(Long customer_code, int product_code);
 }

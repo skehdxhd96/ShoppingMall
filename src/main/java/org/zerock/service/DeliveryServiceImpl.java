@@ -40,4 +40,19 @@ public class DeliveryServiceImpl implements DeliveryService {
 		return deliveryMapper.getDelivery(deliveryCode);
 	}
 
+	@Override
+	public HashMap<String, Object> orderSuccess(DeliveryVO deliveryVO) {
+		HashMap<String, Object> resultHm = new HashMap<String, Object>();	//리턴할 해시맵 인스턴스
+		int result = deliveryMapper.orderSuccess(deliveryVO);	//업데이트 결과
+		resultHm.put("result", result);
+		
+		if (result!=0) {
+			resultHm.put("orderCode", deliveryVO.getOrderCode());	//업데이트 성공 후 반환된 orderCode
+		}
+		
+		System.out.println("DeliveryServiceImpl orderSuccess result:"+resultHm.toString());
+		
+		return resultHm;
+	}
+
 }

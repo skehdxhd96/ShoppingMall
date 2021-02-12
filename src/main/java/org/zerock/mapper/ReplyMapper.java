@@ -24,11 +24,8 @@ public interface ReplyMapper {
 	
 	public int getCountByProductCode(int product_code);
 	
-	public int CustomerReply(Map map);
+	public Integer getOrderDetailCode(@Param("customer_code") Long customer_code, @Param("product_code") int product_code);
 	
-	public int OrderStatusIsDone(Map map);
-	
-	public Integer getOrderCode(Map map);
-	
-	public ArrayList<Integer> getScore(int product_code);
+	public List<HashMap<String, Integer>> getReviewList(@Param("customer_code") Long customer_code, @Param("product_code") int product_code);
+
 }

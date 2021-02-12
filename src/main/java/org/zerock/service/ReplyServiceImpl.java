@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.Criteria;
@@ -58,34 +59,16 @@ public class ReplyServiceImpl implements ReplyService{
 		
 		return new ReplyPageVO(rm.getCountByProductCode(product_code), rm.getListWIthPaging(cri, product_code));
 	}
+	
+	@Override
+	public Integer getOrderDetailCode(Long customer_code, int product_code) {
+		
+		return rm.getOrderDetailCode(customer_code, product_code);
+	}
 
 	@Override
-	public int CustomerReply(Map map) {
+	public List<HashMap<String, Integer>> getReviewList(Long customer_code, int product_code) {
 		
-		return rm.CustomerReply(map);
-	}
-	
-	@Override
-	public int OrderStatusIsDone(Map map) {
-		
-		return rm.OrderStatusIsDone(map);
-	}
-	
-	@Override
-	public Integer getOrderCode(Map map) {
-		
-		return rm.getOrderCode(map);
-	}
-	
-	@Override
-	public ArrayList<Integer> getScore(int product_code) {
-		
-		ArrayList<Integer> score = new ArrayList<>();
-		
-		for(int i=0; i<rm.getScore(product_code).size(); i++) {
-			score.add(rm.getScore(product_code).get(i));
-		}
-		
-		return score;
+		return rm.getReviewList(customer_code, product_code);
 	}
 }

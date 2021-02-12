@@ -5,15 +5,16 @@
 <mapper namespace = "org.zerock.mapper.ReplyMapper">
 
 <insert id = "insert">
-	insert into review (review_comment, review_score, order_code, product_code, customer_code) 
-	values (#{review_comment}, #{review_score}, #{order_code}, #{product_code}, #{customer_code})
+	insert into review (order_detail_code, review_comment, review_score) 
+	values (#{order_detail_code}, #{review_comment}, #{review_score})
 </insert>
 
 <select id = "read" resultType = "org.zerock.domain.ReplyVO">
-	select r.review_code, r.review_date, r.review_comment, r.review_score, r.order_code, r.product_code, r.customer_code, c.customer_name
-	from review as r join customer as c
-	on r.customer_code = c.customer_code
-	where r.review_code = #{review_code}
+	select r.review_code, r.review_date, r.review_comment, r.review_score, r.order_detail_code, od.product_code, c.customer_code, c.customer_name
+	from review as r join order_detail as od on r.order_detail_code = od.order_detail_code
+    inner join `order` as o on od.order_code = o.order_code
+    inner join customer as c on c.customer_code = o.customer_code
+	where r.review_code = #{review_code};
 </select>
 
 <delete id = "delete">
@@ -29,40 +30,37 @@
 	<![CDATA[
 		set @rownum := 0;
         select * from (
-        select @rownum:=@rownum+1 rownum, r.review_code, r.review_date, r.review_comment, r.review_score, r.order_code, r.product_code, r.customer_code, c.customer_name 
-		from review as r join customer as c 
-		on r.customer_code = c.customer_code,
+        select @rownum:=@rownum+1 rownum, r.review_code, r.review_date, r.review_comment, r.review_score, od.order_detail_code, od.product_code, o.customer_code, c.customer_name
+		from review as r join order_detail as od
+		on r.order_detail_code = od.order_detail_code
+        inner join `order` as o on od.order_code = o.order_code
+        inner join customer as c on o.customer_code = c.customer_code,
 		(SELECT @rownum:=0) Tmp
-		where r.product_code = #{product_code} and r.review_code > 0 and @rownum < #{cri.pageNum} * #{cri.amount}) a where a.rownum > (#{cri.pageNum} -1) * #{cri.amount}
+        where od.product_code = #{product_code} and r.review_code > 0 and @rownum < #{cri.pageNum} * #{cri.amount}) a where a.rownum > (#{cri.pageNum} -1) * #{cri.amount}
 	]]>
 </select>
+
 
 <select id = "getCountByProductCode" resultType = "int">
 	<![CDATA[
-		select count(review_code) from review where product_code = #{product_code}
+		select count(r.review_code) from review as r join order_detail as od on r.order_detail_code = od.order_detail_code where od.product_code = #{product_code}
 	]]>
 </select>
 
-<select id = "CustomerReply" resultType = "int" parameterType = "HashMap">
-	select exists (select customer_code from (select customer_code from order_basket where product_code = #{product_code}) t
-	 where customer_code = #{customer_code})
+<select id = "getOrderDetailCode" resultType = "integer">
+	<![CDATA[
+		 select od.order_detail_code from order_detail as od join `order` as o on o.order_code = od.order_code 
+   		 where o.order_code in (select order_code from `order` where customer_code = #{customer_code}) and o.order_status = "done" and od.product_code = #{product_code} 
+   		 order by od.order_detail_code desc limit 1;
+	]]>
 </select>
 
-<select id = "OrderStatusIsDone" resultType = "int" parameterType = "HashMap">
-	select exists (select o.order_status
-	from `order` as o join (select order_code from order_basket where product_code = #{product_code} and customer_code = #{customer_code}) as a 
-	on o.order_code = a.order_code
-	where o.order_status = "done")
-</select>
-
-<select id = "getOrderCode" resultType = "Integer">
-	select o.order_code
-	from `order` as o join (select order_code from order_basket where product_code = #{product_code} and customer_code = #{customer_code}) as a 
-	on o.order_code = a.order_code
-	where o.order_status = "done" order by o.order_code desc limit 1;
-</select>
-
-<select id = "getScore" resultType = "int">
-	select review_score from review where product_code = #{product_code}
+<select id = "getReviewList" resultType = "HashMap">
+	<![CDATA[
+		  select r.review_code from review as r join order_detail as od on od.order_detail_code = r.order_detail_code
+  		  inner join `order` as o on o.order_code = od.order_code
+  		  inner join customer as c on c.customer_code = o.customer_code
+  		  where o.customer_code = #{customer_code} and od.product_code = #{product_code}
+	]]>
 </select>
 </mapper>

@@ -178,6 +178,7 @@
         $(document).ready(function() {
         	
         	var product_code = '<c:out value = "${ProductById.product_code}"/>';
+        	var getOrderDetailCode = '<c:out value = "${getOrderDetailCode}"/>'; 
         	var replyUL = $(".chat");
         	
         	showList(1);
@@ -282,90 +283,88 @@
             });
         	
         	$("#replyBtn").on("click", function(e) {
-
-        			if(${customerCode != null}) { //로그인 여부
-        				if(${customerType == 1}) { // 구매자타입
-	            			if(${CustomerReply == 1}) { // 이사람이 물건을 산 사람인가
-	            				if(${OrderCodeIsDone == 1}) {
-		            				modal.find("input").val("");
-		                        	modalInputReplyDate.closest("div").hide();
-		                        	modalInputReplyer.val("${customerName}").attr("readonly", "readonly");
-		                        	modal.find("button[id != 'modalCloseBtn']").hide();
+        		if(${customerType == 1}) {
+	        		if(getOrderDetailCode == "" || getOrderDetailCode == null) {
+	        			confirm("권한이 없습니다.");
+	        		} else {
+			           		modal.find("input").val("");
+			              	modalInputReplyDate.closest("div").hide();
+			               	modalInputReplyer.val("${customerName}").attr("readonly", "readonly");
+			               	modal.find("button[id != 'modalCloseBtn']").hide();
+			
+			               	modalRegisterBtn.show();
+			                        		
+			               	$(".modal").modal("show");
+	        		}
+        		} else if(${customerType == 2}) { // 판매자
+        			if(${customerName == ProductById.customerName}) { //점수기능에서 판매자 점수 막아야함.
+        				modal.find("input").val("");
+		              	modalInputReplyDate.closest("div").hide();
+		              	modalInputReplyScore.val("3").attr("readonly", "readonly"); // 문자얼 or 숫자
+		               	modalInputReplyer.val("${customerName}").attr("readonly", "readonly");
+		               	modal.find("button[id != 'modalCloseBtn']").hide();
 		
-		                        	modalRegisterBtn.show();
+		               	modalRegisterBtn.show();
 		                        		
-		                        	$(".modal").modal("show");
-	            				} else {
-	            					confirm("배송을 받으신 후에 댓글을 남길 수 있습니다.");
-	            				}
-	            			} else {
-	            				confirm("물건을 산 사람만 댓글을 남길 수 있습니다.");
-	            			}
-        				} else { //판매자 타입
-        					if(${ProductById.customerName == customerName}) { //판매자 본인
-        						modal.find("input").val("");
-	                        	modalInputReplyDate.closest("div").hide();
-	                        	modalInputReplyer.val("${customerName}").attr("readonly", "readonly");
-	                        	modal.find("button[id != 'modalCloseBtn']").hide();
-	
-	                        	modalRegisterBtn.show();
-	                        		
-	                        	$(".modal").modal("show");
-        					} else {
-        						confirm("이 물건의 판매자가 아닙니다.");
-        					}
-        				}
-            		} else {
-            			var con = confirm("로그인이 필요합니다. 로그인페이지로 이동하시겠습니까?");
-            			
-            			if(con) {
-            				location.href = "/login";
-            			}
-            		}
+		               	$(".modal").modal("show");
+        			} else {
+        				confirm("이 물건의 판매자가 아닙니다.")
+        			}
+        		} else {
+        			var con = confirm("로그인이 필요합니다. 로그인하시갰습니까?");
+        			if(con) {
+        				location.href = "/login";
+        			}
+        		}
+	          
         	});
         	
         	$(".chat").on("click", "p", function(e) {
         		
         		var review_code = $(this).data("rno");
         		
-        		if(${customerCode != null}) { //로그인 여부
-    				if(${customerType == 1}) { // 구매자타입
-            			if(${CustomerReply == 1}) { // 이사람이 물건을 산 사람인가
-            				if(${OrderCodeIsDone == 1}) {
-            					replyService.get(review_code, function(reply) {
-            	        			
-            	        			modalInputReply.val(reply.review_comment);
-            	        			modalInputReplyer.val(reply.customer_name).attr("readonly", "readonly");
-            	        			modalInputReplyDate.val(replyService.displayTime(reply.review_date)).attr("readonly", "readonly");
-            	        			modalInputReplyScore.val(reply.review_score);
-            	        			modal.data("review_code", reply.review_code);
-            	        			
-            	        			modal.find("button[id != 'modalCloseBtn']").hide();
-            	        			modalModifyBtn.show();
-            	        			modalRemoveBtn.show();
-            	        			
-            	        			$(".modal").modal("show");
-            	        		});
-            				}
-            			}
-    				} else { //판매자 타입
-    					if(${ProductById.customerName == customerName}) { //판매자 본인
-    						replyService.get(review_code, function(reply) {
-    		        			
-    		        			modalInputReply.val(reply.review_comment).attr("readonly", "readonly");
-    		        			modalInputReplyer.val(reply.customer_name).attr("readonly", "readonly");
-    		        			modalInputReplyDate.val(replyService.displayTime(reply.review_date)).attr("readonly", "readonly");
-    		        			modalInputReplyScore.val(reply.review_score).attr("readonly", "readonly");;
-    		        			modal.data("review_code", reply.review_code);
-    		        			
-    		        			modal.find("button[id != 'modalCloseBtn']").hide();
-    		        			modalRemoveBtn.show();
-    		        			
-    		        			$(".modal").modal("show");
-    		        		});
-    					}
-    				}
-        		}
+        		console.log(${getReviewList});
+
+        		if(${customerType != null}) {
+        		if(${customerType == 1}) { 
+					if(${getReviewList}.indexOf(review_code) != -1) { // 댓글 본인 - 수정,삭제 가능
+	        			replyService.get(review_code, function(reply) {
+	
+	        	  			modalInputReply.val(reply.review_comment);
+	        	      		modalInputReplyer.val(reply.customer_name).attr("readonly", "readonly");
+	        	      		modalInputReplyDate.val(replyService.displayTime(reply.review_date)).attr("readonly", "readonly");
+	        	      		modalInputReplyScore.val(reply.review_score);
+	        	      		modal.data("review_code", reply.review_code);
+	        	        			
+	        	      		modal.find("button[id != 'modalCloseBtn']").hide();
+	        	      		modalModifyBtn.show();
+	        	       		modalRemoveBtn.show();
+	        	        			
+	        	      		$(".modal").modal("show");
+	    				})
+					} else {
+						confirm("댓글 권한이 없습니다.");	
+					}
+				}
+        		} else if(${customerType == 2}) { // 판매자
+        			if(${customerName == ProductById.customerName}) {//본인-삭제만가능
+        				replyService.get(review_code, function(reply) {
+        						
+    	        	  		modalInputReply.val(reply.review_comment);
+    	        	   		modalInputReplyer.val(reply.customer_name).attr("readonly", "readonly");
+    	        	   		modalInputReplyDate.val(replyService.displayTime(reply.review_date)).attr("readonly", "readonly");
+    	        	   		modalInputReplyScore.val(reply.review_score);
+    	        	   		modal.data("review_code", reply.review_code);
+    	        	        			
+    	            		modal.find("button[id != 'modalCloseBtn']").hide();
+    	        	   		modalRemoveBtn.show();
+    	        	       			
+    	       	    		$(".modal").modal("show");
+        				})
+        			}
+        		
+        			}
+           		
         	});
         	
         	modalModifyBtn.on("click", function(e) {
@@ -402,9 +401,7 @@
 				var reply = {
 					review_comment : modalInputReply.val(),
 					review_score : modalInputReplyScore.val(),
-					product_code : parseInt(product_code),
-					order_code : getOrderCode,
-					customer_code : getCustomerCode
+					order_detail_code : getOrderDetailCode
 				};
 				
 				        		

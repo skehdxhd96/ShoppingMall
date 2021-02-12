@@ -21,7 +21,7 @@ $("#Order_Btn").on('click', function() {
 		}
 		else {
 			var url="/order/delivery/form?deliveryCode=" + response.data.deliveryCode;
-			alert("주문이 완료되었습니다.");
+			alert("배송지 입력 페이지로 이동합니다.");
 			location.href = url;
 		}
 	}).catch(function(err) {

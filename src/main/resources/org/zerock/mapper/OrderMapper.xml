@@ -2,16 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zerock.mapper.OrderMapper">
 	<!-- delivery 인터셉터에서 구매자일 때 로그인된 사용자의 배달코드인지 알아보기 위한 쿼리문 -->
-	<select id="getCustomerCode" resultType="long" parameterType="int">
+	<select id="getCustomerCodeByDeliery" resultType="long" parameterType="int">
 		select customer_code
 		from `order`
 		where order_code=(select order_code
 						  from delivery
 		                  where delivery_code=#{deliveryCode});
 	</select>
+	<select id="getCustomerCodeByOrder" resultType="long" parameterType="int">
+		SELECT customer_code
+		FROM `order`
+		WHERE order_code=#{orderCode};
+	</select>
 	
 	<insert id="createOrder" parameterType="org.zerock.mapper.OrderMapper" useGeneratedKeys="true" keyProperty="orderCode">
 		insert into `order`(total_order_price, order_date, order_status, customer_code) values
 			(#{totalOrderPrice}, now(), 'in progress', #{customerCode});
 	</insert>
+	
+	<update id="updateStatus" parameterType="int">
+		UPDATE `order` SET order_status="done" WHERE order_code=#{orderCode};
+	</update>
 </mapper>

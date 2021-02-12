@@ -1,5 +1,7 @@
 package org.zerock.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Repository;
@@ -16,6 +18,12 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		OrderDetailVO odVO = new OrderDetailVO(orderCode, productCode, productQuantity);
 		odMapper.createOrderDetail(odVO);
 		System.out.println("orderDetail 데이터 적재 완료\n" + odVO.toString());
+	}
+
+	@Override
+	public List<Integer> getProductCodes(int orderCode) {
+		
+		return odMapper.getProductCodes(orderCode);
 	}
 
 }

@@ -42,10 +42,10 @@
 			  </tbody>
 			</table>
 		</div>
-		<div class="container sub-container">
+		<div class="container sub-container delivery-container">
 			<h3 class="buyer-title">받는사람 정보</h3>
 			<c:set var="recipient" value="${ recipient }"></c:set>
-			<form action="/order/delivery/form" method="post">
+				<input type="hidden" name="deliveryCode" value="${ recipient.deliveryCode }">
 				<table class="table">
 				  <tbody>
 				    <tr>
@@ -58,18 +58,17 @@
 				    </tr>
 				    <tr>
 				      <th scope="row" class="row-title">받는사람 전화번호</th>
-				      <td><input class="form-control" name="recipientPhone" placeholder="${ buyer.customer_phone }" type="text" value="${ buyer.customer_phone }"></td>
+				      <td><input class="form-control" name="deliverPhone" placeholder="${ recipient.deliver_phone }" type="text" value="${ buyer.customer_phone }"></td>
 				    </tr>
 				    <tr>
 				      <th scope="row" class="row-title">요청사항</th>
-				      <td><input class="form-control" name="request" type="text"></td>
+				      <td><input class="form-control" name="requests" type="text"></td>
 				    </tr>
 				  </tbody>
 				</table>
 				<div class="submit-container">
-					<input type="submit" class="btn btn-dark" value="입력완료"></input>
+					<input type="button" class="btn btn-dark submit-button" value="입력완료"></input>
 				</div>
-			</form>
 		</div>
 	</div>
 	
@@ -78,5 +77,8 @@
 	<!-- Bootstrap core JavaScript -->
 	<script src="<%=request.getContextPath() %>/resources/mainPage/vendor/jquery/jquery.min.js"></script>
 	<script src="<%=request.getContextPath() %>/resources/mainPage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<!-- JavaScript -->
+	<script src="<%=request.getContextPath() %>/resources/order/js/deliveryForm.js"></script>
 </body>
 </html>

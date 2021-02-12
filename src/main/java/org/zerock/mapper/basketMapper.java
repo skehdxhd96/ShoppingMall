@@ -1,5 +1,6 @@
 package org.zerock.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -16,4 +17,6 @@ public interface basketMapper {
 	public CodeVO getPK(@Param("product_code") int product_code, @Param("customer_code") Long customer_code);
 	
 	public int updateBasket(basketVO b);
+	
+	public int deleteBasket(HashMap<String, Object> hm);
 }

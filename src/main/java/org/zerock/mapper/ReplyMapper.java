@@ -27,5 +27,7 @@ public interface ReplyMapper {
 	public Integer getOrderDetailCode(@Param("customer_code") Long customer_code, @Param("product_code") int product_code);
 	
 	public List<HashMap<String, Integer>> getReviewList(@Param("customer_code") Long customer_code, @Param("product_code") int product_code);
+	
+	public Integer getScore(int product_code);
 
 }

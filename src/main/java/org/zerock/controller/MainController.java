@@ -168,8 +168,7 @@ public class MainController {
 		String CompanyName = "";
 		String customerName = "";
 		Long customerCode = (Long) session.getAttribute("customerCode");
-		
-		
+
 		Map map = new HashMap<>();
 		if (customerCode!=null) {
 			List<HashMap<String, Integer>> rl = rm.getReviewList(customerCode, product_code);
@@ -182,10 +181,14 @@ public class MainController {
 			model.addAttribute("customerName", customerName);
 			model.addAttribute("getOrderDetailCode", rm.getOrderDetailCode(customerCode, product_code));
 			model.addAttribute("getReviewList", ReviewListUtils.getReviewList(rl));
+		} else if (customerCode == null) {
+			ArrayList<Integer> sample = new ArrayList<>();
+			model.addAttribute("getReviewList", sample);
 		}
 		
 		DetailVO d = pm.getById(product_code);
 		model.addAttribute("ProductById", d);
+		model.addAttribute("score", rm.getScore(product_code));
 		return "/ProductDetail";
 	}
 	

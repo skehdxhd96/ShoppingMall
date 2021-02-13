@@ -63,4 +63,10 @@
   		  where o.customer_code = #{customer_code} and od.product_code = #{product_code}
 	]]>
 </select>
+
+<select id = "getScore" resultType = "Integer">
+	select ROUND(AVG(r.review_score)) 
+	from review as r join order_detail as od on r.order_detail_code = od.order_detail_code where od.product_code = #{product_code};
+</select>
+
 </mapper>

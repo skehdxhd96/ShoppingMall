@@ -71,4 +71,10 @@ public class ReplyServiceImpl implements ReplyService{
 		
 		return rm.getReviewList(customer_code, product_code);
 	}
+	
+	@Override
+	public Integer getScore(int product_code) {
+		
+		return rm.getScore(product_code);
+	}
 }

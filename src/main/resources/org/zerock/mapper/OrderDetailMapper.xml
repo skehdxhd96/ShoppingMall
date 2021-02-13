@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.mapper.OrderDetailMapper">
+	<insert id="createOrderDetail" parameterType="org.zerock.domain.OrderDetailVO">
+		INSERT INTO order_detail(order_code, product_code, product_quantity) VALUES (
+		#{orderCode}, #{productCode}, #{productQuantity});
+	</insert>
+	
+	<select id="getProductCodes" resultType="int" parameterType="int">
+		SELECT product_code
+		FROM order_detail
+		WHERE order_code=#{orderCode};
+	</select>
+</mapper>

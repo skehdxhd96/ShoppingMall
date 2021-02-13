@@ -24,4 +24,15 @@
 	(SELECT @rownum := 0) Tmp where c.customer_code = #{customerCode} and @rownum < #{cri.pageNum} * #{cri.amount}) a where a.rownum > (#{cri.pageNum}-1) * #{cri.amount};
 	]]>
 </select>
+
+<update id="updateBasket" parameterType="org.zerock.domain.basketVO">
+	update basket set product_quantity=#{productQuantity} where customer_code=#{customerCode} and product_code=#{productCode};
+</update>
+
+<delete id="deleteBasket" parameterType="hashmap">
+	DELETE FROM basket WHERE customer_code=#{customerCode} and product_code=
+	<foreach collection="productCodes" item="productCode" index="index" separator=",">
+		#{productCode}
+	</foreach>;
+</delete>
 </mapper>

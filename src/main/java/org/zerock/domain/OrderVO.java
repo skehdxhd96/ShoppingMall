@@ -8,4 +8,5 @@ public class OrderVO {
 	private int totalOrderPrice;
 	private String orderDate;
 	private String orderStatus;
+	private long customerCode;
 }

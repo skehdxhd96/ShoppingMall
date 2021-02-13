@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.mapper.DeliveryMapper">
+	<select id="getDelivery" parameterType="int" resultType="hashMap">
+		SELECT shipping_address, recipient, deliver_phone
+		FROM delivery
+		WHERE delivery_code=#{delivery_code};
+	</select>
+	
+	<insert id="createDelivery"  parameterType="hashMap" useGeneratedKeys="true" keyProperty="deliveryVO.deliveryCode">
+		insert into delivery(shipping_address, deliver_phone, order_code, recipient)
+		select customer_address, customer_phone, #{deliveryVO.orderCode}, customer_name
+	    from customer
+	    where customer_code=#{customerCode};
+	</insert>
+	
+	<update id="orderSuccess" parameterType="org.zerock.domain.DeliveryVO">
+		<selectKey keyProperty="orderCode" resultType="int" order="AFTER">
+            SELECT order_code
+            FROM delivery
+            WHERE delivery_code=#{deliveryCode};
+        </selectKey>
+		UPDATE delivery SET
+		shipping_address=#{shippingAddress}, 
+		delivery_status="preparing",
+		requests=#{requests}, 
+		deliver_phone=#{deliverPhone},
+		recipient=#{recipient}
+		WHERE delivery_code=#{deliveryCode};
+	</update>
+</mapper>

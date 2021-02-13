@@ -84,10 +84,18 @@
 	  <mapping path="/myPage/basket" />
 	  <beans:ref bean="LoginInterceptor" />
 	 </interceptor>
-	 <interceptor>
-	 	<mapping path="/order/delivery/form"></mapping>
-	 	<beans:ref bean="LoginInterceptor"></beans:ref>
-	 </interceptor>
+	</interceptors>
+	
+	<beans:bean id="DeliveryIntercepter" class="org.zerock.Interceptor.DeliveryIntercepter"></beans:bean>
+	<interceptors>
+		<interceptor>
+		 	<mapping path="/order/delivery/form"></mapping>
+		 	<beans:ref bean="DeliveryIntercepter"></beans:ref>
+	 	</interceptor>
+	 	<interceptor>
+		 	<mapping path="/order/orderSuccess"></mapping>
+		 	<beans:ref bean="DeliveryIntercepter"></beans:ref>
+	 	</interceptor>
 	</interceptors>
 	
 	<context:component-scan base-package="org.zerock" />

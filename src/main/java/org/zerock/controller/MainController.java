@@ -169,7 +169,7 @@ public class MainController {
 		String customerName = "";
 		Long customerCode = (Long) session.getAttribute("customerCode");
 		
-
+		
 		Map map = new HashMap<>();
 		if (customerCode!=null) {
 			List<HashMap<String, Integer>> rl = rm.getReviewList(customerCode, product_code);
@@ -231,5 +231,12 @@ public class MainController {
 	public String basket() {
 		
 		return "myPage/basket";
+	}
+	
+	//접근 불가능 오류 페이지
+	@RequestMapping("/error/accessDenied")
+	public String accessDenied() {
+		
+		return "accessDenied";
 	}
 }

@@ -24,4 +24,6 @@ public interface ProductService {
 	public void ProductDelete(int product_code);
 	
 	public void ProductModify(ProductVO p);
+	
+	public int subStock(HashMap<String, Object> productInfoHm);
 }

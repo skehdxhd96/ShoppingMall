@@ -72,4 +72,21 @@ public class ProductServiceImpl implements ProductService{
 		
 		pm.ProductModify(p);
 	}
+
+	@Override
+	public int subStock(HashMap<String, Object> productInfoHm) {
+		int totalRow = 0;
+		List<Integer> productCodeList = (List<Integer>) productInfoHm.get("productCodeList");
+		List<Integer> productQuantityList = (List<Integer>) productInfoHm.get("productQuantityList");
+		HashMap<String, Object> productInfo = new HashMap<String, Object>();
+		
+		for (int i=0; i<productCodeList.size(); i++) {
+			productInfo.put("productCode", productCodeList.get(i));
+			productInfo.put("productQuantity", productQuantityList.get(i));
+			
+			totalRow += pm.subStock(productInfo);
+		}
+		
+		return totalRow;
+	}
 }

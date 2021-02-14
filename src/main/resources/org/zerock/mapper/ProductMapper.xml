@@ -26,7 +26,7 @@
 
 <!-- 카테고리별 상품 리스트 select -->
 <select id="getListByCategory" resultType="org.zerock.domain.ProductVO" parameterType="HashMap">
-	select product_code, product_name, product_manufacturer, product_price, product_score, image_url, thumbnail_url
+	select product_code, product_name, product_manufacturer, product_price, product_score, image_url, thumbnail_url, product_stock
 	from product 
 	where category_code=#{categoryCode}
 	limit 6 offset #{startIdx}
@@ -60,6 +60,9 @@
 				customerName = #{customerName},
 				category_code = #{category_code}
 			where product_code = ${product_code}
+</update>
+<update id="subStock" parameterType="hashmap">
+	UPDATE product SET product_stock=product_stock-#{ productQuantity } WHERE product_code=#{ productCode };
 </update>
 
 </mapper>

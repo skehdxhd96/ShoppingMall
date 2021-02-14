@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.CodeVO;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.basketPageVO;
 import org.zerock.domain.basketVO;
 import org.zerock.mapper.ReplyMapper;
 import org.zerock.mapper.basketMapper;
@@ -30,6 +31,18 @@ public class basketServiceImpl implements basketService{
 	@Override
 	public int getBasketProduct(basketVO b) {
 		return bm.getBasketProduct(b);
+	}
+	
+	@Override
+	public basketPageVO getListPage(Criteria cri, Long customer_code) {
+		
+		return new basketPageVO(bm.getBasketCount(customer_code), bm.getList(cri, customer_code));
+	}
+	
+	@Override
+	public int getBasketCount(Long customer_code) {
+		
+		return bm.getBasketCount(customer_code);
 	}
 	
 	@Override

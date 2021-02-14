@@ -117,6 +117,15 @@
 	         	formObj.attr("action", "/Delete");
 	         	formObj.submit();}
 	        });
+	        
+	        if(${customerCode == null}) {
+		        $("#Basket_Btn").click(function(){
+		        	var con = confirm("로그인 하시겠습니까?");
+		        	if(con) {
+		        		location.href = "/login";
+		        	}
+		        });
+	        }
         </script>
 		</form>
 		<!-- 댓글/대댓글 -->
@@ -417,7 +426,7 @@
 				});
 			});
         	
-				/* $("#Basket_Btn").on("click", function(e) {
+				$("#Basket_Btn").on("click", function(e) {
 				
 					var basket = {
 							product_quantity : $("#product_quantity").val(),
@@ -429,7 +438,7 @@
 		        		
 						alert(result);
 					});	
-				}); */
+				});
 		});
         
         
@@ -446,7 +455,7 @@
   
   <!-- Bootstrap core JavaScript -->
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/vendor/jquery/jquery.min.js"></script>
-  <%-- <script src="<%=request.getContextPath() %>/resources/myPage/js/basket.js"></script> --%>
+  <script src="<%=request.getContextPath() %>/resources/myPage/js/basket.js"></script>
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/js/order.js"></script>
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

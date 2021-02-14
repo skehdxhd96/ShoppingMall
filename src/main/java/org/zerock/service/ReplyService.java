@@ -28,4 +28,6 @@ public interface ReplyService {
 	public Integer getOrderDetailCode(Long customer_code, int product_code);
 	
 	public List<HashMap<String, Integer>> getReviewList(Long customer_code, int product_code);
+	
+	public Integer getScore(int product_code);
 }

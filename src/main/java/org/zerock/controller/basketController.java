@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.zerock.domain.Criteria;
 import org.zerock.domain.ReplyPageVO;
+import org.zerock.domain.basketPageVO;
 import org.zerock.domain.basketVO;
 import org.zerock.service.basketService;
 
@@ -29,15 +30,15 @@ public class basketController {
 	@Setter(onMethod_ = @Autowired)
 	private basketService bs;
 
-	@GetMapping(value = "/myPage/basket/{customerCode}/{page}",
+	@GetMapping(value = "/myPage/basket/{customer_code}/{page}",
 			produces = { MediaType.APPLICATION_XML_VALUE,
 					MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<List<basketVO>> getList(
-			@PathVariable("customerCode") Long customerCode,
+	public ResponseEntity<basketPageVO> getList(
+			@PathVariable("customer_code") Long customer_code,
 			@PathVariable("page") int page) {
 		Criteria cri = new Criteria(page, 6);
 		
-		return new ResponseEntity<>(bs.getList(cri, customerCode), HttpStatus.OK);
+		return new ResponseEntity<>(bs.getListPage(cri, customer_code), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/myPage/basket/new",

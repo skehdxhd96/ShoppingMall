@@ -72,17 +72,17 @@
             	<p class="card-text">재고 : ${ ProductById.product_stock }</p>
             </c:if>
             <p class="card-text">카테고리 : ${ProductById.category_name }</p>
-            <c:if test = "${AverageScore == 0}">
+            <c:if test = "${score == null}">
             	<span class = "test_warning">댓글로 평점을 남겨주세요!!</span></c:if>
-            <c:if test = "${AverageScore == 1}">
+            <c:if test = "${score == 1}">
             	<span class = "test_warning">평점 : &#9733;&#9734;&#9734;&#9734;&#9734;</span></c:if>
-           	<c:if test = "${AverageScore == 2}">
+           	<c:if test = "${score == 2}">
            	  	<span class = "test_warning">평점 : &#9733;&#9733;&#9734;&#9734;&#9734;</span></c:if>
-           	<c:if test = "${AverageScore == 3}">
+           	<c:if test = "${score == 3}">
            	    <span class = "test_warning">평점 : &#9733;&#9733;&#9733;&#9734;&#9734;</span></c:if>
-            <c:if test = "${AverageScore == 4}">
+            <c:if test = "${score == 4}">
               	<span class = "test_warning">평점 : &#9733;&#9733;&#9733;&#9733;&#9734;</span></c:if>
-            <c:if test = "${AverageScore == 5}">
+            <c:if test = "${score == 5}">
               	<span class = "test_warning">평점 : &#9733;&#9733;&#9733;&#9733;&#9733;</span></c:if>
             <c:if test = "${customerType == 2 && ProductById.customerName == customerName && ProductById.product_seller == CompanyName}">
             <div>
@@ -127,6 +127,15 @@
 	         	formObj.attr("action", "/Delete");
 	         	formObj.submit();}
 	        });
+	        
+	        if(${customerCode == null}) {
+		        $("#Basket_Btn").click(function(){
+		        	var con = confirm("로그인 하시겠습니까?");
+		        	if(con) {
+		        		location.href = "/login";
+		        	}
+		        });
+	        }
         </script>
 		</form>
 		<!-- 댓글/대댓글 -->
@@ -333,8 +342,6 @@
         		
         		var review_code = $(this).data("rno");
         		
-        		console.log(${getReviewList});
-
         		if(${customerType != null}) {
         		if(${customerType == 1}) { 
 					if(${getReviewList}.indexOf(review_code) != -1) { // 댓글 본인 - 수정,삭제 가능
@@ -356,14 +363,14 @@
 						confirm("댓글 권한이 없습니다.");	
 					}
 				}
-        		} else if(${customerType == 2}) { // 판매자
+        		else if(${customerType == 2}) { // 판매자
         			if(${customerName == ProductById.customerName}) {//본인-삭제만가능
         				replyService.get(review_code, function(reply) {
         						
-    	        	  		modalInputReply.val(reply.review_comment);
+    	        	  		modalInputReply.val(reply.review_comment).attr("readonly", "readonly");
     	        	   		modalInputReplyer.val(reply.customer_name).attr("readonly", "readonly");
     	        	   		modalInputReplyDate.val(replyService.displayTime(reply.review_date)).attr("readonly", "readonly");
-    	        	   		modalInputReplyScore.val(reply.review_score);
+    	        	   		modalInputReplyScore.val(reply.review_score).attr("readonly", "readonly");
     	        	   		modal.data("review_code", reply.review_code);
     	        	        			
     	            		modal.find("button[id != 'modalCloseBtn']").hide();
@@ -371,9 +378,12 @@
     	        	       			
     	       	    		$(".modal").modal("show");
         				})
+        			} else {
+        				confirm("이 물건의 판매자가 아닙니다.");
         			}
         		
         			}
+        		}
            		
         	});
         	
@@ -426,7 +436,7 @@
 				});
 			});
         	
-				/* $("#Basket_Btn").on("click", function(e) {
+				$("#Basket_Btn").on("click", function(e) {
 				
 					var basket = {
 							product_quantity : $("#product_quantity").val(),
@@ -438,7 +448,7 @@
 		        		
 						alert(result);
 					});	
-				}); */
+				});
 		});
         
         

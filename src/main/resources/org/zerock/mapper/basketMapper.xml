@@ -25,6 +25,10 @@
 	]]>
 </select>
 
+<select id = "getBasketCount" resultType = "int">
+	select count(*) from basket where customer_code = #{customer_code}
+</select>
+
 <update id="updateBasket" parameterType="org.zerock.domain.basketVO">
 	update basket set product_quantity=#{productQuantity} where customer_code=#{customerCode} and product_code=#{productCode};
 </update>

@@ -5,7 +5,7 @@ var BasketService = (function() {
 		var customer_code = param.customer_code;
 		var page = param.page || 1;
 		
-		$.getJSON("/myPage/basket/" + page + ".json",
+		$.getJSON("/myPage/basket/" + customer_code + "/" + page + ".json",
 				function(data) {
 				if(callback) {
 					callback(data.replyCount, data.list);

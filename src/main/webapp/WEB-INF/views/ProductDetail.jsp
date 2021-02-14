@@ -65,7 +65,12 @@
             <p class="card-text">판매사 : ${ProductById.product_seller }</p>
             <p class="card-text">판매자 : ${ProductById.customerName }</p>
             <p class="card-text">포인트 : ${ProductById.product_point }</p>
-            <p class="card-text">재고 : ${ProductById.product_stock }</p>
+            <c:if test="${ ProductById.product_stock==0 }">
+            	<p class="card-text" style="color:red">품절된 상품입니다.</p>
+            </c:if>
+            <c:if test="${ ProductById.product_stock!=0 }">
+            	<p class="card-text">재고 : ${ ProductById.product_stock }</p>
+            </c:if>
             <p class="card-text">카테고리 : ${ProductById.category_name }</p>
             <c:if test = "${AverageScore == 0}">
             	<span class = "test_warning">댓글로 평점을 남겨주세요!!</span></c:if>
@@ -92,7 +97,12 @@
 					 <input type="text" id = "product_quantity" name="product_quantity"/>
 					</div>
             		<button type = "button" id = "Basket_Btn">장바구니에 담기</button>
-            		<button type="button" id="Order_Btn">바로 주문하기</button>
+            		<c:if test="${ ProductById.product_stock==0 }">
+		            	<button type="button" id="Order_Btn" disabled="disabled">바로 주문하기</button>
+		            </c:if>
+            		<c:if test="${ ProductById.product_stock!=0 }">
+		            	<button type="button" id="Order_Btn">바로 주문하기</button>
+		            </c:if>
             </div>
             </c:if>
           </div>
@@ -173,7 +183,7 @@
 			      </div>
 			      <!-- /.modal -->
         
-        <!-- <script>
+        <script>
         
         $(document).ready(function() {
         	
@@ -433,7 +443,7 @@
         
         
         
-        </script> -->
+        </script>
 		</div>
 	
     </div>
@@ -445,7 +455,7 @@
   
   <!-- Bootstrap core JavaScript -->
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/vendor/jquery/jquery.min.js"></script>
-  <%-- <script src="<%=request.getContextPath() %>/resources/myPage/js/basket.js"></script> --%>
+  <script src="<%=request.getContextPath() %>/resources/myPage/js/basket.js"></script>
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/js/order.js"></script>
   <script src="<%=request.getContextPath() %>/resources/ProductDetail/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

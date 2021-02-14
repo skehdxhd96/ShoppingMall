@@ -131,13 +131,19 @@ function paging(data) {
 	var html = "";
 	var imageSrc = "";
 	for (var i=0; i<data.length; i++) {
+		var productStockHtml = "";
 		if (data[i].thumbnail_url=='none.png') {
 			imageSrc = "https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif";
 		}
 		else {
 			imageSrc = data[i].thumbnail_url;
 		}
-		
+		if (data[i].product_stock==0) {
+			productStockHtml = "<p class=\"card-text\" style=\"color:red\"> 품절된 상품입니다. </p>";
+		}
+		else {
+			productStockHtml = "<p class=\"card-text\"> 재고 : " + data[i].product_stock + "</p>";
+		}
 		html += "<div class=\"col-lg-4 col-md-6 mb-4\">";
 		html += "<div class=\"card h-100\">";
 		//html += "<a href=\"/ProductDetail/" + data[i].product_code + "\"><img class=\"card-img-top\" src=\"http://placehold.it/700x400\" alt=\"\"></a>";
@@ -147,6 +153,7 @@ function paging(data) {
 		html += "<a href=\"/ProductDetail/" + data[i].product_code + "\">" + data[i].product_name + "</a>";
 		html += "</h4>";
 		html += "<h5>" + data[i].product_price + "원</h5>";
+		html += productStockHtml;
 		html += "<p class=\"card-text\">" + data[i].product_manufacturer + "</p>";
 		html += "</div>";
 		html += "<div class=\"card-footer\">" + data[i].product_score + "</div>";

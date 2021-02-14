@@ -1,5 +1,7 @@
 package org.zerock.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,7 +10,10 @@ import org.springframework.stereotype.Repository;
 import org.zerock.domain.OrderDetailVO;
 import org.zerock.mapper.OrderDetailMapper;
 
+import lombok.extern.log4j.Log4j;
+
 @Repository
+@Log4j
 public class OrderDetailServiceImpl implements OrderDetailService {
 	@Resource
 	OrderDetailMapper odMapper;
@@ -21,9 +26,22 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	}
 
 	@Override
-	public List<Integer> getProductCodes(int orderCode) {
+	public HashMap<String, Object> getProductInfo(int orderCode) {
+		List<HashMap<String, Object>> productInfoList = odMapper.getProductInfo(orderCode);
+		HashMap<String, Object> productInfoHm = new HashMap<String, Object>();
+		List<Long> productCodeList = new ArrayList<Long>();
+		List<Long> productQuantityList = new ArrayList<Long>();
 		
-		return odMapper.getProductCodes(orderCode);
+		for (int i=0; i<productInfoList.size(); i++) {
+			productCodeList.add((long) productInfoList.get(i).get("product_code"));
+			productQuantityList.add((long) productInfoList.get(i).get("product_quantity"));
+		}
+		
+		productInfoHm.put("productCodeList", productCodeList);
+		productInfoHm.put("productQuantityList", productQuantityList);
+		productInfoHm.put("result", productInfoList.size());
+		
+		return productInfoHm;
 	}
 
 }

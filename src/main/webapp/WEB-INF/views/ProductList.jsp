@@ -99,9 +99,6 @@
                 <c:if test="${ product.product_stock==0 }">
                 	<p class="card-text" style="color:red">품절된 상품입니다.</p>
                 </c:if>
-                <c:if test="${ product.product_stock!=0 }">
-                	<p class="card-text">재고 : ${product.product_stock }</p>
-                </c:if>
                 <p class="card-text">${product.product_manufacturer }</p>
               </div>
             </div>

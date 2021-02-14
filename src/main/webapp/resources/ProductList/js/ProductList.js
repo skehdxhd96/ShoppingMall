@@ -141,9 +141,6 @@ function paging(data) {
 		if (data[i].product_stock==0) {
 			productStockHtml = "<p class=\"card-text\" style=\"color:red\"> 품절된 상품입니다. </p>";
 		}
-		else {
-			productStockHtml = "<p class=\"card-text\"> 재고 : " + data[i].product_stock + "</p>";
-		}
 		html += "<div class=\"col-lg-4 col-md-6 mb-4\">";
 		html += "<div class=\"card h-100\">";
 		//html += "<a href=\"/ProductDetail/" + data[i].product_code + "\"><img class=\"card-img-top\" src=\"http://placehold.it/700x400\" alt=\"\"></a>";

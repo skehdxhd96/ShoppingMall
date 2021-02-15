@@ -139,6 +139,7 @@ public class OrderController {
 	@RequestMapping(value="/order/delivery/after", method=RequestMethod.GET)
 	public String orderSuccess(@RequestParam int orderCode, HttpSession session) {
 		int result = 1;
+		long customerCode = (long) session.getAttribute("customerCode");
 		
 		while(result!=0) {	//order 테이블 업데이트, basket 테이블 데이터 삭제 과정 중 오류 발생 체크용
 			HashMap<String, Object> productInfoHm = odService.getProductInfo(orderCode);	//해당 주문코드에 대한 상품코드 리스트 가져오기
@@ -146,13 +147,18 @@ public class OrderController {
 			result = (int) productInfoHm.get("result"); //list의 크기가 0이면 해당 상품이 없는것이므로 오류 발생
 			log.info("productInfoHm size:" + result);
 			
-			result = basketService.deleteBasket((long)session.getAttribute("customerCode"), (List<Integer>) productInfoHm.get("productCodeList"));	//세션에 저장된 customerCode와 상품코드 리스트에 해당되는 장바구니 데이터 삭제
+			result = basketService.deleteBasket(customerCode, (List<Integer>) productInfoHm.get("productCodeList"));	//세션에 저장된 customerCode와 상품코드 리스트에 해당되는 장바구니 데이터 삭제
 			log.info("basket 테이블 데이터 삭제 완료");
+			
+			HashMap<String, Object> pointHm = productService.getTotalPoint(productInfoHm);
+			result = (int) pointHm.get("result");
+			long totalPoint = (long) pointHm.get("totalPoint");
+			result = customerService.updatePoint(customerCode, totalPoint);	//고객 포인트 업데이트
+			
+			result = productService.subStock(productInfoHm);	//주문 수량만큼 재고 빼주기
 			
 			result = orderServie.updateStatus(orderCode);	//해당 orderCode의 orderStatus=done으로 업데이트
 			log.info("order 테이블의 orderStatus가 done으로 변경되었습니다. orderCode : " + orderCode);
-			
-			result = productService.subStock(productInfoHm);	//주문 수량만큼 재고 빼주기
 			
 			break;
 		}

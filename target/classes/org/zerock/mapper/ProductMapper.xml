@@ -32,6 +32,7 @@
 	limit 6 offset #{startIdx}
 </select>
 
+
 <!-- 화면에 뿌려주는 따로만든 VO select 
 <select id = "testlist" resultType = "org.zerock.domain.CategoryViewVO">
 	<![CDATA[select t.test_id, t.test_name, t.test_price, t.test_quantity, t.test_img , t.test_explain, t.test_thumbnail, c.cate_name 
@@ -44,6 +45,15 @@
 	from product as p join category as c
 	on p.category_code = c.category_code
 	where p.product_code = #{product_code}
+</select>
+
+<select id="getPoints" resultType="int" parameterType="java.util.List">
+	SELECT product_point
+	FROM product
+	WHERE product_code IN (
+	<foreach collection="list" item="productCode" index="index" separator=",">
+		#{productCode}
+	</foreach>);
 </select>
 
 <delete id = "ProductDelete">

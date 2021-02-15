@@ -2,11 +2,14 @@ package org.zerock.service;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.zerock.domain.OrderVO;
 import org.zerock.mapper.OrderMapper;
 
-@Repository
+import lombok.extern.log4j.Log4j;
+
+@Service
+@Log4j
 public class OrderServiceImpl implements OrderService {
 	@Resource
 	private OrderMapper orderMapper;

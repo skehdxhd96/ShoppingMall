@@ -6,13 +6,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.zerock.domain.OrderDetailVO;
 import org.zerock.mapper.OrderDetailMapper;
 
 import lombok.extern.log4j.Log4j;
 
-@Repository
+@Service
 @Log4j
 public class OrderDetailServiceImpl implements OrderDetailService {
 	@Resource

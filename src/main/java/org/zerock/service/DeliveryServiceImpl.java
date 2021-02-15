@@ -5,12 +5,13 @@ import java.util.HashMap;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.zerock.domain.DeliveryVO;
 import org.zerock.mapper.DeliveryMapper;
 
 import lombok.extern.log4j.Log4j;
 
-@Repository
+@Service
 @Log4j
 public class DeliveryServiceImpl implements DeliveryService {
 	@Resource

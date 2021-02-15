@@ -26,4 +26,6 @@ public interface ProductService {
 	public void ProductModify(ProductVO p);
 	
 	public int subStock(HashMap<String, Object> productInfoHm);
+	
+	public HashMap<String, Object> getTotalPoint(HashMap<String, Object> productInfo);
 }

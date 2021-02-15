@@ -52,7 +52,7 @@
 	</update>
 	<update id="updatePoint" parameterType="hashmap">
 		UPDATE customer
-		SET customer_point=#{totalPoint}
+		SET customer_point=customer_point+#{totalPoint}
 		WHERE customer_code=#{customerCode};
 	</update>
 	

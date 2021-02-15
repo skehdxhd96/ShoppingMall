@@ -2,37 +2,34 @@ package org.zerock.controller;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
 import org.zerock.domain.DeliveryVO;
 import org.zerock.domain.basketVO;
-import org.zerock.mapper.OrderMapper;
 import org.zerock.service.CustomerServiceImpl;
 import org.zerock.service.DeliveryServiceImpl;
 import org.zerock.service.OrderDetailServiceImpl;
-import org.zerock.service.OrderService;
 import org.zerock.service.OrderServiceImpl;
+import org.zerock.service.ProductServiceImpl;
 import org.zerock.service.basketServiceImpl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import lombok.extern.log4j.Log4j;
+
 @Controller
+@Log4j
 public class OrderController {
 	@Resource
 	private basketServiceImpl basketService;
@@ -44,6 +41,8 @@ public class OrderController {
 	private DeliveryServiceImpl deliveryService;
 	@Resource
 	private CustomerServiceImpl customerService;
+	@Resource
+	private ProductServiceImpl productService;
 	@Resource
 	private Gson gson;
 	
@@ -75,7 +74,7 @@ public class OrderController {
 		JsonArray productsArr = (JsonArray) gson.toJsonTree(deliveryHm.get("products"));	//주문하고자 하는 상품에 대한 정보가 담겨 있음.(상품코드, 수량, 상품가격)
 		totalPrice = (int) deliveryHm.get("totalPrice");	//요청 시 전달한 총 주문금액
 		
-		if (reqUrl.contains("ProductDetail")) {	//상품 상세정보 페이지에서 바로 주문하기 버튼을 클릭한 경우
+		if (reqUrl.contains("ProductDetail")) {	//상품 상세정보 페이지에서 바로 주문하기 버튼을 클릭한 경우:장바구니 테이블에 데이터 적재
 			JsonObject productObj= (JsonObject) productsArr.get(0);
 			productCode = productObj.get("productCode").getAsInt();	//상품코드
 			productQuantity = productObj.get("productQuantity").getAsInt();	//상품수량
@@ -131,7 +130,6 @@ public class OrderController {
 		System.out.println(deliveryVO.toString());
 		
 		HashMap<String, Object> resultHm = deliveryService.orderSuccess(deliveryVO);	//배송 테이블 업데이트(result:업데이트 결과, orderCode:업데이트된 데이터의 주문코드 리턴)
-		
 		System.out.println("=====================================================");
 		
 		return gson.toJson(resultHm);
@@ -143,13 +141,18 @@ public class OrderController {
 		int result = 1;
 		
 		while(result!=0) {	//order 테이블 업데이트, basket 테이블 데이터 삭제 과정 중 오류 발생 체크용
-			List<Integer> productCodes = odService.getProductCodes(orderCode);	//해당 주문코드에 대한 상품코드 리스트 가져오기
-			result = productCodes.size(); //list의 크기가 0이면 해당 상품이 없는것이므로 오류 발생
-			System.out.println("productCodes size:" + result);
-			result = basketService.deleteBasket((long)session.getAttribute("customerCode"), productCodes);	//세션에 저장된 customerCode와 상품코드 리스트에 해당되는 장바구니 데이터 삭제
-			System.out.println("basket 테이블 데이터 삭제 완료");
+			HashMap<String, Object> productInfoHm = odService.getProductInfo(orderCode);	//해당 주문코드에 대한 상품코드 리스트 가져오기
+
+			result = (int) productInfoHm.get("result"); //list의 크기가 0이면 해당 상품이 없는것이므로 오류 발생
+			log.info("productInfoHm size:" + result);
+			
+			result = basketService.deleteBasket((long)session.getAttribute("customerCode"), (List<Integer>) productInfoHm.get("productCodeList"));	//세션에 저장된 customerCode와 상품코드 리스트에 해당되는 장바구니 데이터 삭제
+			log.info("basket 테이블 데이터 삭제 완료");
+			
 			result = orderServie.updateStatus(orderCode);	//해당 orderCode의 orderStatus=done으로 업데이트
-			System.out.println("order 테이블의 orderStatus가 done으로 변경되었습니다. orderCode : " + orderCode);
+			log.info("order 테이블의 orderStatus가 done으로 변경되었습니다. orderCode : " + orderCode);
+			
+			result = productService.subStock(productInfoHm);	//주문 수량만큼 재고 빼주기
 			
 			break;
 		}

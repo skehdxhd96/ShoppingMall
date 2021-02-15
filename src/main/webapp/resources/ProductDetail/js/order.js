@@ -26,5 +26,6 @@ $("#Order_Btn").on('click', function() {
 		}
 	}).catch(function(err) {
 		alert("주문 과정 중 오류가 발생하였습니다.");
+		location.href = "/order/orderError";
 	})
 })

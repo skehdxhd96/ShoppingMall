@@ -96,6 +96,9 @@
                   <a href="/ProductDetail/${product.product_code}">${product.product_name}</a>
                 </h4>
                 <h5>${product.product_price }원</h5>
+                <c:if test="${ product.product_stock==0 }">
+                	<p class="card-text" style="color:red">품절된 상품입니다.</p>
+                </c:if>
                 <p class="card-text">${product.product_manufacturer }</p>
               </div>
             </div>

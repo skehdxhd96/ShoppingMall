@@ -60,9 +60,16 @@ public class basketServiceImpl implements basketService{
 	@Override
 	public int deleteBasket(long customerCode, List<Integer> productCodes) {
 		HashMap<String, Object> hm = new HashMap<String, Object>();
-		hm.put("customerCode", customerCode);
-		hm.put("productCodes", productCodes);
+		int deletedRow = 0;
 		
-		return bm.deleteBasket(hm);
+		for (int i=0; i<productCodes.size(); i++) {
+			hm.put("customerCode", customerCode);
+			hm.put("productCodes", productCodes);
+			
+			bm.deleteBasket(hm);
+			deletedRow++;
+		}
+		
+		return deletedRow;
 	}
 }

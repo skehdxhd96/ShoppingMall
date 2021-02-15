@@ -50,6 +50,11 @@
 			company_name=#{companyName}, company_phone=#{companyPhone}
 		where customer_code=#{customerCode};		
 	</update>
+	<update id="updatePoint" parameterType="hashmap">
+		UPDATE customer
+		SET customer_point=#{totalPoint}
+		WHERE customer_code=#{customerCode};
+	</update>
 	
 	<delete id="deleteCustomer" parameterType="long">
 		delete from customer where customer_code = #{customerCode};

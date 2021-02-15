@@ -16,4 +16,5 @@ public interface CustomerService {
 	public void deleteCustomer(long customerCode);
 	public void updateBuyer(CustomerVO updateCustomer);
 	public void updateSeller(CustomerVO updateCustomer);
+	public int updatePoint(long customerCode, long totalPoint);
 }

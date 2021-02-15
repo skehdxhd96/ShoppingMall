@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.zerock.domain.CustomerVO;
 import org.zerock.mapper.CustomerMapper;
 
-@Repository
+@Service
 public class CustomerServiceImpl implements CustomerService {
 	@Inject
 	private CustomerMapper cm;
@@ -86,5 +86,15 @@ public class CustomerServiceImpl implements CustomerService {
 	public void updateSeller(CustomerVO updateCustomer) {
 		cm.updateSeller(updateCustomer);
 		System.out.println("customerCode : " + updateCustomer.getCustomerCode() + "판매자 회원 수정 완료");
+	}
+
+	@Override
+	public int updatePoint(long customerCode, long totalPoint) {
+		HashMap<String, Object> pointHm = new HashMap<String, Object>();
+		
+		pointHm.put("customerCode", customerCode);
+		pointHm.put("totalPoint", totalPoint);
+		
+		return cm.updatePoint(pointHm);
 	}
 }

@@ -16,4 +16,5 @@ public interface CustomerMapper {
 	public void deleteCustomer(long customerCode);
 	public void updateBuyer(CustomerVO updateCustomer);
 	public void updateSeller(CustomerVO updateCustomer);
+	public int updatePoint(HashMap<String, Object> pointHm);
 }

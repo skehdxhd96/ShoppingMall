@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.zerock.service.OrderServiceImpl;
 
-public class DeliveryIntercepter extends HandlerInterceptorAdapter{
+public class OrderInterceptor extends HandlerInterceptorAdapter{
 	@Resource
 	OrderServiceImpl orderService;
 	

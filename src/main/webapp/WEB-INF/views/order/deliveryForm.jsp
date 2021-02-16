@@ -29,36 +29,35 @@
 			  <tbody>
 			    <tr>
 			      <th scope="row" class="row-title">구매자 이름</th>
-			      <td>${ buyer.customer_name }</td>
+			      <td>${ buyer.customerName }</td>
 			    </tr>
 			    <tr>
 			      <th scope="row" class="row-title">구매자 이메일</th>
-			      <td>${ buyer.customer_email }</td>
+			      <td>${ buyer.customerEmail }</td>
 			    </tr>
 			    <tr>
 			      <th scope="row" class="row-title">구매자 전화번호</th>
-			      <td>${ buyer.customer_phone }</td>
+			      <td>${ buyer.customerPhone }</td>
 			    </tr>
 			  </tbody>
 			</table>
 		</div>
 		<div class="container sub-container delivery-container">
 			<h3 class="buyer-title">받는사람 정보</h3>
-			<c:set var="recipient" value="${ recipient }"></c:set>
-				<input type="hidden" name="deliveryCode" value="${ recipient.deliveryCode }">
+				<input name="orderCode" type="hidden" value="${ orderCode }">
 				<table class="table">
 				  <tbody>
 				    <tr>
 				      <th scope="row" class="row-title">받는사람 이름</th>
-				      <td><input class="form-control" name="recipient" placeholder="${ recipient.recipient }" type="text" value="${ recipient.recipient }"></td>
+				      <td><input class="form-control" name="recipient" placeholder="${ buyer.customerName }" type="text" value="${ buyer.customerName }"></td>
 				    </tr>
 				    <tr>
 				      <th scope="row" class="row-title">주소</th>
-				      <td><input class="form-control" name="shippingAddress" placeholder="${ recipient.shipping_address }" type="text" value="${ recipient.shipping_address }"></td>
+				      <td><input class="form-control" name="shippingAddress" placeholder="${ buyer.customerAddress }" type="text" value="${ buyer.customerAddress }"></td>
 				    </tr>
 				    <tr>
 				      <th scope="row" class="row-title">받는사람 전화번호</th>
-				      <td><input class="form-control" name="deliverPhone" placeholder="${ recipient.deliver_phone }" type="text" value="${ buyer.customer_phone }"></td>
+				      <td><input class="form-control" name="deliverPhone" placeholder="${ buyer.customerPhone }" type="text" value="${ buyer.customerPhone }"></td>
 				    </tr>
 				    <tr>
 				      <th scope="row" class="row-title">요청사항</th>

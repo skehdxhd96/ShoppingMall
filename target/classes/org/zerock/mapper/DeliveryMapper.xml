@@ -7,11 +7,9 @@
 		WHERE delivery_code=#{delivery_code};
 	</select>
 	
-	<insert id="createDelivery"  parameterType="hashMap" useGeneratedKeys="true" keyProperty="deliveryVO.deliveryCode">
-		insert into delivery(shipping_address, deliver_phone, order_code, recipient)
-		select customer_address, customer_phone, #{deliveryVO.orderCode}, customer_name
-	    from customer
-	    where customer_code=#{customerCode};
+	<insert id="createDelivery"  parameterType="org.zerock.domain.DeliveryVO">
+		insert into delivery(shipping_address, requests, deliver_phone, order_code, recipient)
+		VALUES (#{shippingAddress}, #{requests}, #{deliverPhone}, #{orderCode}, #{recipient})
 	</insert>
 	
 	<update id="orderSuccess" parameterType="org.zerock.domain.DeliveryVO">

@@ -30,12 +30,12 @@
 </select>
 
 <update id="updateBasket" parameterType="org.zerock.domain.basketVO">
-	update basket set product_quantity=#{productQuantity} where customer_code=#{customerCode} and product_code=#{productCode};
+	update basket set product_quantity=#{product_quantity} where customer_code=#{customer_code} and product_code=#{product_code};
 </update>
 
 <delete id="deleteBasket" parameterType="hashmap">
-	DELETE FROM basket WHERE customer_code=#{customerCode} and product_code=
-	<foreach collection="productCodes" item="productCode" index="index" separator=",">
+	DELETE FROM basket WHERE customer_code=#{customerCode} and product_code in
+	<foreach collection="productCodeLi" item="productCode" open="(" separator="," close=")">
 		#{productCode}
 	</foreach>;
 </delete>

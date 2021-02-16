@@ -15,7 +15,7 @@
 		WHERE order_code=#{orderCode};
 	</select>
 	
-	<insert id="createOrder" parameterType="org.zerock.mapper.OrderMapper" useGeneratedKeys="true" keyProperty="orderCode">
+	<insert id="createOrder" parameterType="org.zerock.domain.OrderVO" useGeneratedKeys="true" keyProperty="orderCode">
 		insert into `order`(total_order_price, order_date, order_status, customer_code) values
 			(#{totalOrderPrice}, now(), 'in progress', #{customerCode});
 	</insert>

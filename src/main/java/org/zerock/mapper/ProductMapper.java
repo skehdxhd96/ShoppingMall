@@ -19,6 +19,8 @@ public interface ProductMapper {
 	
 	public int getCount(int categoryCode);
 	
+	public List<Integer> getPoints(List<Integer> productCodeLi);
+	
 	public List<ProductVO> getListByCategory(HashMap<String, Object> parameterHm);
 	
 	public void ProductDelete(int product_code);

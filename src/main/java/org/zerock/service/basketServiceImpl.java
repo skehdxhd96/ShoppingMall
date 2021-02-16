@@ -1,15 +1,14 @@
 package org.zerock.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.CodeVO;
 import org.zerock.domain.Criteria;
 import org.zerock.domain.basketPageVO;
 import org.zerock.domain.basketVO;
-import org.zerock.mapper.ReplyMapper;
 import org.zerock.mapper.basketMapper;
 
 import lombok.Setter;
@@ -30,7 +29,16 @@ public class basketServiceImpl implements basketService{
 
 	@Override
 	public int getBasketProduct(basketVO b) {
-		return bm.getBasketProduct(b);
+		int result = 0;
+		
+		//중복키 오류나면 insert->update로
+		try {
+			result = bm.getBasketProduct(b);
+		} catch (DuplicateKeyException e) {
+			result = bm.updateBasket(b);
+		}
+		
+		return result;
 	}
 	
 	@Override
@@ -55,21 +63,5 @@ public class basketServiceImpl implements basketService{
 	public int updateBasket(basketVO b) {
 		
 		return bm.updateBasket(b);
-	}
-
-	@Override
-	public int deleteBasket(long customerCode, List<Integer> productCodes) {
-		HashMap<String, Object> hm = new HashMap<String, Object>();
-		int deletedRow = 0;
-		
-		for (int i=0; i<productCodes.size(); i++) {
-			hm.put("customerCode", customerCode);
-			hm.put("productCodes", productCodes);
-			
-			bm.deleteBasket(hm);
-			deletedRow++;
-		}
-		
-		return deletedRow;
 	}
 }

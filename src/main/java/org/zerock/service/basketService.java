@@ -21,6 +21,4 @@ public interface basketService {
 	public CodeVO getPK(int product_code, long customer_code);
 	
 	public int updateBasket(basketVO b);
-	
-	public int deleteBasket(long customerCode, List<Integer> productCodes);
 }

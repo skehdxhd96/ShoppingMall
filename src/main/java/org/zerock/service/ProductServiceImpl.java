@@ -90,29 +90,4 @@ public class ProductServiceImpl implements ProductService{
 		return totalRow;
 	}
 
-	@Override
-	public HashMap<String, Object> getTotalPoint(HashMap<String, Object> productInfo) {
-		HashMap<String, Object> resultHm = new HashMap<String, Object>();
-		List<Long> productCodes = (List<Long>) productInfo.get("productCodeList");
-		List<Long> productQuantities = (List<Long>) productInfo.get("productQuantityList");
-		List<Integer> productPoints = pm.getPoints(productCodes);
-		long totalPoint = 0;
-		
-		if (productPoints.size()==0) {
-			resultHm.put("result", 0);
-			
-			return resultHm;
-		}
-		
-		for (int i=0; i<productPoints.size(); i++) {
-			totalPoint = productPoints.get(i)*productQuantities.get(i);
-		}
-		
-		resultHm.put("result", productPoints.size());
-		resultHm.put("totalPoint", totalPoint);
-		
-		resultHm.put("result", 0);
-		
-		return resultHm;
-	}
 }

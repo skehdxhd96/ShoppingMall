@@ -16,4 +16,25 @@ public class CustomerVO {
 	private String socialType;
 	private String companyName;
 	private String companyPhone;
+	
+	public CustomerVO() {
+		
+	}
+	
+	public CustomerVO(String customerName, String customerEmail, String customerPhone, String customerAddress) {
+		this.customerName = customerName;
+		this.customerEmail = customerEmail;
+		this.customerPhone = customerPhone;
+		this.customerAddress = customerAddress;
+	}
+	
+	public CustomerVO(String customerName, String customerEmail, String customerPhone, String customerAddress, 
+			String companyName, String companyPhone) {
+		this.customerName = customerName;
+		this.customerEmail = customerEmail;
+		this.customerPhone = customerPhone;
+		this.customerAddress = customerAddress;
+		this.companyName = companyName;
+		this.companyPhone = companyPhone;
+	}
 }

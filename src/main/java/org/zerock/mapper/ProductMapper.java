@@ -19,7 +19,7 @@ public interface ProductMapper {
 	
 	public int getCount(int categoryCode);
 	
-	public List<Integer> getPoints(List<Long> productCodes);
+	public List<Integer> getPoints(List<Integer> productCodeLi);
 	
 	public List<ProductVO> getListByCategory(HashMap<String, Object> parameterHm);
 	

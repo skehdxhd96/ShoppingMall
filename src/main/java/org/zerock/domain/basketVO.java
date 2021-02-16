@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class basketVO {
-	//이미지는 나중에
+	//�씠誘몄��뒗 �굹以묒뿉
 	private int product_code;
 	private String product_name;
 	private int product_price;

@@ -9,4 +9,12 @@ public class OrderVO {
 	private String orderDate;
 	private String orderStatus;
 	private long customerCode;
+	
+	public OrderVO() {
+		
+	}
+	public OrderVO(int totalOrderPrice, long customerCode) {
+		this.totalOrderPrice = totalOrderPrice;
+		this.customerCode = customerCode;
+	}
 }

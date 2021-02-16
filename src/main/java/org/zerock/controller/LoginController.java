@@ -139,7 +139,7 @@ public class LoginController {
 	@RequestMapping(value="/login/userModify")
 	public String userModifyGET(HttpSession session, Model model) {
 		System.out.println("여기는 회원정보 수정 페이지");
-		HashMap<String, Object> profile = null;
+		CustomerVO profile = null;
 		
 		//회원 타입에 따라 필요한 프로필정보를 다르게 가져온다.
 		if (session.getAttribute("customerType").equals(1)) {

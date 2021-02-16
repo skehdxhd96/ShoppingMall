@@ -19,8 +19,12 @@ $("#Order_Btn").on('click', function() {
 			alert("로그인이 필요합니다.");
 			location.href = "/login";
 		}
+		else if(response.data.result==2) {
+			alert("주문 과정 중 오류가 발생했습니다.");
+			location.href = "/order/orderError";
+		}
 		else {
-			var url="/order/delivery/form?deliveryCode=" + response.data.deliveryCode;
+			var url="/order/delivery/form?orderCode=" + response.data.orderCode;
 			alert("배송지 입력 페이지로 이동합니다.");
 			location.href = url;
 		}

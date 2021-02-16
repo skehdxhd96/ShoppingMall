@@ -31,12 +31,7 @@ public class basketServiceImpl implements basketService{
 	public int getBasketProduct(basketVO b) {
 		int result = 0;
 		
-		//중복키 오류나면 insert->update로
-		try {
-			result = bm.getBasketProduct(b);
-		} catch (DuplicateKeyException e) {
-			result = bm.updateBasket(b);
-		}
+		result = bm.getBasketProduct(b);
 		
 		return result;
 	}

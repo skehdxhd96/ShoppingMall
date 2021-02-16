@@ -86,15 +86,15 @@
 	 </interceptor>
 	</interceptors>
 	
-	<beans:bean id="DeliveryIntercepter" class="org.zerock.Interceptor.DeliveryIntercepter"></beans:bean>
+	<beans:bean id="OrderInterceptor" class="org.zerock.Interceptor.OrderInterceptor"></beans:bean>
 	<interceptors>
 		<interceptor>
 		 	<mapping path="/order/delivery/form"></mapping>
-		 	<beans:ref bean="DeliveryIntercepter"></beans:ref>
+		 	<beans:ref bean="OrderInterceptor"></beans:ref>
 	 	</interceptor>
 	 	<interceptor>
 		 	<mapping path="/order/orderSuccess"></mapping>
-		 	<beans:ref bean="DeliveryIntercepter"></beans:ref>
+		 	<beans:ref bean="OrderInterceptor"></beans:ref>
 	 	</interceptor>
 	</interceptors>
 	

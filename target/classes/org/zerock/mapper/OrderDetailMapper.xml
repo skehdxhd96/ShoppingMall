@@ -6,8 +6,13 @@
 		#{orderCode}, #{productCode}, #{productQuantity});
 	</insert>
 	
-	<select id="getProductInfo" resultType="hashmap" parameterType="int">
-		SELECT product_code, product_quantity
+	<select id="getProductCode" resultType="int" parameterType="int">
+		SELECT product_code
+		FROM order_detail
+		WHERE order_code=#{orderCode};
+	</select>
+	<select id="getProductQuantity" resultType="int" parameterType="int">
+		SELECT product_quantity
 		FROM order_detail
 		WHERE order_code=#{orderCode};
 	</select>

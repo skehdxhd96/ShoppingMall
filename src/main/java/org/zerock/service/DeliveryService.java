@@ -9,4 +9,5 @@ public interface DeliveryService {
 	public HashMap<String, Object> getDelivery(int deliveryCode);
 	//배송페이지 입력 후 배송테이블 업데이트하기
 	public HashMap<String, Object> orderSuccess(DeliveryVO deliveryVO);
+	public DeliveryVO getDeliveryByOrderCode(int orderCode);
 }

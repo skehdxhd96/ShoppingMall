@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.DeliveryVO;
 import org.zerock.mapper.DeliveryMapper;
@@ -43,6 +42,14 @@ public class DeliveryServiceImpl implements DeliveryService {
 	public int createDelivery(DeliveryVO delivery) {
 		
 		return deliveryMapper.createDelivery(delivery);
+	}
+
+	@Override
+	public DeliveryVO getDeliveryByOrderCode(int orderCode) {
+		DeliveryVO delivery = deliveryMapper.getDeliveryByOrderCode(orderCode);
+		log.info(delivery.toString());
+		
+		return delivery;
 	}
 
 }

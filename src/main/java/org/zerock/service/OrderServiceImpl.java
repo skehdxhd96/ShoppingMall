@@ -52,12 +52,12 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	//delivery 인터셉터에서 구매자일 때 로그인된 사용자의 배달코드인지 알아보기 위한 쿼리문
-	@Override
-	public long getCustomerCodeByDeliery(int deliveryCode) {
-		long customerCode = orderMapper.getCustomerCodeByDeliery(deliveryCode);
-		
-		return customerCode;
-	}
+//	@Override
+//	public long getCustomerCodeByDeliery(int deliveryCode) {
+//		long customerCode = orderMapper.getCustomerCodeByDeliery(deliveryCode);
+//		
+//		return customerCode;
+//	}
 
 	@Override
 	public int updateStatus(int orderCode) {

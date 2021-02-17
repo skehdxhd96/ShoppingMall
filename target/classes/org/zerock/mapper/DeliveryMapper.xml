@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zerock.mapper.DeliveryMapper">
+	<resultMap id="deliveryRM" type="org.zerock.domain.DeliveryVO" >
+		<result property="shippingAddress" column="shipping_address"></result>
+		<result property="deliverPhone" column="deliver_phone"></result>
+	</resultMap>
+	
 	<select id="getDelivery" parameterType="int" resultType="hashMap">
 		SELECT shipping_address, recipient, deliver_phone
 		FROM delivery
 		WHERE delivery_code=#{delivery_code};
+	</select>
+	<select id="getDeliveryByOrderCode" parameterType="int" resultType="org.zerock.domain.DeliveryVO" resultMap="deliveryRM">
+		SELECT recipient, shipping_address, deliver_phone, requests
+		FROM delivery
+		WHERE order_code=#{orderCode};
 	</select>
 	
 	<insert id="createDelivery"  parameterType="org.zerock.domain.DeliveryVO">

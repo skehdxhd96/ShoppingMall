@@ -106,7 +106,7 @@ public class MainController {
 		//해당 페이지에 전달할 상품데이터 리스트
 		List<ProductVO> productVOList = pm.getListByCategory(dataTransfer);
 		hm.put("productList", productVOList);
-		System.out.println(dataTransfer.get("categoryCode").getClass().getName());
+		log.info(dataTransfer.get("categoryCode").getClass().getName());
 		
 		//카테고리코드
 		int categoryCode = (int) dataTransfer.get("categoryCode");

@@ -18,7 +18,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
 	@Override
 	public HashMap<String, Object> getDelivery(int deliveryCode) {
-		System.out.println("getDelivery() : " + deliveryCode);
+		log.info("getDelivery() : " + deliveryCode);
 		
 		return deliveryMapper.getDelivery(deliveryCode);
 	}
@@ -33,7 +33,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 			resultHm.put("orderCode", deliveryVO.getOrderCode());	//업데이트 성공 후 반환된 orderCode
 		}
 		
-		System.out.println("DeliveryServiceImpl orderSuccess result:"+resultHm.toString());
+		log.info("DeliveryServiceImpl orderSuccess result:"+resultHm.toString());
 		
 		return resultHm;
 	}

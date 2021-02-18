@@ -81,7 +81,7 @@ public class OrderController {
 		model.addAttribute("buyer", customer);
 		model.addAttribute("orderCode", orderCode);
 		
-		System.out.println("=====================================================");
+		log.info("=====================================================");
 		
 		return "order/deliveryForm";
 	}

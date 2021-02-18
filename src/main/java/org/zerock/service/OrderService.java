@@ -3,10 +3,6 @@ package org.zerock.service;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
-import org.zerock.domain.DeliveryVO;
-
 public interface OrderService {
 	//delivery 인터셉터에서 구매자일 때 로그인된 사용자의 배달코드인지 알아보기 위한 쿼리문
 //	public long getCustomerCodeByDeliery(int deliveryCode);

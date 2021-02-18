@@ -29,12 +29,13 @@ public class OrderInterceptor extends HandlerInterceptorAdapter{
 			long customerCode=0;
 			
 			try {
-				if (req.getQueryString().split("=")[0].equals("deliveryCode")) {
-					customerCode = orderService.getCustomerCodeByDeliery(Integer.parseInt(req.getQueryString().split("=")[1]));
-				}
-				else {
-					customerCode = orderService.getCustomerCodeByOrder(Integer.parseInt(req.getQueryString().split("=")[1]));
-				}
+				customerCode = orderService.getCustomerCodeByOrder(Integer.parseInt(req.getQueryString().split("=")[1]));
+//				if (req.getQueryString().split("=")[0].equals("deliveryCode")) {
+//					customerCode = orderService.getCustomerCodeByDeliery(Integer.parseInt(req.getQueryString().split("=")[1]));
+//				}
+//				else {
+//					customerCode = orderService.getCustomerCodeByOrder(Integer.parseInt(req.getQueryString().split("=")[1]));
+//				}
 			} catch(NullPointerException e) {
 				return true;
 			}

@@ -81,7 +81,7 @@ public class OrderController {
 		model.addAttribute("buyer", customer);
 		model.addAttribute("orderCode", orderCode);
 		
-		System.out.println("=====================================================");
+		log.info("=====================================================");
 		
 		return "order/deliveryForm";
 	}
@@ -117,7 +117,10 @@ public class OrderController {
 	//주문 성공 페이지
 	@RequestMapping(value="/order/orderSuccess", method=RequestMethod.GET) 
 	public String orderSuccess(@RequestParam int orderCode, Model model) {
+		DeliveryVO delivery = deliveryService.getDeliveryByOrderCode(orderCode);
+		
 		model.addAttribute("orderCode", orderCode);
+		model.addAttribute("delivery", delivery);
 		
 		return "/order/orderSuccess";
 	}

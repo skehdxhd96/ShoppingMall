@@ -6,7 +6,10 @@ import org.springframework.stereotype.Service;
 import org.zerock.domain.SocialDetailVO;
 import org.zerock.mapper.SocialDetailMapper;
 
+import lombok.extern.log4j.Log4j;
+
 @Service
+@Log4j
 public class SocialDetailServiceImpl implements SocialDetailService {
 	@Inject
 	SocialDetailMapper scm;
@@ -20,19 +23,19 @@ public class SocialDetailServiceImpl implements SocialDetailService {
 
 	@Override
 	public void insertTokenData(SocialDetailVO socialDetailVO) {
-		System.out.println("\nInsert new data in social_detail");
-		System.out.println("customer_code : " + socialDetailVO.getCustomerCode());
-		System.out.println("accessToken : " + socialDetailVO.getAccessToken());
-		System.out.println("refreshToken : " + socialDetailVO.getRefreshToken());
-		System.out.println("expiredDate : " + socialDetailVO.getExpiredDate());
+		log.info("\nInsert new data in social_detail");
+		log.info("customer_code : " + socialDetailVO.getCustomerCode());
+		log.info("accessToken : " + socialDetailVO.getAccessToken());
+		log.info("refreshToken : " + socialDetailVO.getRefreshToken());
+		log.info("expiredDate : " + socialDetailVO.getExpiredDate());
 		
 		scm.insertTokenData(socialDetailVO);
 	}
 
 	@Override
 	public void updateTokenData(SocialDetailVO socialDetailVO) {
-		System.out.println("socialDetail 테이블의 데이터를 업데이트 합니다!");
-		System.out.println("customer_code:" + socialDetailVO.getCustomerCode());
+		log.info("socialDetail 테이블의 데이터를 업데이트 합니다!");
+		log.info("customer_code:" + socialDetailVO.getCustomerCode());
 		
 		scm.updateTokenData(socialDetailVO);
 	}

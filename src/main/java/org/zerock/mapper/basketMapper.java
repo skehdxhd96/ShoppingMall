@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.zerock.domain.CodeVO;
 import org.zerock.domain.Criteria;
-import org.zerock.domain.ReplyPageVO;
 import org.zerock.domain.basketPageVO;
 import org.zerock.domain.basketVO;
 

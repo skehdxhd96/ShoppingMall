@@ -1,11 +1,6 @@
 package org.zerock.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.zerock.domain.Criteria;
-import org.zerock.domain.ReplyPageVO;
 import org.zerock.domain.basketPageVO;
 import org.zerock.domain.basketVO;
 import org.zerock.service.basketService;

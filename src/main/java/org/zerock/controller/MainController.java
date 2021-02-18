@@ -21,14 +21,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.zerock.domain.CategoryVO;
-import org.zerock.domain.CodeVO;
 import org.zerock.domain.DetailVO;
 import org.zerock.domain.ProductVO;
 import org.zerock.service.CustomerServiceImpl;
+import org.zerock.service.OrderServiceImpl;
 import org.zerock.service.ProductServiceImpl;
 import org.zerock.service.ReplyService;
 import org.zerock.service.basketService;
-import org.zerock.utils.GetScoreUtils;
 import org.zerock.utils.ReviewListUtils;
 import org.zerock.utils.UploadFileUtils;
 
@@ -40,19 +39,17 @@ import net.sf.json.JSONArray;
 public class MainController {
 	@Resource
 	private ProductServiceImpl pm;
-	
 	@Resource
 	private basketService bm;
-	
 	@Resource
 	private ReplyService rm;
-	
 	@Resource(name = "uploadPath")
 	private String uploadPath; // servlet-context占쏙옙占쏙옙占쏙옙 占쌍억옙占�
-	
 	@Inject
 	CustomerServiceImpl customerService;
-
+	@Resource
+	OrderServiceImpl orderService;
+	
 	@RequestMapping("/")
 	public String toMainPage(HttpSession session, Model model) {
 		String customerName = "";
@@ -109,7 +106,7 @@ public class MainController {
 		//해당 페이지에 전달할 상품데이터 리스트
 		List<ProductVO> productVOList = pm.getListByCategory(dataTransfer);
 		hm.put("productList", productVOList);
-		System.out.println(dataTransfer.get("categoryCode").getClass().getName());
+		log.info(dataTransfer.get("categoryCode").getClass().getName());
 		
 		//카테고리코드
 		int categoryCode = (int) dataTransfer.get("categoryCode");
@@ -225,7 +222,13 @@ public class MainController {
 	
 	//마이페이지-마이페이지 초기화면은 주문목록
 	@RequestMapping("/myPage/order/list")
-	public String orderList() {
+	public String orderList(HttpSession session, Model model) {
+		log.info("\n====================여기는 마이페이지 주문목록 페이지=======================");
+		Integer customerCode = Integer.parseInt(session.getAttribute("customerCode").toString());
+		List<HashMap<String, Object>> orDoneInfo = orderService.getOrderDone(customerCode);
+		log.info(orDoneInfo.toString());
+		
+		model.addAttribute("orderInfo", orDoneInfo);
 		
 		return "myPage/orderList";
 	}

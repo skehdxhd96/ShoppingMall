@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.DeliveryVO;
 import org.zerock.mapper.DeliveryMapper;
@@ -19,7 +18,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
 	@Override
 	public HashMap<String, Object> getDelivery(int deliveryCode) {
-		System.out.println("getDelivery() : " + deliveryCode);
+		log.info("getDelivery() : " + deliveryCode);
 		
 		return deliveryMapper.getDelivery(deliveryCode);
 	}
@@ -34,7 +33,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 			resultHm.put("orderCode", deliveryVO.getOrderCode());	//업데이트 성공 후 반환된 orderCode
 		}
 		
-		System.out.println("DeliveryServiceImpl orderSuccess result:"+resultHm.toString());
+		log.info("DeliveryServiceImpl orderSuccess result:"+resultHm.toString());
 		
 		return resultHm;
 	}
@@ -43,6 +42,14 @@ public class DeliveryServiceImpl implements DeliveryService {
 	public int createDelivery(DeliveryVO delivery) {
 		
 		return deliveryMapper.createDelivery(delivery);
+	}
+
+	@Override
+	public DeliveryVO getDeliveryByOrderCode(int orderCode) {
+		DeliveryVO delivery = deliveryMapper.getDeliveryByOrderCode(orderCode);
+		log.info(delivery.toString());
+		
+		return delivery;
 	}
 
 }

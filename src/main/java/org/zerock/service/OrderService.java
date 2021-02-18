@@ -17,4 +17,6 @@ public interface OrderService {
 	public Integer getOrderCode(HashMap<String, Object> orderInfo, long customerCode);
 	public int createOrderDetail(List<HashMap<String, Object>> productsHm, int orderCode);
 	public int orderComplete(int orderCode, long customerCode);
+	//마이페이지-주문목록에서 고객코드로 주문코드, 주문일, 주문상태, 배송상태 가져오기
+	public List<HashMap<String, Object>> getOrderDone(Integer customerCode);
 }

@@ -1,5 +1,6 @@
 package org.zerock.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -133,6 +134,51 @@ public class OrderServiceImpl implements OrderService {
 		result = orderMapper.updateStatus(orderCode);	//해당 orderCode의 orderStatus=done으로 업데이트
 		
 		return result;
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getOrderDone(Integer customerCode) {
+		List<HashMap<String, Object>> ordeliInfo = orderMapper.getOrderDone(customerCode);
+		
+		List<Integer> orderCodes = new ArrayList<Integer>();
+		for (int i=0; i<ordeliInfo.size(); i++) {
+			orderCodes.add(Integer.parseInt(ordeliInfo.get(i).get("order_code").toString()));
+		}
+		
+		List<HashMap<String, Object>> orDoneInfoLi = new ArrayList<HashMap<String, Object>>();
+		List<HashMap<String, Object>> odProInfoLi = odMapper.getDoneProOdInfo(orderCodes);
+		
+		int odProIdx=0;
+		
+		for (int i=0; i<ordeliInfo.size(); i++) {
+			HashMap<String, Object> orDoneInfoHm = new HashMap<String, Object>();
+			
+			orDoneInfoHm.put("order_code", ordeliInfo.get(i).get("order_code"));
+			orDoneInfoHm.put("order_date", ordeliInfo.get(i).get("order_date"));
+			orDoneInfoHm.put("order_status", ordeliInfo.get(i).get("order_status"));
+			orDoneInfoHm.put("delivery_status", ordeliInfo.get(i).get("delivery_status"));
+			
+			List<HashMap<String, Object>> odProInfoIdxLi = new ArrayList<HashMap<String, Object>>();
+			try {
+				while(orderCodes.get(i).toString().equals(odProInfoLi.get(odProIdx).get("order_code").toString())) {
+					HashMap<String, Object> odProInfoIdxHm = new HashMap<String, Object>();
+
+					odProInfoIdxHm.put("product_code", odProInfoLi.get(odProIdx).get("product_code"));
+					odProInfoIdxHm.put("product_name", odProInfoLi.get(odProIdx).get("product_name"));
+					odProInfoIdxHm.put("thumbnail_url", odProInfoLi.get(odProIdx).get("thumbnail_url"));
+					odProInfoIdxHm.put("product_quantity", odProInfoLi.get(odProIdx).get("product_quantity"));		
+					odProInfoIdxLi.add(odProInfoIdxHm);
+					
+					odProIdx++;
+				}
+			} catch(IndexOutOfBoundsException e) {
+				log.info(e.getMessage());
+			}
+			orDoneInfoHm.put("odProInfo", odProInfoIdxLi);
+			orDoneInfoLi.add(orDoneInfoHm);
+		}
+		
+		return orDoneInfoLi;
 	}
 
 }

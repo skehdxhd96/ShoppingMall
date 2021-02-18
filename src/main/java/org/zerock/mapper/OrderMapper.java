@@ -1,5 +1,8 @@
 package org.zerock.mapper;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.zerock.domain.OrderVO;
 
 public interface OrderMapper {
@@ -10,4 +13,5 @@ public interface OrderMapper {
 	public int updateStatus(int orderCode);
 	//order 인터셉터에서 구매자일 때 로그인된 사용자의 주문코드인지 알아보기 위한 쿼리문
 	public long getCustomerCodeByOrder(int orderCode);
+	public List<HashMap<String, Object>> getOrderDone(Integer customerCode);
 }

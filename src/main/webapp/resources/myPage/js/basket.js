@@ -17,6 +17,29 @@ var BasketService = (function() {
 		});
 	}
 	
+	function SendArray(param, callback, error) {
+		
+		var customer_code = param.customer_code;
+		
+		$.ajax({
+			
+			type : 'POST',
+			url : '/myPage/basket/getOrderInfo/' + customer_code,
+			data : JSON.stringify(param.CheckedArray),
+			contentType : "application/json; charset = utf-8",
+			success : function(result, status, xhr) {
+				if(callback) {
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er) {
+				if(error) {
+					error(er);
+				}
+			}
+		})
+	}
+	
 	function add(basket, callback, error) {
 		
 		$.ajax({
@@ -36,9 +59,32 @@ var BasketService = (function() {
 			}
 		})
 	}
-
+	
+	function remove(param, callback, error) {
+		
+		var customer_code = param.customer_code;
+		var product_code = param.product_code;
+		
+		$.ajax({
+			type : 'delete',
+			url : '/myPage/basket/delete/' + customer_code  + "/" + product_code,
+			success : function(deleteResult, status, xhr) {
+				if(callback) {
+					callback(deleteResult);
+				}
+			},
+			error : function(xhr, status, er) {
+				if(error) {
+					error(er);
+				}
+			}
+		})
+	}
+	
 	return {
 		getList : getList,
-		add : add
+		add : add,
+		remove : remove,
+		getOrderInfo : getOrderInfo
 	};
 })();

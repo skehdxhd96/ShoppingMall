@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.zerock.domain.CodeVO;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.GetOrderInfoVO;
 import org.zerock.domain.basketPageVO;
 import org.zerock.domain.basketVO;
 
@@ -21,7 +22,11 @@ public interface basketMapper {
 	
 	public CodeVO getPK(@Param("product_code") int product_code, @Param("customer_code") Long customer_code);
 	
-	public int updateBasket(basketVO b);
-	
 	public int deleteBasket(HashMap<String, Object> hm);
+	
+	public int removeBasket(@Param("customer_code") Long customer_code, @Param("product_code") int product_code);
+	
+	public List<GetOrderInfoVO> getOrderInfo(@Param("customer_code") Long customer_code, @Param("product_code") int product_code);
+	
+	public int getTotalPrice(HashMap<Long, List<Integer>> h);
 }

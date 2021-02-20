@@ -1,9 +1,13 @@
 package org.zerock.service;
 
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.zerock.domain.CodeVO;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.GetOrderInfoVO;
+import org.zerock.domain.OrderInfoListVO;
 import org.zerock.domain.basketPageVO;
 import org.zerock.domain.basketVO;
 
@@ -19,5 +23,11 @@ public interface basketService {
 	
 	public CodeVO getPK(int product_code, long customer_code);
 	
-	public int updateBasket(basketVO b);
+	public int removeBasket(Long customer_code, int product_code);
+	
+	public List<GetOrderInfoVO> getOrderInfo(Long customer_code, int product_code);
+	
+	public OrderInfoListVO getOrderInfoList(Long customer_code, int product_code, HashMap<Long, List<Integer>> h);
+	
+	public int getTotalPrice(HashMap<Long, List<Integer>> h);
 }

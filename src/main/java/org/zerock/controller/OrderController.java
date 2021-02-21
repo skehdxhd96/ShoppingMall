@@ -131,4 +131,23 @@ public class OrderController {
 		
 		return "/order/orderError";
 	}
+	
+	//주문 취소
+	@RequestMapping(value="/order/orderCancel", method=RequestMethod.POST)
+	@ResponseBody
+	public String orderCancel(@RequestBody HashMap<String, Object> reqHm) {
+		log.info("\n===================================주문취소 요청이 들어왔습니다.===================================");
+		int orderCodeInt = Integer.parseInt(reqHm.get("orderCode").toString());
+		
+		if (orderServie.updateStatus(orderCodeInt, "cancel")==0) {
+			log.info("업데이트 될 데이터가 존재하지 않습니다.");
+			
+			return gson.toJson("'result' : 0");
+		}
+		else {
+			log.info("orderStatus : cancel로 변경되었습니다. 주문코드 : " + orderCodeInt);
+			
+			return gson.toJson("'result' : " + deliveryService.updateDeliveryStatus(orderCodeInt, "cancel"));
+		}
+	}
 }

@@ -5,7 +5,7 @@
 <mapper namespace = "org.zerock.mapper.basketMapper">
 
 <insert id = "getBasketProduct">
-	insert into basket(product_code, customer_code, product_quantity)
+	replace into basket(product_code, customer_code, product_quantity)
 	values (#{product_code}, #{customer_code}, #{product_quantity})
 </insert>
 
@@ -17,8 +17,8 @@
 <select id = "getList" resultType = "org.zerock.domain.basketVO">
 	<![CDATA[
 	set @rownum := 0;
-	select distinct product_code, product_name, product_price, product_manufacturer, customer_code, product_quantity
-	from (select distinct @rownum:=@rownum+1 rownum, p.product_code, p.product_name, p.product_price, p.product_manufacturer, c.customer_code, b.product_quantity
+	select distinct product_code, product_name, product_price, product_manufacturer, customer_code, product_quantity, image_url
+	from (select distinct @rownum:=@rownum+1 rownum, p.product_code, p.product_name, p.product_price, p.product_manufacturer, c.customer_code, b.product_quantity, p.image_url 
 	from customer as c join basket as b on c.customer_code = b.customer_code
 	inner join product as p on p.product_code = b.product_code,
 	(SELECT @rownum := 0) Tmp where c.customer_code = #{customerCode} and @rownum < #{cri.pageNum} * #{cri.amount}) a where a.rownum > (#{cri.pageNum}-1) * #{cri.amount};
@@ -39,4 +39,22 @@
 		#{productCode}
 	</foreach>;
 </delete>
+
+<delete id = "removeBasket">
+	delete from basket where customer_code = #{customer_code} and product_code = #{product_code}
+</delete>
+
+<!-- parameter : HashMap<Long, List<Integer>> -->
+<select id = "getTotalPrice" resultType = "int" parameterType = "hashmap">
+	select sum(b.product_quantity * p.product_price) from basket as b join product as p on b.product_code = p.product_code
+    where b.customer_code = #{customer_code} and p.product_code in
+    <foreach collection = "productCodeLi" item = "product_code" open="(" separator = "," close = ")">
+    	#{product_code}
+    </foreach>
+</select>
+
+<select id = "getOrderInfo" resultType = "org.zerock.domain.GetOrderInfoVO">
+	select b.product_code, b.product_quantity, p.product_price from basket as b join product as p on b.product_code = p.product_code
+    where b.customer_code = #{customer_code} and b.product_code = #{product_code};
+</select>
 </mapper>

@@ -1,11 +1,14 @@
 package org.zerock.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.CodeVO;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.GetOrderInfoVO;
+import org.zerock.domain.OrderInfoListVO;
 import org.zerock.domain.basketPageVO;
 import org.zerock.domain.basketVO;
 import org.zerock.mapper.basketMapper;
@@ -52,10 +55,28 @@ public class basketServiceImpl implements basketService{
 		
 		return bm.getPK(product_code, customer_code);
 	}
-
+	
 	@Override
-	public int updateBasket(basketVO b) {
+	public int removeBasket(Long customer_code, int product_code) {
 		
-		return bm.updateBasket(b);
+		return bm.removeBasket(customer_code, product_code);
+	}
+	
+	@Override
+	public List<GetOrderInfoVO> getOrderInfo(Long customer_code, int product_code) {
+		
+		return bm.getOrderInfo(customer_code, product_code);
+	}
+	
+	@Override
+	public int getTotalPrice(HashMap<Long, List<Integer>> h) {
+		
+		return bm.getTotalPrice(h);
+	}
+	
+	@Override
+	public OrderInfoListVO getOrderInfoList(Long customer_code, int product_code, HashMap<Long, List<Integer>> h) {
+		
+		return new OrderInfoListVO(bm.getOrderInfo(customer_code, product_code), bm.getTotalPrice(h));
 	}
 }

@@ -11,6 +11,7 @@ public class basketVO {
 	private String product_manufacturer;
 	private long customer_code;
 	private int product_quantity;
+	private String image_url;
 	
 	public basketVO() {
 		

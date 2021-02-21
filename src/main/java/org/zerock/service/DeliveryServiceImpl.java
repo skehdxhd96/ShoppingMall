@@ -52,4 +52,13 @@ public class DeliveryServiceImpl implements DeliveryService {
 		return delivery;
 	}
 
+	@Override
+	public int updateDeliveryStatus(int orderCode, String deliveryStatus) {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("orderCode", orderCode);
+		hm.put("deliveryStatus", deliveryStatus);
+		
+		return deliveryMapper.updateDeliveryStatus(hm);
+	}
+
 }

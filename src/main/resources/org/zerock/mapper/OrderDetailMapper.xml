@@ -16,7 +16,7 @@
 		FROM order_detail
 		WHERE order_code=#{orderCode};
 	</select>
-	<select id="getDoneProOdInfo" resultType="list" parameterType="list">
+	<select id="getDoneProOdInfo" resultType="HashMap" parameterType="Integer">
 		SELECT o.order_code, o.product_code, o.product_quantity, p.product_name, p.thumbnail_url
 		FROM product as p INNER JOIN order_detail as o
 		ON p.product_code=o.product_code

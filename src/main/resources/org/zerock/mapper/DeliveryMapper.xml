@@ -36,4 +36,9 @@
 		recipient=#{recipient}
 		WHERE delivery_code=#{deliveryCode};
 	</update>
+	<update id="updateDeliveryStatus" parameterType="HashMap">
+		UPDATE delivery
+		SET delivery_status=#{deliveryStatus}
+		WHERE order_code=#{orderCode};
+	</update>
 </mapper>

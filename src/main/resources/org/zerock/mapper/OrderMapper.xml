@@ -26,7 +26,7 @@
 			(#{totalOrderPrice}, now(), 'in progress', #{customerCode});
 	</insert>
 	
-	<update id="updateStatus" parameterType="int">
-		UPDATE `order` SET order_status="done" WHERE order_code=#{orderCode};
+	<update id="updateStatus" parameterType="HashMap">
+		UPDATE `order` SET order_status=#{orderStatus} WHERE order_code=#{orderCode};
 	</update>
 </mapper>

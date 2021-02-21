@@ -61,9 +61,12 @@ public class OrderServiceImpl implements OrderService {
 //	}
 
 	@Override
-	public int updateStatus(int orderCode) {
-	
-		return orderMapper.updateStatus(orderCode);
+	public int updateStatus(int orderCode, String orderStatus) {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("orderCode", orderCode);
+		hm.put("orderStatus", orderStatus);
+		
+		return orderMapper.updateStatus(hm);
 	}
 
 	@Override
@@ -131,7 +134,7 @@ public class OrderServiceImpl implements OrderService {
 			result = productMapper.subStock(hm);
 		}
 		
-		result = orderMapper.updateStatus(orderCode);	//해당 orderCode의 orderStatus=done으로 업데이트
+		result = updateStatus(orderCode, "done");	//해당 orderCode의 orderStatus=done으로 업데이트
 		
 		return result;
 	}

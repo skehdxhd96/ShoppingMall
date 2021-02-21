@@ -9,5 +9,5 @@ public interface DeliveryMapper {
 	public HashMap<String, Object> getDelivery(int deliveryCode);
 	public DeliveryVO getDeliveryByOrderCode(int orderCode);
 	public int orderSuccess(DeliveryVO deliveryVO);
-	
+	public int updateDeliveryStatus(HashMap<String, Object> hm);
 }

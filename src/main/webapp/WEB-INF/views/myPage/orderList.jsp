@@ -29,8 +29,8 @@
         			<table class="table table-sm">
         				<!-- <thead> -->
         					<tr>
-        						<th colspan="2">No.${ orderInfo.order_code }</th>
-        						<%-- <th>${ orderInfo.order_status }</th> --%>
+        						<th id="orderCode">No.${ orderInfo.order_code }</th>
+        						<th class=""><button type="button" class="btn btn-secondary btn-sm cancelBtn">주문 취소</button></th>
         					</tr>
         					<tr>
         						<th>${ orderInfo.order_date }</th>
@@ -73,5 +73,8 @@
 	<!-- Bootstrap core JavaScript -->
   	<script src="<%=request.getContextPath() %>/resources/myPage/vendor/jquery/jquery.min.js"></script>
   	<script src="<%=request.getContextPath() %>/resources/myPage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  	<!-- JavaScript -->
+  	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  	<script src="<%=request.getContextPath() %>/resources/myPage/js/orderList.js"></script>
 </body>
 </html>

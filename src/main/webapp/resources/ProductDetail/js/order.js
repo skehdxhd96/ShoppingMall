@@ -32,4 +32,4 @@ $("#Order_Btn").on('click', function() {
 		alert("주문 과정 중 오류가 발생하였습니다.");
 		location.href = "/order/orderError";
 	})
-})
+});

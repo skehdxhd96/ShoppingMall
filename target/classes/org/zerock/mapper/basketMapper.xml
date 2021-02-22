@@ -45,16 +45,19 @@
 </delete>
 
 <!-- parameter : HashMap<Long, List<Integer>> -->
-<select id = "getTotalPrice" resultType = "int" parameterType = "hashmap">
+<select id = "getTotalPrice" resultType = "int" parameterType="java.util.List">
 	select sum(b.product_quantity * p.product_price) from basket as b join product as p on b.product_code = p.product_code
     where b.customer_code = #{customer_code} and p.product_code in
-    <foreach collection = "productCodeLi" item = "product_code" open="(" separator = "," close = ")">
-    	#{product_code}
+    <foreach collection = "list" item = "CheckedArray" open = "(" separator = "," close = ")">
+    	#{CheckedArray}
     </foreach>
 </select>
 
-<select id = "getOrderInfo" resultType = "org.zerock.domain.GetOrderInfoVO">
+<select id = "getOrderInfo" resultType = "org.zerock.domain.GetOrderInfoVO" parameterType="java.util.List">
 	select b.product_code, b.product_quantity, p.product_price from basket as b join product as p on b.product_code = p.product_code
-    where b.customer_code = #{customer_code} and b.product_code = #{product_code};
+    where b.customer_code = #{customer_code} and b.product_code in
+    <foreach collection = "list" item = "CheckedArray" open = "(" separator = "," close = ")">
+    	#{CheckedArray}
+    </foreach>
 </select>
 </mapper>

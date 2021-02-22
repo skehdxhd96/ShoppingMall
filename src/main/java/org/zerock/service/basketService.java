@@ -25,9 +25,9 @@ public interface basketService {
 	
 	public int removeBasket(Long customer_code, int product_code);
 	
-	public List<GetOrderInfoVO> getOrderInfo(Long customer_code, int product_code);
+	public List<GetOrderInfoVO> getOrderInfo(Long customer_code, Integer[] CheckedArray);
 	
-	public OrderInfoListVO getOrderInfoList(Long customer_code, int product_code, HashMap<Long, List<Integer>> h);
+	public OrderInfoListVO getOrderInfoList(Long customer_code, Integer[] CheckedArray);
 	
-	public int getTotalPrice(HashMap<Long, List<Integer>> h);
+	public int getTotalPrice(Long customer_code, Integer[] CheckedArray);
 }

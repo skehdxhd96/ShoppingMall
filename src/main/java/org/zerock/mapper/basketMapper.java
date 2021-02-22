@@ -26,7 +26,7 @@ public interface basketMapper {
 	
 	public int removeBasket(@Param("customer_code") Long customer_code, @Param("product_code") int product_code);
 	
-	public List<GetOrderInfoVO> getOrderInfo(@Param("customer_code") Long customer_code, @Param("product_code") int product_code);
+	public List<GetOrderInfoVO> getOrderInfo(@Param("customer_code") Long customer_code, Integer[] CheckedArray);
 	
-	public int getTotalPrice(HashMap<Long, List<Integer>> h);
+	public int getTotalPrice(@Param("customer_code") Long customer_code, Integer[] CheckedArray);
 }

@@ -9,17 +9,16 @@
   	<meta name="description" content="">
   	<meta name="author" content="">
   	<title>마이페이지</title>
+  	  	<script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script>
   	<!-- Bootstrap core CSS -->
   	<link href="<%=request.getContextPath() %>/resources/myPage/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   	
   	<!-- Custom styles for this template -->
   	<link href="<%=request.getContextPath() %>/resources/common/css/shop-homepage.css" rel="stylesheet">
   	<link href="<%=request.getContextPath() %>/resources/common/css/common.css" rel="stylesheet">
-  	
-  	<script
-  src="https://code.jquery.com/jquery-3.5.1.js"
-  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-  crossorigin="anonymous"></script>
   
   <style type="text/css">
  	a:link { color: red; text-decoration: none;}
@@ -66,6 +65,7 @@
 		var customer_code = "${customerCode}";
 		var BasketList = $(".BasketList");
 		var CheckedArray = new Array();
+		var totalPrice;
 		
 		showList(1);
 		
@@ -90,8 +90,9 @@
 				
 				for(var i=0, len = list.length || 0; i<len; i++) {
 					str += "<div>";
-					str += "<span><input type = 'checkbox' name = 'BasketSelect' class = 'BasketSelect' value = '" + list[i].product_code + "'><a href = '/ProductDetail/" + list[i].product_code + "'>&nbsp&nbsp&nbsp<img id = 'BasketImage' src = '" + list[i].image_url + "'/></a>&nbsp&nbsp&nbsp" + list[i].product_name + "&nbsp&nbsp&nbsp" + list[i].product_manufacturer + "&nbsp&nbsp&nbsp" + list[i].product_price * list[i].product_quantity + "&nbsp&nbsp&nbsp" + list[i].product_quantity + "</span>";
-					str += "<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button id = 'removeBasket' type = 'button' value = '" + list[i].product_code + "'>삭제</button></span>";
+					str += "<div id = 'data' data-no = '" + list[i].product_code + "' data-price = '" + list[i].product_price + "' data-quantity = '" + list[i].product_quantity + "'><input type = 'checkbox' name = 'BasketSelect' class = 'BasketSelect' value = '" + list[i].product_code + "'><a href = '/ProductDetail/" + list[i].product_code + "'>&nbsp&nbsp&nbsp<img id = 'BasketImage' src = '" + list[i].image_url + "'/></a>&nbsp&nbsp&nbsp" 
+					str += list[i].product_name + "&nbsp&nbsp&nbsp" + list[i].product_manufacturer + "&nbsp&nbsp&nbsp" + list[i].product_price * list[i].product_quantity + "&nbsp&nbsp&nbsp" + list[i].product_quantity;
+					str += "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button id = 'removeBasket' type = 'button' value = '" + list[i].product_code + "'>삭제</button></div>";
 					str += "</br></div>";
 				}
 				
@@ -156,17 +157,19 @@
     		showList(pageNum);
     	});
     	
-    	/* $(document).on("click", "#orderBtn", function(e) {
+    	$(document).on("click", "#orderBtn", function(e) {
     		
-    		var param = {
-    				customer_code : customer_code,
-    				CheckedArray : CheckedArray
-    		};
+    		var CheckedData = {
+    				Products : CheckedArray,
+    				totalPrice : totalPrice
+    			};
     		
-    		BasketService.SendArray(param, function(result) {
-    			alert(result);
+    		console.log(CheckedData);
+    		
+    		BasketService.SendData(CheckedData, function(result) {
+    			//alert(result);
     		});
-    	}) */
+    	});
 
     	$(document).on("click", "#removeBasket", function(e) {
 			
@@ -186,14 +189,38 @@
     	$(document).on("click", "input:checkbox" ,function() {
     		
     		if($(this).prop('checked')) {
-    			CheckedArray.push($(this).val());
+    			
+    			var data = $(this).parent();
+    			
+    			var param = {
+    	    			productCode : data.attr('data-no'),
+    	    			productPrice : data.attr('data-price'),
+    	    			productQuantity : data.attr('data-quantity')
+    	    		};
+    			
+    			CheckedArray.push(param);
     		} else {
-    			const idx = CheckedArray.indexOf($(this).val());
+    			
+				var data = $(this).parent();
+    			
+    			var param = {
+    	    			productCode : data.attr('data-no'),
+    	    			productPrice : data.attr('data-price'),
+    	    			productQuantity : data.attr('data-quantity')
+    	    		};
+    			
+    			const idx = CheckedArray.indexOf(param);
     			CheckedArray.splice(idx, 1);
     		}
-    		//console.log(CheckedArray);
-    		//장바구니에 총 가격은 ajax말고 그냥 속성값 이용해서 받기
-    		//서버로 product_code만 ajax로 넘겨주기
+    		
+    		totalPrice = 0;
+    		
+    		for(var i=0; i<CheckedArray.length; i++) {
+    			
+    			totalPrice += parseInt(Object.values(CheckedArray[i])[1] * Object.values(CheckedArray[i])[2]);
+    			
+    		}
+    		
     	})
 });
 	</script>

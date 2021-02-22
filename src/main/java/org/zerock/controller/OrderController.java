@@ -5,8 +5,10 @@ import java.util.HashMap;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.zerock.domain.CustomerVO;
 import org.zerock.domain.DeliveryVO;
+import org.zerock.domain.GetOrderInfoVO;
+import org.zerock.domain.OrderInfoListVO;
 import org.zerock.service.CustomerServiceImpl;
 import org.zerock.service.DeliveryServiceImpl;
 import org.zerock.service.OrderServiceImpl;
@@ -35,25 +39,25 @@ public class OrderController {
 	@Resource
 	private Gson gson;
 	
-	// »óÇ° »ó¼¼ ÆäÀÌÁö¿¡¼­ ¹Ù·Î ÁÖ¹®ÇÏ±â ¹öÆ° Å¬¸¯ÇßÀ» ¶§ axios¸¦ È°¿ëÇØ¼­ Àü´Þ¹ÞÀº µ¥ÀÌÅÍ¸¦ DB¿¡ ÀûÀç½ÃÅ°´Â api
-	// ÀÌ°Å ³ªÁß¿¡ Àå¹Ù±¸´Ï¿¡¼­ ÁÖ¹®ÇÏ±â·Î ³Ñ¾î°¥ ¶§µµ »ç¿ëÇÒ °ÍÀÓ.
+	// ï¿½ï¿½Ç° ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½Ö¹ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½Æ° Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ axiosï¿½ï¿½ È°ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½Þ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ api
+	// ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½Ù±ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½Ï±ï¿½ï¿½ ï¿½Ñ¾î°¥ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	@RequestMapping(value = "/order/delivery", method = RequestMethod.POST)
 	@ResponseBody
 	public String delivery(@RequestBody HashMap<String, Object> orderInfo, HttpSession session) {
 		log.info("\n=====================================================");
-		log.info("¹Ù·Î ÁÖ¹®ÇÏ±â ¹öÆ°À» Å¬¸¯ÇßÀ» ¶§ axios api ¸¸µé±â");
+		log.info("ï¿½Ù·ï¿½ ï¿½Ö¹ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ axios api ï¿½ï¿½ï¿½ï¿½ï¿½");
 		
-		JsonObject resjson = new JsonObject();	//ÀÀ´ä jSON ÀÎ½ºÅÏ½º »ý¼º.
-		
-		//±ÇÇÑÃ¼Å©
-		if (session.getAttribute("customerCode")==null) {	//·Î±×ÀÎÀÌ ¾È µÅ ÀÖÀ» ¶§
-			log.info("·Î±×ÀÎÀÌ ÇÊ¿äÇÕ´Ï´Ù.");
+		JsonObject resjson = new JsonObject();	//ï¿½ï¿½ï¿½ï¿½ jSON ï¿½Î½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+
+		//ï¿½ï¿½ï¿½ï¿½Ã¼Å©
+		if (session.getAttribute("customerCode")==null) {	//ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+			log.info("ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Õ´Ï´ï¿½.");
 			resjson.addProperty("result", 0);
 					
 			return gson.toJson(resjson);
 		}
 		
-		long customerCode = (long) session.getAttribute("customerCode");	//°í°´ÄÚµå
+		long customerCode = (long) session.getAttribute("customerCode");	//ï¿½ï¿½ï¿½Úµï¿½
 		Integer orderCode = orderServie.getOrderCode(orderInfo, customerCode);
 		
 		if (orderCode==null) {
@@ -62,30 +66,30 @@ public class OrderController {
 			return gson.toJson(resjson);
 		}
 		
-		//ÀÀ´äµ¥ÀÌÅÍ json ±¸Á¶·Î ¸¸µé±â - result, deliveryCode
+		//ï¿½ï¿½ï¿½äµ¥ï¿½ï¿½ï¿½ï¿½ json ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ - result, deliveryCode
 		resjson.addProperty("result", 1);
 		resjson.addProperty("orderCode", orderCode);
 		
-		log.info("¸®ÅÏ¹ÞÀº orderCode´Â " + orderCode + " ÀÔ´Ï´Ù.");
+		log.info("ï¿½ï¿½ï¿½Ï¹ï¿½ï¿½ï¿½ orderCodeï¿½ï¿½ " + orderCode + " ï¿½Ô´Ï´ï¿½.");
 		log.info("=====================================================");
 		
 		return gson.toJson(resjson);
 	}
 
-	//¹è¼ÛÁö ÀÔ·Â(GET) or ¼öÁ¤(GET) ÆäÀÌÁö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½(GET) or ï¿½ï¿½ï¿½ï¿½(GET) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="/order/delivery/form", method=RequestMethod.GET)
 	public String deliveryFormGet(@RequestParam int orderCode, Model model, HttpSession session) {
-		log.info("\n=====================================================\n¿©±â´Â ¹è¼ÛÁöÀÔ·Â ÆäÀÌÁö");
+		log.info("\n=====================================================\nï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		DeliveryVO delivery = deliveryService.getDeliveryByOrderCode(orderCode);
 		
-		if (delivery==null) {	//¹è¼ÛÁö ÀÔ·Â
+		if (delivery==null) {	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½
 			CustomerVO customer = customerService.getBuyerProfile((long) session.getAttribute("customerCode"));
 			model.addAttribute("buyer", customer);
 			model.addAttribute("orderCode", orderCode);
 			
 			return "order/deliveryForm";
-		} else {	//¹è¼ÛÁö º¯°æ
-			log.info("¹è¼ÛÁö¸¦ ¾÷µ¥ÀÌÆ® ÇÕ´Ï´Ù.");
+		} else {	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			log.info("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Õ´Ï´ï¿½.");
 			delivery.setOrderCode(orderCode);
 			model.addAttribute("delivery", delivery);
 			
@@ -93,14 +97,14 @@ public class OrderController {
 		}
 	}
 	
-	//¹è¼ÛÁö ÀÔ·Â API(POST)
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ API(POST)
 	@RequestMapping(value="/order/delivery/form", method=RequestMethod.POST)
 	@ResponseBody
 	public String deliveryPOST(@RequestBody DeliveryVO deliveryVO) {
-		log.info("\n=====================================================\n¹è¼ÛÁö ÀÔ·ÂÀÌ ³¡³µ½À´Ï´Ù.");
+		log.info("\n=====================================================\nï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 		log.info(deliveryVO.toString());
-		HashMap<String, Object> resHm = new HashMap<String, Object>();	//Å¬¶óÀÌ¾ðÆ®¿¡°Ô Àü´ÞÇÒ µ¥ÀÌÅÍ
-		int result = deliveryService.createDelivery(deliveryVO);	//¹è¼Û Å×ÀÌºí µ¥ÀÌÅÍ insert
+		HashMap<String, Object> resHm = new HashMap<String, Object>();	//Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		int result = deliveryService.createDelivery(deliveryVO);	//ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ insert
 		
 		resHm.put("result", result);
 		resHm.put("orderCode", deliveryVO.getOrderCode());
@@ -109,7 +113,7 @@ public class OrderController {
 		return gson.toJson(resHm);
 	}
 	
-	//¹è¼ÛÁö º¯°æ API(PATCH)
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ API(PATCH)
 	@RequestMapping(value="/order/delivery/form", method=RequestMethod.PATCH)
 	@ResponseBody
 	public String deliveryPATCH(@RequestBody DeliveryVO delivery) {
@@ -120,7 +124,7 @@ public class OrderController {
 		return gson.toJson(resHm);
 	}
 	
-	//¹è¼ÛÅ×ÀÌºí ¾÷µ¥ÀÌÆ® ÀÌÈÄ orderStatus=done, basket µ¥ÀÌÅÍ »èÁ¦
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ orderStatus=done, basket ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="/order/delivery/after", method=RequestMethod.GET)
 	public String deliveryAfter(@RequestParam int orderCode, HttpSession session) {
 		int result = 0;
@@ -128,11 +132,11 @@ public class OrderController {
 		
 		result = orderServie.orderComplete(orderCode, customerCode);
 		
-		//result°¡ 0(½ÇÆÐ)ÀÌ¸é orderError ÆäÀÌÁö·Î, ¼º°øÀÌ¸é orderSuccess ÆäÀÌÁö·Î ¸®´ÙÀÌ·ºÆ®
+		//resultï¿½ï¿½ 0(ï¿½ï¿½ï¿½ï¿½)ï¿½Ì¸ï¿½ orderError ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ orderSuccess ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ®
 		return result==0? "redirect:/order/orderError" : "redirect:/order/orderSuccess?orderCode="+orderCode;
 	}
 	
-	//ÁÖ¹® ¼º°ø ÆäÀÌÁö
+	//ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="/order/orderSuccess", method=RequestMethod.GET) 
 	public String orderSuccess(@RequestParam int orderCode, Model model) {
 		DeliveryVO delivery = deliveryService.getDeliveryByOrderCode(orderCode);
@@ -143,29 +147,29 @@ public class OrderController {
 		return "/order/orderSuccess";
 	}
 	
-	//ÁÖ¹® ½ÇÆÐ ÆäÀÌÁö
+	//ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("/order/orderError")
 	public String orderError() {
 		
 		return "/order/orderError";
 	}
 	
-	//ÁÖ¹® Ãë¼Ò
+	//ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping(value="/order/orderCancel", method=RequestMethod.POST)
 	@ResponseBody
 	public String orderCancel(@RequestBody HashMap<String, Object> reqHm) {
-		log.info("\n===================================ÁÖ¹®Ãë¼Ò ¿äÃ»ÀÌ µé¾î¿Ô½À´Ï´Ù.===================================");
+		log.info("\n===================================ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½Ô½ï¿½ï¿½Ï´ï¿½.===================================");
 		HashMap<String, Object> resHm = new HashMap<String, Object>();
 		int orderCodeInt = Integer.parseInt(reqHm.get("orderCode").toString());
 		
 		if (orderServie.updateStatus(orderCodeInt, "cancel")==0) {
-			log.info("¾÷µ¥ÀÌÆ® µÉ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+			log.info("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
 			resHm.put("result", 0);
 			
 			return gson.toJson(resHm);
 		}
 		else {
-			log.info("orderStatus : cancel·Î º¯°æµÇ¾ú½À´Ï´Ù. ÁÖ¹®ÄÚµå : " + orderCodeInt);
+			log.info("orderStatus : cancelï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½Ö¹ï¿½ï¿½Úµï¿½ : " + orderCodeInt);
 			resHm.put("result", deliveryService.updateDeliveryStatus(orderCodeInt, "cancel"));
 			
 			return gson.toJson(resHm);

@@ -14,6 +14,7 @@
   	<!-- Custom styles for this template -->
   	<link href="<%=request.getContextPath() %>/resources/common/css/shop-homepage.css" rel="stylesheet">
   	<link href="<%=request.getContextPath() %>/resources/common/css/common.css" rel="stylesheet">
+  	<link href="<%=request.getContextPath() %>/resources/order/css/orderList.css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/nav.jsp"></jsp:include>
@@ -26,7 +27,7 @@
       		<div class="col-lg-9 main-col-lg-9">
         		<h2 class="main-title">주문목록</h2>
         		<c:forEach items="${ orderInfo }" var="orderInfo">
-        			<table class="table table-sm">
+        			<table class="table table-sm order-list-table">
         				<!-- <thead> -->
         					<tr>
         						<th id="orderCode">No.${ orderInfo.order_code }</th>
@@ -35,7 +36,9 @@
         					<tr>
         						<th>${ orderInfo.order_date }</th>
         						<c:if test="${ orderInfo.delivery_status=='preparing' }">
-        							<th>배달 준비중</th>
+        							<th>배달 준비중
+        								<button type="button" class="btn btn-secondary btn-sm DeliUpdateBtn">배송지 변경</button>
+        							</th>
         						</c:if>
         						<c:if test="${ orderInfo.delivery_status=='start' }">
         							<th>배송중</th>

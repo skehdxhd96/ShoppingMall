@@ -41,4 +41,12 @@
 		SET delivery_status=#{deliveryStatus}
 		WHERE order_code=#{orderCode};
 	</update>
+	<update id="updateDeliveryInfo" parameterType="org.zerock.domain.DeliveryVO">
+		UPDATE delivery
+		SET recipient=#{recipient}, 
+			deliver_phone=#{deliverPhone}, 
+			shipping_address=#{shippingAddress}, 
+			requests=#{requests}
+		WHERE order_code=#{orderCode};
+	</update>
 </mapper>

@@ -72,24 +72,31 @@ public class OrderController {
 		return gson.toJson(resjson);
 	}
 
-	//배송지 입력페이지(GET)
+	//배송지 입력(GET) or 수정(GET) 페이지
 	@RequestMapping(value="/order/delivery/form", method=RequestMethod.GET)
 	public String deliveryFormGet(@RequestParam int orderCode, Model model, HttpSession session) {
 		log.info("\n=====================================================\n여기는 배송지입력 페이지");
+		DeliveryVO delivery = deliveryService.getDeliveryByOrderCode(orderCode);
 		
-		CustomerVO customer = customerService.getBuyerProfile((long) session.getAttribute("customerCode"));
-		model.addAttribute("buyer", customer);
-		model.addAttribute("orderCode", orderCode);
-		
-		log.info("=====================================================");
-		
-		return "order/deliveryForm";
+		if (delivery==null) {	//배송지 입력
+			CustomerVO customer = customerService.getBuyerProfile((long) session.getAttribute("customerCode"));
+			model.addAttribute("buyer", customer);
+			model.addAttribute("orderCode", orderCode);
+			
+			return "order/deliveryForm";
+		} else {	//배송지 변경
+			log.info("배송지를 업데이트 합니다.");
+			delivery.setOrderCode(orderCode);
+			model.addAttribute("delivery", delivery);
+			
+			return "order/deliveryUpdate";
+		}
 	}
 	
-	//배송지 입력페이지(POST)
+	//배송지 입력 API(POST)
 	@RequestMapping(value="/order/delivery/form", method=RequestMethod.POST)
 	@ResponseBody
-	public String deliveryFormPATCH(@RequestBody DeliveryVO deliveryVO) {
+	public String deliveryPOST(@RequestBody DeliveryVO deliveryVO) {
 		log.info("\n=====================================================\n배송지 입력이 끝났습니다.");
 		log.info(deliveryVO.toString());
 		HashMap<String, Object> resHm = new HashMap<String, Object>();	//클라이언트에게 전달할 데이터
@@ -98,6 +105,17 @@ public class OrderController {
 		resHm.put("result", result);
 		resHm.put("orderCode", deliveryVO.getOrderCode());
 		log.info("=====================================================");
+		
+		return gson.toJson(resHm);
+	}
+	
+	//배송지 변경 API(PATCH)
+	@RequestMapping(value="/order/delivery/form", method=RequestMethod.PATCH)
+	@ResponseBody
+	public String deliveryPATCH(@RequestBody DeliveryVO delivery) {
+		HashMap<String, Object> resHm = new HashMap<String, Object>();
+		int result = deliveryService.updateDeliveryInfo(delivery);
+		resHm.put("result", result);
 		
 		return gson.toJson(resHm);
 	}
@@ -137,17 +155,20 @@ public class OrderController {
 	@ResponseBody
 	public String orderCancel(@RequestBody HashMap<String, Object> reqHm) {
 		log.info("\n===================================주문취소 요청이 들어왔습니다.===================================");
+		HashMap<String, Object> resHm = new HashMap<String, Object>();
 		int orderCodeInt = Integer.parseInt(reqHm.get("orderCode").toString());
 		
 		if (orderServie.updateStatus(orderCodeInt, "cancel")==0) {
 			log.info("업데이트 될 데이터가 존재하지 않습니다.");
+			resHm.put("result", 0);
 			
-			return gson.toJson("'result' : 0");
+			return gson.toJson(resHm);
 		}
 		else {
 			log.info("orderStatus : cancel로 변경되었습니다. 주문코드 : " + orderCodeInt);
+			resHm.put("result", deliveryService.updateDeliveryStatus(orderCodeInt, "cancel"));
 			
-			return gson.toJson("'result' : " + deliveryService.updateDeliveryStatus(orderCodeInt, "cancel"));
+			return gson.toJson(resHm);
 		}
 	}
 }

@@ -156,7 +156,7 @@
     		showList(pageNum);
     	});
     	
-    	$(document).on("click", "#orderBtn", function(e) {
+    	/* $(document).on("click", "#orderBtn", function(e) {
     		
     		var param = {
     				customer_code : customer_code,
@@ -166,7 +166,7 @@
     		BasketService.SendArray(param, function(result) {
     			alert(result);
     		});
-    	})
+    	}) */
 
     	$(document).on("click", "#removeBasket", function(e) {
 			

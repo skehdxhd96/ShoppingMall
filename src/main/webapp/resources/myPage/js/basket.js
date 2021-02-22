@@ -17,7 +17,7 @@ var BasketService = (function() {
 		});
 	}
 	
-	function SendArray(param, callback, error) {
+/*	function SendArray(param, callback, error) {
 		
 		var customer_code = param.customer_code;
 		
@@ -38,7 +38,7 @@ var BasketService = (function() {
 				}
 			}
 		})
-	}
+	}*/
 	
 	function add(basket, callback, error) {
 		
@@ -85,6 +85,6 @@ var BasketService = (function() {
 		getList : getList,
 		add : add,
 		remove : remove,
-		getOrderInfo : getOrderInfo
+		//getOrderInfo : getOrderInfo
 	};
 })();

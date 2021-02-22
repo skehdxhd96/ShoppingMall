@@ -47,7 +47,6 @@ public class DeliveryServiceImpl implements DeliveryService {
 	@Override
 	public DeliveryVO getDeliveryByOrderCode(int orderCode) {
 		DeliveryVO delivery = deliveryMapper.getDeliveryByOrderCode(orderCode);
-		log.info(delivery.toString());
 		
 		return delivery;
 	}
@@ -59,6 +58,12 @@ public class DeliveryServiceImpl implements DeliveryService {
 		hm.put("deliveryStatus", deliveryStatus);
 		
 		return deliveryMapper.updateDeliveryStatus(hm);
+	}
+
+	@Override
+	public int updateDeliveryInfo(DeliveryVO delivery) {
+		
+		return deliveryMapper.updateDeliveryInfo(delivery);
 	}
 
 }

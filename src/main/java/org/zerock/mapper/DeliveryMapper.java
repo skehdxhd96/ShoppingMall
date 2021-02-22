@@ -10,4 +10,5 @@ public interface DeliveryMapper {
 	public DeliveryVO getDeliveryByOrderCode(int orderCode);
 	public int orderSuccess(DeliveryVO deliveryVO);
 	public int updateDeliveryStatus(HashMap<String, Object> hm);
+	public int updateDeliveryInfo(DeliveryVO dilivery);
 }

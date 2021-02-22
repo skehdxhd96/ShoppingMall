@@ -141,41 +141,37 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<HashMap<String, Object>> getOrderDone(Integer customerCode) {
-		List<HashMap<String, Object>> ordeliInfo = orderMapper.getOrderDone(customerCode);
+		List<HashMap<String, Object>> ordeliInfoes = orderMapper.getOrderDone(customerCode);
 		
 		List<Integer> orderCodes = new ArrayList<Integer>();
-		for (int i=0; i<ordeliInfo.size(); i++) {
-			orderCodes.add(Integer.parseInt(ordeliInfo.get(i).get("order_code").toString()));
+		for (HashMap<String, Object> ordeliInfo:ordeliInfoes) {
+			orderCodes.add(Integer.parseInt(ordeliInfo.get("order_code").toString()));
 		}
 		
 		List<HashMap<String, Object>> orDoneInfoLi = new ArrayList<HashMap<String, Object>>();
-		List<HashMap<String, Object>> odProInfoLi = odMapper.getDoneProOdInfo(orderCodes);
 		
-		int odProIdx=0;
-		
-		for (int i=0; i<ordeliInfo.size(); i++) {
+		for (HashMap<String, Object> ordeliInfo:ordeliInfoes) {
 			HashMap<String, Object> orDoneInfoHm = new HashMap<String, Object>();
+			List<HashMap<String, Object>> odProInfoLi = new ArrayList<HashMap<String, Object>>();
 			
-			orDoneInfoHm.put("order_code", ordeliInfo.get(i).get("order_code"));
-			orDoneInfoHm.put("order_date", ordeliInfo.get(i).get("order_date"));
-			orDoneInfoHm.put("order_status", ordeliInfo.get(i).get("order_status"));
-			orDoneInfoHm.put("delivery_status", ordeliInfo.get(i).get("delivery_status"));
+			orDoneInfoHm.put("order_code", ordeliInfo.get("order_code"));
+			orDoneInfoHm.put("order_date", ordeliInfo.get("order_date"));
+			orDoneInfoHm.put("order_status", ordeliInfo.get("order_status"));
+			orDoneInfoHm.put("delivery_status", ordeliInfo.get("delivery_status"));
 			
+			log.info(orDoneInfoHm.get("order_code"));
+			odProInfoLi = odMapper.getDoneProOdInfo(Integer.parseInt(ordeliInfo.get("order_code").toString()));
 			List<HashMap<String, Object>> odProInfoIdxLi = new ArrayList<HashMap<String, Object>>();
-			try {
-				while(orderCodes.get(i).toString().equals(odProInfoLi.get(odProIdx).get("order_code").toString())) {
-					HashMap<String, Object> odProInfoIdxHm = new HashMap<String, Object>();
-
-					odProInfoIdxHm.put("product_code", odProInfoLi.get(odProIdx).get("product_code"));
-					odProInfoIdxHm.put("product_name", odProInfoLi.get(odProIdx).get("product_name"));
-					odProInfoIdxHm.put("thumbnail_url", odProInfoLi.get(odProIdx).get("thumbnail_url"));
-					odProInfoIdxHm.put("product_quantity", odProInfoLi.get(odProIdx).get("product_quantity"));		
-					odProInfoIdxLi.add(odProInfoIdxHm);
-					
-					odProIdx++;
-				}
-			} catch(IndexOutOfBoundsException e) {
-				log.info(e.getMessage());
+			for (HashMap<String, Object> odProInfoHm:odProInfoLi) {
+				HashMap<String, Object> odProInfoIdxHm = new HashMap<String, Object>();
+				
+				odProInfoIdxHm.put("product_code", odProInfoHm.get("product_code"));
+				odProInfoIdxHm.put("product_name", odProInfoHm.get("product_name"));
+				odProInfoIdxHm.put("thumbnail_url", odProInfoHm.get("thumbnail_url"));
+				odProInfoIdxHm.put("product_quantity", odProInfoHm.get("product_quantity"));
+				
+				odProInfoIdxLi.add(odProInfoIdxHm);
+				
 			}
 			orDoneInfoHm.put("odProInfo", odProInfoIdxLi);
 			orDoneInfoLi.add(orDoneInfoHm);

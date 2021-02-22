@@ -19,3 +19,9 @@ $(".cancelBtn").on("click", function() {
 		console.log("취소하지 않습니다.");
 	}
 });
+
+$(".DeliUpdateBtn").on("click", function() {
+	var orderCode = $(this).parent().parent().siblings().find("#orderCode").text().slice(3);
+	
+	location.href = "/order/delivery/form?orderCode=" + orderCode;
+});

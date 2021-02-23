@@ -9,6 +9,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class OrderInfoListVO {
 
-	private List<GetOrderInfoVO> goi;
+	private List<GetOrderInfoVO> Products;
 	private int totalPrice;
 }

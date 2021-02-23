@@ -17,15 +17,13 @@ var BasketService = (function() {
 		});
 	}
 	
-/*	function SendArray(param, callback, error) {
-		
-		var customer_code = param.customer_code;
-		
+	function SendData(CheckedData, callback, error) {
+
 		$.ajax({
 			
 			type : 'POST',
-			url : '/myPage/basket/getOrderInfo/' + customer_code,
-			data : JSON.stringify(param.CheckedArray),
+			url : '/order/delivery',
+			data :JSON.stringify(CheckedData),
 			contentType : "application/json; charset = utf-8",
 			success : function(result, status, xhr) {
 				if(callback) {
@@ -38,7 +36,7 @@ var BasketService = (function() {
 				}
 			}
 		})
-	}*/
+	}
 	
 	function add(basket, callback, error) {
 		
@@ -85,6 +83,6 @@ var BasketService = (function() {
 		getList : getList,
 		add : add,
 		remove : remove,
-		//getOrderInfo : getOrderInfo
+		SendData : SendData
 	};
 })();

@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class GetOrderInfoVO {
 
-	private int product_code;
-	private int product_quantity;
-	private int product_price;
+	private int productCode;
+	private int productQuantity;
+	private int productPrice;
 }

@@ -63,20 +63,20 @@ public class basketServiceImpl implements basketService{
 	}
 	
 	@Override
-	public List<GetOrderInfoVO> getOrderInfo(Long customer_code, int product_code) {
+	public List<GetOrderInfoVO> getOrderInfo(Long customer_code, Integer[] CheckedArray) {
 		
-		return bm.getOrderInfo(customer_code, product_code);
+		return bm.getOrderInfo(customer_code, CheckedArray);
 	}
 	
 	@Override
-	public int getTotalPrice(HashMap<Long, List<Integer>> h) {
+	public int getTotalPrice(Long customer_code, Integer[] CheckedArray) {
 		
-		return bm.getTotalPrice(h);
+		return bm.getTotalPrice(customer_code, CheckedArray);
 	}
 	
 	@Override
-	public OrderInfoListVO getOrderInfoList(Long customer_code, int product_code, HashMap<Long, List<Integer>> h) {
+	public OrderInfoListVO getOrderInfoList(Long customer_code, Integer[] CheckedArray) {
 		
-		return new OrderInfoListVO(bm.getOrderInfo(customer_code, product_code), bm.getTotalPrice(h));
+		return new OrderInfoListVO(bm.getOrderInfo(customer_code, CheckedArray), bm.getTotalPrice(customer_code, CheckedArray));
 	}
 }

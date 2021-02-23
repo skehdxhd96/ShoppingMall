@@ -5,8 +5,10 @@ import java.util.HashMap;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.zerock.domain.CustomerVO;
 import org.zerock.domain.DeliveryVO;
+import org.zerock.domain.GetOrderInfoVO;
+import org.zerock.domain.OrderInfoListVO;
 import org.zerock.service.CustomerServiceImpl;
 import org.zerock.service.DeliveryServiceImpl;
 import org.zerock.service.OrderServiceImpl;
@@ -65,7 +69,7 @@ public class OrderController {
 		//응답데이터 json 구조로 만들기 - result, deliveryCode
 		resjson.addProperty("result", 1);
 		resjson.addProperty("orderCode", orderCode);
-		
+				
 		log.info("리턴받은 orderCode는 " + orderCode + " 입니다.");
 		log.info("=====================================================");
 		

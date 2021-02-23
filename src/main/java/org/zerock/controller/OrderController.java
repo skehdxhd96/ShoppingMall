@@ -46,7 +46,6 @@ public class OrderController {
 	public String delivery(@RequestBody HashMap<String, Object> orderInfo, HttpSession session) {
 		log.info("\n=====================================================");
 		log.info("바로 주문하기 버튼을 클릭했을 때 axios api 만들기");
-		log.info("orderInfo : " + orderInfo.toString());
 		
 		JsonObject resjson = new JsonObject();	//응답 jSON 인스턴스 생성.
 		

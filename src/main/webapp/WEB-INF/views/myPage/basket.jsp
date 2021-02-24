@@ -160,7 +160,8 @@
     	$(document).on("click", "#orderBtn", function(e) {
     		
     		var CheckedData = {
-    				Products : CheckedArray,
+    				reqUrl : window.location.href,
+    				products : CheckedArray,
     				totalPrice : totalPrice
     			};
     		

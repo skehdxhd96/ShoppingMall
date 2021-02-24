@@ -141,39 +141,29 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<HashMap<String, Object>> getOrderDone(Integer customerCode) {
+		//마지막으로 리턴할 List 객체(위의 JSON 형태의 데이터)
+		List<HashMap<String, Object>> orDoneInfoLi = new ArrayList<HashMap<String, Object>>();
+		//고객코드를 통해 해당 고객의 주문완료된 리스트를 얻어옵니다.(JSON 데이터에서 odProInfo를 제외한 모든 데이터를 검색합니다.)
 		List<HashMap<String, Object>> ordeliInfoes = orderMapper.getOrderDone(customerCode);
 		
-		List<Integer> orderCodes = new ArrayList<Integer>();
 		for (HashMap<String, Object> ordeliInfo:ordeliInfoes) {
-			orderCodes.add(Integer.parseInt(ordeliInfo.get("order_code").toString()));
-		}
-		
-		List<HashMap<String, Object>> orDoneInfoLi = new ArrayList<HashMap<String, Object>>();
-		
-		for (HashMap<String, Object> ordeliInfo:ordeliInfoes) {
+			//하나의 주문코드에 대한 정보를 담고 있는 해시맵 객체입니다.
 			HashMap<String, Object> orDoneInfoHm = new HashMap<String, Object>();
-			List<HashMap<String, Object>> odProInfoLi = new ArrayList<HashMap<String, Object>>();
 			
+			//하나의 주문코드에 담기는 정보들 중 상품과 관련된(odProInfo) 데이터를 제외한 모든 데이터를 해당 해시맵 객체에 저장합니다.
 			orDoneInfoHm.put("order_code", ordeliInfo.get("order_code"));
 			orDoneInfoHm.put("order_date", ordeliInfo.get("order_date"));
 			orDoneInfoHm.put("order_status", ordeliInfo.get("order_status"));
 			orDoneInfoHm.put("delivery_status", ordeliInfo.get("delivery_status"));
 			
-			log.info(orDoneInfoHm.get("order_code"));
-			odProInfoLi = odMapper.getDoneProOdInfo(Integer.parseInt(ordeliInfo.get("order_code").toString()));
-			List<HashMap<String, Object>> odProInfoIdxLi = new ArrayList<HashMap<String, Object>>();
-			for (HashMap<String, Object> odProInfoHm:odProInfoLi) {
-				HashMap<String, Object> odProInfoIdxHm = new HashMap<String, Object>();
-				
-				odProInfoIdxHm.put("product_code", odProInfoHm.get("product_code"));
-				odProInfoIdxHm.put("product_name", odProInfoHm.get("product_name"));
-				odProInfoIdxHm.put("thumbnail_url", odProInfoHm.get("thumbnail_url"));
-				odProInfoIdxHm.put("product_quantity", odProInfoHm.get("product_quantity"));
-				
-				odProInfoIdxLi.add(odProInfoIdxHm);
-				
-			}
-			orDoneInfoHm.put("odProInfo", odProInfoIdxLi);
+			//하나의 주문코드에 담기는 모든 상품들에 대한 데이터를 가지는 List 객체를 생성합니다.
+			List<HashMap<String, Object>> odProInfoLi = 
+					odMapper.getDoneProOdInfo(Integer.parseInt(ordeliInfo.get("order_code").toString()));
+			
+			//주문코드에 담기는 정보들 중 아까 담지 못했던 상품에 관한 정보를 저장합니다.
+			orDoneInfoHm.put("odProInfo", odProInfoLi);
+			
+			//최종 리턴되는 List 객체에 하나의 주문정보를 저장합니다.
 			orDoneInfoLi.add(orDoneInfoHm);
 		}
 		

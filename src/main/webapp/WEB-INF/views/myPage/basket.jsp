@@ -166,10 +166,8 @@
     			};
     		
     		console.log(CheckedData);
-    		
-    		BasketService.SendData(CheckedData, function(result) {
-    			//alert(result);
-    		});
+
+    		SendOrderData(CheckedData);
     	});
 
     	$(document).on("click", "#removeBasket", function(e) {
@@ -231,6 +229,8 @@
 	
   	<script src="<%=request.getContextPath() %>/resources/myPage/vendor/jquery/jquery.min.js"></script>
   	<script src="<%=request.getContextPath() %>/resources/myPage/js/basket.js"></script>
+  	<script src="<%=request.getContextPath() %>/resources/ProductDetail/js/order.js"></script>
   	<script src="<%=request.getContextPath() %>/resources/myPage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
 </html>

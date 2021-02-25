@@ -17,7 +17,7 @@ var BasketService = (function() {
 		});
 	}
 	
-	function SendData(CheckedData, callback, error) {
+	/*function SendData(CheckedData, callback, error) {
 
 		$.ajax({
 			
@@ -40,9 +40,9 @@ var BasketService = (function() {
 					alert("배송지 입력 페이지로 이동합니다.");
 					location.href = url;
 				}
-				/*if(callback) {
-					callback(result);
-				}*/
+				//if(callback) {
+					//callback(result);
+				//}
 			},
 			error : function(xhr, status, er) {
 				if(error) {
@@ -50,7 +50,7 @@ var BasketService = (function() {
 				}
 			}
 		})
-	}
+	}*/
 	
 	function add(basket, callback, error) {
 		
@@ -97,6 +97,6 @@ var BasketService = (function() {
 		getList : getList,
 		add : add,
 		remove : remove,
-		SendData : SendData
+		//SendData : SendData
 	};
 })();

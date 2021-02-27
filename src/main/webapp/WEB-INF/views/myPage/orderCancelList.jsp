@@ -26,7 +26,9 @@
       		
       		<div class="col-lg-9 main-col-lg-9">
         		<h2 class="main-title">주문취소목록</h2>
-        		<c:forEach items="${ orderCancelLi }" var="orderCancelLi">
+        		<div class="table-container">
+        		</div>
+        		<%-- <c:forEach items="${ orderCancelLi }" var="orderCancelLi">
         			<table class="table table-sm order-list-table">
         				<tr>
         					<th colspan="2" id="orderCode">No.${ orderCancelLi.order_code }</th>
@@ -51,7 +53,9 @@
         					<th>총 결제금액(할인, 포인트 사용후)</th>
         				</tr>
         			</table>
-        		</c:forEach>
+        		</c:forEach> --%>
+        		<div class="paging-container">
+        		</div>
 		    </div>
 		    <!-- /.col-lg-9 -->
 		</div>
@@ -63,5 +67,10 @@
 	<!-- Bootstrap core JavaScript -->
   	<script src="<%=request.getContextPath() %>/resources/myPage/vendor/jquery/jquery.min.js"></script>
   	<script src="<%=request.getContextPath() %>/resources/myPage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  	<!-- JavaScript -->
+  	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  	<script src="<%=request.getContextPath() %>/resources/myPage/js/orderCancelList.js"></script>
 </body>
 </html>

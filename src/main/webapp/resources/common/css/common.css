@@ -17,3 +17,9 @@
 .paging-container {
 	text-align: center;
 }
+.round-container {
+	margin-bottom: 20px;
+	padding: 20px;
+	border-style: solid;
+	border-radius: 30px;
+}

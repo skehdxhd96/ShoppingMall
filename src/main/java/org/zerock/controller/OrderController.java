@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.zerock.domain.CustomerVO;
 import org.zerock.domain.DeliveryVO;
+import org.zerock.domain.OrderVO;
 import org.zerock.domain.PageVO;
 import org.zerock.service.CustomerServiceImpl;
 import org.zerock.service.DeliveryServiceImpl;
@@ -212,5 +214,20 @@ public class OrderController {
 					hm.get("orderStatus").toString(), page);
 		
 		return gson.toJson(resHm);
+	}
+	
+	//주문상세 페이지
+	@RequestMapping(value="/order/detail")
+	public String orderDetail(@RequestParam int orderCode, Model model) {
+		OrderVO order = orderServie.getOrderInfo(orderCode);
+		order.setOrderCode(orderCode);
+		List<HashMap<String, Object>> proOdInfo = orderServie.getProOdInfo(orderCode);
+		DeliveryVO delivery = deliveryService.getDeliveryByOrderCode(orderCode);
+		
+		model.addAttribute("order", order);
+		model.addAttribute("odPro", proOdInfo);
+		model.addAttribute("delivery", delivery);
+		
+		return "/myPage/orderDetail";
 	}
 }

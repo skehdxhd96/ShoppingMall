@@ -17,4 +17,5 @@ public interface OrderMapper {
 //	public List<HashMap<String, Object>> getOrderList(HashMap<String, Object> hm);
 	public List<HashMap<String, Object>> getOrderListLimit(HashMap<String, Object> hm);
 	public int getOrderCnt(HashMap<String, Object> hm);
+	public OrderVO getOrderInfo(int orderCode);
 }

@@ -1,14 +1,16 @@
 package org.zerock.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,8 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.zerock.domain.CustomerVO;
 import org.zerock.domain.DeliveryVO;
-import org.zerock.domain.GetOrderInfoVO;
-import org.zerock.domain.OrderInfoListVO;
+import org.zerock.domain.PageVO;
 import org.zerock.service.CustomerServiceImpl;
 import org.zerock.service.DeliveryServiceImpl;
 import org.zerock.service.OrderServiceImpl;
@@ -38,6 +39,7 @@ public class OrderController {
 	private CustomerServiceImpl customerService;
 	@Resource
 	private Gson gson;
+	private PageVO page;
 	
 	// 상품 상세 페이지에서 바로 주문하기 버튼 클릭했을 때 axios를 활용해서 전달받은 데이터를 DB에 적재시키는 api
 	// 이거 나중에 장바구니에서 주문하기로 넘어갈 때도 사용할 것임.
@@ -174,5 +176,41 @@ public class OrderController {
 			
 			return gson.toJson(resHm);
 		}
+	}
+	
+	//마이페이지에서 주문 취소된 상품 보기
+	@RequestMapping("/myPage/order/cancel")
+	public String orderCancel(HttpSession session, Model model, 
+			@CookieValue(value="orderCancelCnt", required=false) Cookie cookieCnt, HttpServletResponse response) {
+		log.info("\n==========================주문취소된 주문 목록을 확인할 수 있습니다.===========================");
+		String cnt = Integer.toString(orderServie.getOrderCnt(Integer.parseInt(session.getAttribute("customerCode").toString()), "cancel"));
+		//주문 취소된 총 개수를 쿠키로 저장.
+		if (cookieCnt==null) {
+			log.info("쿠키가 존재하지 않음.");
+			cookieCnt = new Cookie("orderCancelCnt", cnt);
+		} else if (cookieCnt.getValue()!=cnt) {
+			log.info("쿠키가 동일하지 않음.");
+			cookieCnt.setValue(cnt);
+		} else {
+			log.info("쿠키가 존재합니다.");
+		}
+		response.addCookie(cookieCnt);
+//		Integer customerCode = Integer.parseInt(session.getAttribute("customerCode").toString());
+//		List<HashMap<String, Object>> orderCancelLi = orderServie.getOrderList(customerCode, "cancel");
+//		model.addAttribute("orderCancelLi", orderCancelLi);
+		
+		return "/myPage/orderCancelList";
+	}
+	
+	//마이페이지 주문 관련 페이징 처리
+	@RequestMapping(value="/myPage/order/paging", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public String orderPaging(@RequestBody HashMap<String, Object> hm, HttpSession session) {
+		log.info(hm.isEmpty());
+		page = new PageVO(Integer.parseInt(hm.get("page").toString()), 5);
+		List<HashMap<String, Object>> resHm = orderServie.getOrderListLimit(Integer.parseInt(session.getAttribute("customerCode").toString()), 
+					hm.get("orderStatus").toString(), page);
+		
+		return gson.toJson(resHm);
 	}
 }

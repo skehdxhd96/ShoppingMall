@@ -135,9 +135,7 @@ public class OrderServiceImpl implements OrderService {
 			result = productMapper.subStock(hm);
 		}
 		
-		result = updateStatus(orderCode, "done");	//해당 orderCode의 orderStatus=done으로 업데이트
-		
-		return result;
+		return updateStatus(orderCode, "done");	//해당 orderCode의 orderStatus=done으로 업데이트
 	}
 
 //	@Override
@@ -225,6 +223,18 @@ public class OrderServiceImpl implements OrderService {
 		hm.put("orderStatus", orderStatus);
 		
 		return orderMapper.getOrderCnt(hm);
+	}
+
+	@Override
+	public OrderVO getOrderInfo(int orderCode) {
+		
+		return orderMapper.getOrderInfo(orderCode);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getProOdInfo(int orderCode) {
+		// TODO Auto-generated method stub
+		return odMapper.getDoneProOdInfo(orderCode);
 	}
 
 }

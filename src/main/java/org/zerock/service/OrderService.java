@@ -3,6 +3,7 @@ package org.zerock.service;
 import java.util.HashMap;
 import java.util.List;
 
+import org.zerock.domain.OrderVO;
 import org.zerock.domain.PageVO;
 
 public interface OrderService {
@@ -20,4 +21,6 @@ public interface OrderService {
 //	public List<HashMap<String, Object>> getOrderList(Integer customerCode, String orderStatus);
 	public List<HashMap<String, Object>> getOrderListLimit(Integer customerCode, String orderStatus, PageVO page);
 	public int getOrderCnt(Integer customerCode, String orderStatus);
+	public OrderVO getOrderInfo(int orderCode);
+	public List<HashMap<String, Object>> getProOdInfo(int orderCode);
 }

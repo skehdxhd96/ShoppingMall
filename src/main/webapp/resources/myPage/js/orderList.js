@@ -48,7 +48,7 @@ function pagingDone(data) {
 		for (var i=0; i<res.data.length; i++) {
 			html += "<table class=\"table table-sm order-list-table\">";
 			html += "<tr>";
-			html += "<th id=\"orderCode\">No." + res.data[i].order_code + "</th>";
+			html += "<th id=\"orderCode\">No." + res.data[i].order_code + "<a href=\"/order/detail?orderCode=" + res.data[i].order_code + "\">  >주문상세보기</a></th>";
 			html += "<th><button type=\"button\" class=\"btn btn-secondary btn-sm cancelBtn\">주문 취소</button></th>";
 			html += "</tr>";
 			html += "<tr>";

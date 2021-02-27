@@ -51,9 +51,12 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	@Override
-	public List<ProductVO> getListByCategory(HashMap<String, Object> parameterHm) {
+	public List<ProductVO> getListByCategory(int startIdx, int categoryCode) {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("startIdx", startIdx);
+		hm.put("categoryCode", categoryCode);
 		
-		return pm.getListByCategory(parameterHm);
+		return pm.getListByCategory(hm);
 	}
 	
 	@Override

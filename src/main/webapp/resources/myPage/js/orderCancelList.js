@@ -1,9 +1,9 @@
 var click=0;
-var totalPage = Math.ceil($.cookie("orderDoneCnt")/5);
+var totalPage = Math.ceil($.cookie("orderCancelCnt")/5);
 
 $(window).ready(function() {
-	var data = {"page":click, "orderStatus":"done"};
-	pagingDone(data);
+	var data = {"page":click, "orderStatus":"cancel"};
+	pagingCancel(data);
 	
 	if (totalPage>click+1) {
 		html = "<button type=\"button\" class=\"btn btn-secondary btn-sm btn-next\">다음</button>";
@@ -14,8 +14,8 @@ $(window).ready(function() {
 $(".paging-container").on("click", ".btn-next", function() {
 	click++;
 	
-	var data = {"page":click, "orderStatus":"done"};
-	pagingDone(data);
+	var data = {"page":click, "orderStatus":"cancel"};
+	pagingCancel(data);
 	
 	if (totalPage==click+1) {
 		html = "<button type=\"button\" class=\"btn btn-secondary btn-sm btn-prev\">이전</button>";
@@ -30,7 +30,7 @@ $(".paging-container").on("click", ".btn-prev", function() {
 	click--;
 	
 	var data = {"page":click, "orderStatus":"done"};
-	pagingDone(data);
+	pagingCancel(data);
 	
 	if (click==0) {
 		html = "<button type=\"button\" class=\"btn btn-secondary btn-sm btn-next\">다음</button>";
@@ -41,29 +41,18 @@ $(".paging-container").on("click", ".btn-prev", function() {
 	$(".paging-container").html(html);
 });
 
-function pagingDone(data) {
+function pagingCancel(data) {
 	axios.post("/myPage/order/paging", data).then(function(res) {
 	 	console.log(res.data);
 		var html = "";
 		for (var i=0; i<res.data.length; i++) {
 			html += "<table class=\"table table-sm order-list-table\">";
 			html += "<tr>";
-			html += "<th id=\"orderCode\">No." + res.data[i].order_code + "<a href=\"/order/detail?orderCode=" + res.data[i].order_code + "\">  >주문상세보기</a></th>";
-			html += "<th><button type=\"button\" class=\"btn btn-secondary btn-sm cancelBtn\">주문 취소</button></th>";
+			html += "<th colspan=\"2\" id=\"orderCode\">No." + res.data[i].order_code + "</th>";
 			html += "</tr>";
 			html += "<tr>";
-			html += "<th>" + res.data[i].order_date + "</th>";
-			if (res.data[i].delivery_status == "preparing") {
-				html += "<th>배송 준비중<button type=\"button\" class=\"btn btn-secondary btn-sm DeliUpdateBtn\">배송지 변경</button></th>";
-			} else if (res.data[i].delivery_status == "start") {
-				html += "<th>배송중</th>";
-			} else if (res.data[i].delivery_status == "arrive") {
-				html += "<th>배송 완료</th>";
-			} else {
-				html += "<th>배송 취소</th>";
-			}
-			html += "</tr>";
-			
+			html += "<th colspan=\"2\">" + res.data[i].order_date + "</th>";
+        	html +=	"</tr>";
 			for (var j=0; j<res.data[i].odProInfo.length; j++) {
 				html += "<tr>";
 				html += "<th rowspan=\"3\"><a href=\"/ProductDetail/" + res.data[i].odProInfo[j].product_code + "\"><img src=\"" + res.data[i].odProInfo[j].thumbnail_url + "}\" ></a></th>";
@@ -76,48 +65,13 @@ function pagingDone(data) {
 				html += "<th>결제금액(할인, 포인트 사용후)</th>";
 				html += "</tr>";
 			}
-			
 			html += "<tr>";
 			html += "<th>총 결제금액</th>";
 			html += "<th>총 결제금액(할인, 포인트 사용후)</th>";
 			html += "</tr>";
-			html += "</table>";
+			html += "</table>";		
 		}
 		
 		$(".table-container").html(html);
 	});
 };
-
-$(".table-container").on("click", ".DeliUpdateBtn", function() {
-	var orderCode = $(this).parent().parent().siblings().find("#orderCode").text().slice(3);
-	
-	location.href = "/order/delivery/form?orderCode=" + orderCode;
-});
-
-/*$(".DeliUpdateBtn").on("click", function() {
-	var orderCode = $(this).parent().parent().siblings().find("#orderCode").text().slice(3);
-	
-	location.href = "/order/delivery/form?orderCode=" + orderCode;
-});*/
-
-$(".main-col-lg-9").on("click", ".cancelBtn", function() {
-	var checkCancel = confirm("정말로 주문을 취소하겠습니까?");
-	if (checkCancel==true) {
-		var orderCode = $(this).parent().siblings("#orderCode").text().slice(3);
-		
-		axios.post("/order/orderCancel", {
-			"orderCode" : orderCode
-		}).then(function(res) {
-			if (res.data.result==0) {
-				alert("주문 취소 중 오류가 발생했습니다.");
-			}
-			else {
-				alert("주문 취소가 완료되었습니다.");
-				location.reload();
-			}
-		});
-	}
-	else {
-		console.log("취소하지 않습니다.");
-	}
-});

@@ -4,6 +4,7 @@
 	<resultMap id="deliveryRM" type="org.zerock.domain.DeliveryVO" >
 		<result property="shippingAddress" column="shipping_address"></result>
 		<result property="deliverPhone" column="deliver_phone"></result>
+		<result property="deliveryStatus" column="delivery_status"></result>
 	</resultMap>
 	
 	<select id="getDelivery" parameterType="int" resultType="hashMap">
@@ -12,7 +13,7 @@
 		WHERE delivery_code=#{delivery_code};
 	</select>
 	<select id="getDeliveryByOrderCode" parameterType="int" resultType="org.zerock.domain.DeliveryVO" resultMap="deliveryRM">
-		SELECT recipient, shipping_address, deliver_phone, requests
+		SELECT recipient, shipping_address, deliver_phone, requests, delivery_status
 		FROM delivery
 		WHERE order_code=#{orderCode};
 	</select>

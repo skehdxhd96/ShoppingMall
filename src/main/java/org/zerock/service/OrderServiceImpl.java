@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.OrderDetailVO;
 import org.zerock.domain.OrderVO;
+import org.zerock.domain.PageVO;
 import org.zerock.domain.basketVO;
 import org.zerock.mapper.CustomerMapper;
 import org.zerock.mapper.DeliveryMapper;
@@ -134,17 +135,52 @@ public class OrderServiceImpl implements OrderService {
 			result = productMapper.subStock(hm);
 		}
 		
-		result = updateStatus(orderCode, "done");	//해당 orderCode의 orderStatus=done으로 업데이트
-		
-		return result;
+		return updateStatus(orderCode, "done");	//해당 orderCode의 orderStatus=done으로 업데이트
 	}
 
-	@Override
-	public List<HashMap<String, Object>> getOrderDone(Integer customerCode) {
+//	@Override
+//	public List<HashMap<String, Object>> getOrderDone(Integer customerCode) {
+//		//마지막으로 리턴할 List 객체(위의 JSON 형태의 데이터)
+//		List<HashMap<String, Object>> orDoneInfoLi = new ArrayList<HashMap<String, Object>>();
+//		//고객코드를 통해 해당 고객의 주문완료된 리스트를 얻어옵니다.(JSON 데이터에서 odProInfo를 제외한 모든 데이터를 검색합니다.)
+//		List<HashMap<String, Object>> ordeliInfoes = orderMapper.getOrderDone(customerCode);
+//		
+//		for (HashMap<String, Object> ordeliInfo:ordeliInfoes) {
+//			//하나의 주문코드에 대한 정보를 담고 있는 해시맵 객체입니다.
+//			HashMap<String, Object> orDoneInfoHm = new HashMap<String, Object>();
+//			
+//			//하나의 주문코드에 담기는 정보들 중 상품과 관련된(odProInfo) 데이터를 제외한 모든 데이터를 해당 해시맵 객체에 저장합니다.
+//			orDoneInfoHm.put("order_code", ordeliInfo.get("order_code"));
+//			orDoneInfoHm.put("order_date", ordeliInfo.get("order_date"));
+//			orDoneInfoHm.put("order_status", ordeliInfo.get("order_status"));
+//			orDoneInfoHm.put("delivery_status", ordeliInfo.get("delivery_status"));
+//			
+//			//하나의 주문코드에 담기는 모든 상품들에 대한 데이터를 가지는 List 객체를 생성합니다.
+//			List<HashMap<String, Object>> odProInfoLi = 
+//					odMapper.getDoneProOdInfo(Integer.parseInt(ordeliInfo.get("order_code").toString()));
+//			
+//			//주문코드에 담기는 정보들 중 아까 담지 못했던 상품에 관한 정보를 저장합니다.
+//			orDoneInfoHm.put("odProInfo", odProInfoLi);
+//			
+//			//최종 리턴되는 List 객체에 하나의 주문정보를 저장합니다.
+//			orDoneInfoLi.add(orDoneInfoHm);
+//		}
+//		
+//		return orDoneInfoLi;
+//	}
+
+//	@Override
+//	public List<HashMap<String, Object>> getOrderList(Integer customerCode, String orderStatus) {
+//		HashMap<String, Object> hm = new HashMap<String, Object>();
+//		hm.put("customerCode", customerCode);
+//		hm.put("orderStatus", orderStatus);
+//		
+//		return getOrProList(orderMapper.getOrderList(hm));
+//	}
+	
+	public List<HashMap<String, Object>> getOrProList(List<HashMap<String, Object>> ordeliInfoes) {
 		//마지막으로 리턴할 List 객체(위의 JSON 형태의 데이터)
 		List<HashMap<String, Object>> orDoneInfoLi = new ArrayList<HashMap<String, Object>>();
-		//고객코드를 통해 해당 고객의 주문완료된 리스트를 얻어옵니다.(JSON 데이터에서 odProInfo를 제외한 모든 데이터를 검색합니다.)
-		List<HashMap<String, Object>> ordeliInfoes = orderMapper.getOrderDone(customerCode);
 		
 		for (HashMap<String, Object> ordeliInfo:ordeliInfoes) {
 			//하나의 주문코드에 대한 정보를 담고 있는 해시맵 객체입니다.
@@ -168,6 +204,37 @@ public class OrderServiceImpl implements OrderService {
 		}
 		
 		return orDoneInfoLi;
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getOrderListLimit(Integer customerCode, String orderStatus, PageVO page) {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("customerCode", customerCode);
+		hm.put("orderStatus", orderStatus);
+		hm.put("page", page);
+		
+		return getOrProList(orderMapper.getOrderListLimit(hm));
+	}
+
+	@Override
+	public int getOrderCnt(Integer customerCode, String orderStatus) {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("customerCode", customerCode);
+		hm.put("orderStatus", orderStatus);
+		
+		return orderMapper.getOrderCnt(hm);
+	}
+
+	@Override
+	public OrderVO getOrderInfo(int orderCode) {
+		
+		return orderMapper.getOrderInfo(orderCode);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getProOdInfo(int orderCode) {
+		// TODO Auto-generated method stub
+		return odMapper.getDoneProOdInfo(orderCode);
 	}
 
 }

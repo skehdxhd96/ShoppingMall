@@ -1,5 +1,5 @@
- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
- <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,33 +25,18 @@
       		<jsp:include page="/WEB-INF/views/common/myPageNav.jsp"></jsp:include>
       		
       		<div class="col-lg-9 main-col-lg-9">
-        		<h2 class="main-title">주문목록</h2>
+        		<h2 class="main-title">주문취소목록</h2>
         		<div class="table-container">
         		</div>
-        		<%-- <c:forEach items="${ orderInfo }" var="orderInfo">
+        		<%-- <c:forEach items="${ orderCancelLi }" var="orderCancelLi">
         			<table class="table table-sm order-list-table">
         				<tr>
-        					<th id="orderCode">No.${ orderInfo.order_code }</th>
-        					<th class=""><button type="button" class="btn btn-secondary btn-sm cancelBtn">주문 취소</button></th>
+        					<th colspan="2" id="orderCode">No.${ orderCancelLi.order_code }</th>
         				</tr>
         				<tr>
-        					<th>${ orderInfo.order_date }</th>
-        					<c:if test="${ orderInfo.delivery_status=='preparing' }">
-        						<th>배달 준비중
-        							<button type="button" class="btn btn-secondary btn-sm DeliUpdateBtn">배송지 변경</button>
-        						</th>
-        					</c:if>
-        					<c:if test="${ orderInfo.delivery_status=='start' }">
-        						<th>배송중</th>
-        					</c:if>
-        					<c:if test="${ orderInfo.delivery_status=='arrive' }">
-        						<th>배송 완료</th>
-        					</c:if>
-        					<c:if test="${ orderInfo.delivery_status=='cancel' }">
-        						<th>배송 취소</th>
-        					</c:if>
+        					<th colspan="2">${ orderCancelLi.order_date }</th>
         				</tr>
-        				<c:forEach items="${ orderInfo.odProInfo }" var="productInfo">
+        				<c:forEach items="${ orderCancelLi.odProInfo }" var="productInfo">
         					<tr>
         						<th rowspan="3"><a href="/ProductDetail/${ productInfo.product_code }"><img src="${ productInfo.thumbnail_url }" ></a></th>
         						<th><a href="/ProductDetail/${ productInfo.product_code }">${ productInfo.product_name }</a></th>
@@ -69,10 +54,7 @@
         				</tr>
         			</table>
         		</c:forEach> --%>
-        		
         		<div class="paging-container">
-        			<!-- <button type="button" class="btn btn-secondary btn-sm btn-prev">이전</button> -->
-		    		<!-- <button type="button" class="btn btn-secondary btn-sm btn-next">다음</button> -->
         		</div>
 		    </div>
 		    <!-- /.col-lg-9 -->
@@ -89,6 +71,6 @@
   	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-  	<script src="<%=request.getContextPath() %>/resources/myPage/js/orderList.js"></script>
+  	<script src="<%=request.getContextPath() %>/resources/myPage/js/orderCancelList.js"></script>
 </body>
 </html>

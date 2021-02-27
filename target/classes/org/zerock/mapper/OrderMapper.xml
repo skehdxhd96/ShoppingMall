@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zerock.mapper.OrderMapper">
+	<resultMap type="org.zerock.domain.OrderVO" id="orderRM">
+		<result property="orderDate" column="order_date"/>
+		<result property="orderStatus" column="order_status"/>
+		<result property="totalOrderPrice" column="total_order_price"/>
+	</resultMap>
 	<!-- delivery 인터셉터에서 구매자일 때 로그인된 사용자의 배달코드인지 알아보기 위한 쿼리문 -->
 	<!-- <select id="getCustomerCodeByDeliery" resultType="long" parameterType="int">
 		select customer_code
@@ -14,11 +19,35 @@
 		FROM `order`
 		WHERE order_code=#{orderCode};
 	</select>
-	<select id="getOrderDone" resultType="HashMap" parameterType="Integer">
+	<!-- <select id="getOrderDone" resultType="HashMap" parameterType="Integer">
 		SELECT o.order_code, o.order_date, o.order_status, d.delivery_status
 		FROM `order` as o INNER JOIN delivery as d
 		ON o.order_code=d.order_code
 		WHERE o.customer_code=#{customerCode} and o.order_status="done";
+	</select> -->
+	<!-- <select id="getOrderList" resultType="HashMap" parameterType="HashMap">
+		SELECT o.order_code, o.order_date, o.order_status, d.delivery_status
+		FROM `order` as o INNER JOIN delivery as d
+		ON o.order_code=d.order_code
+		WHERE o.customer_code=#{customerCode} and o.order_status=#{orderStatus};
+	</select> -->
+	<select id="getOrderInfo" resultType="org.zerock.domain.OrderVO" parameterType="int" resultMap="orderRM">
+		SELECT order_date, order_status, total_order_price
+		FROM `order`
+		WHERE order_code=#{orderCode};
+	</select>
+	<select id="getOrderListLimit" resultType="HashMap" parameterType="HashMap">
+		SELECT o.order_code, o.order_date, o.order_status, d.delivery_status
+		FROM `order` as o INNER JOIN delivery as d
+		ON o.order_code=d.order_code
+		WHERE o.customer_code=#{customerCode} and o.order_status=#{orderStatus}
+		LIMIT #{page.offset}, #{page.cntPerPage};
+	</select>
+	<select id="getOrderCnt" resultType="int" parameterType="HashMap">
+		SELECT COUNT(*)
+		FROM `order` as o INNER JOIN delivery as d
+		ON o.order_code=d.order_code
+		WHERE o.customer_code=#{customerCode} and o.order_status=#{orderStatus};
 	</select>
 	
 	<insert id="createOrder" parameterType="org.zerock.domain.OrderVO" useGeneratedKeys="true" keyProperty="orderCode">

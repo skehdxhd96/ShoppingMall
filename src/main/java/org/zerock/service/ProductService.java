@@ -19,7 +19,7 @@ public interface ProductService {
 	
 	public int getCount(int categoryCode);
 	
-	public List<ProductVO> getListByCategory(HashMap<String, Object> parameterHm);
+	public List<ProductVO> getListByCategory(int startIdx, int categoryCode);
 	
 	public void ProductDelete(int product_code);
 	

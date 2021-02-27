@@ -1,9 +1,37 @@
 //초기페이지 히스토리 저장
-$(document).ready(function() {
+/*$(document).ready(function() {
 	var productHtml = $("#productRow").html();
 	var buttonHtml = $("#pageButtonGroup").html();
 	
 	history.pushState({"productHtml":productHtml, "buttonHtml":buttonHtml}, null, null);
+});*/
+var categoryCode = Number($(location).attr('pathname').slice(-1));
+var totalPage = Math.ceil($.cookie("productCnt")/6);
+var buttonHtml = "";
+
+$(window).ready(function() {
+	var data = {"page":0, "categoryCode":categoryCode};
+	console.log(totalPage);
+	
+	if (totalPage>5) {
+		for (var page=1; page<=5; page++) {
+			buttonHtml += "<button type=\"button\" class=\"btn btn-light pageButton\" index=\"" + page + "\">" + page + "</button>";
+		}
+		buttonHtml += "<button id=\"nextButton\" type=\"button\" class=\"btn btn-light\">다음</button>";
+	} else {
+		for (var page=1; page<=totalPage; page++) {
+			buttonHtml += "<button type=\"button\" class=\"btn btn-light pageButton\" index=\"" + page + "\">" + page + "</button>";
+		}
+	}
+	$("#pageButtonGroup").html(buttonHtml);
+	
+	pagingProduct(data);
+	/*pagingDone(data);
+	
+	if (totalPage>click+1) {
+		html = "<button type=\"button\" class=\"btn btn-secondary btn-sm btn-next\">다음</button>";
+	}
+	$(".paging-container").html(html);*/
 });
 
 //페이지버튼 클릭했을 때
@@ -11,13 +39,14 @@ $(document).on("click", ".pageButton", function() {
 	//클릭시 버튼 주위의 초점 제거
 	$(this).trigger("blur");
 	
-	var index = $(this).attr("index");	//index 속성값
+	//var index = $(this).attr("index");	//index 속성값
 	var page = Number($(this).text());
-	var categoryCode = Number($(location).attr('pathname').slice(-1));
-	var dataTransfer = {"startIdx":6*(page-1),
-						"categoryCode":categoryCode};
+	//var categoryCode = Number($(location).attr('pathname').slice(-1));
+	var data = {"page":page-1,
+				"categoryCode":categoryCode};
 	
-	$.ajax({
+	pagingProduct(data);
+	/*$.ajax({
 		url:"/ProductList/paging", 
 		type:"POST", 
 		data:JSON.stringify(dataTransfer),
@@ -36,17 +65,29 @@ $(document).on("click", ".pageButton", function() {
 		error:function() {
 			alert("ERROR");
 		}
-	});
+	});*/
 });
 
 //다음페이지 클릭했을 때
 $(document).on("click", "#nextButton", function() {
-	var startPage = Number($(".pageButton")[4].textContent)+1;
-	var categoryCode = Number($(location).attr('pathname').slice(-1));
-	var dataTransfer = {"startIdx":6*(startPage-1),
-						"categoryCode":categoryCode};
+	var data = {"page":Number($(".pageButton")[4].textContent),
+				"categoryCode":categoryCode};
+				
+	buttonHtml = "<button id=\"prevButton\" type=\"button\" class=\"btn btn-light\">이전</button>";
+	if (totalPage>data.page+5) {
+		for (var page=data.page+1; page<=data.page+5; page++) {
+			buttonHtml += "<button type=\"button\" class=\"btn btn-light pageButton\" index=\"" + page + "\">" + page + "</button>";
+		}
+		buttonHtml += "<button id=\"nextButton\" type=\"button\" class=\"btn btn-light\">다음</button>";
+	} else {
+		for (var page=data.page+1; page<=totalPage; page++) {
+			buttonHtml += "<button type=\"button\" class=\"btn btn-light pageButton\" index=\"" + page + "\">" + page + "</button>";
+		}
+	}
+	$("#pageButtonGroup").html(buttonHtml);
 	
-	$.ajax({
+	pagingProduct(data);
+	/*$.ajax({
 		url:"/ProductList/nextButton", 
 		type:"POST", 
 		data:JSON.stringify(dataTransfer), 
@@ -80,17 +121,31 @@ $(document).on("click", "#nextButton", function() {
 		error:function() {
 			alert("ERROR!!");
 		}
-	});
+	});*/
 });
 
 //이전버튼 클릭했을 때
 $(document).on("click", "#prevButton", function() {
-	var lastPage = Number($(".pageButton")[0].textContent)-1;
+	/*var lastPage = Number($(".pageButton")[0].textContent)-1;
 	var categoryCode = Number($(location).attr('pathname').slice(-1));
 	var dataTransfer = {"startIdx":6*(lastPage-1),
-						"categoryCode":categoryCode};
-						
-	$.ajax({
+						"categoryCode":categoryCode};*/
+	var data = {"page":Number($(".pageButton")[0].textContent)-2,
+				"categoryCode":categoryCode};
+				
+	buttonHtml = "";
+	if (data.page-4!=0) {
+		buttonHtml = "<button id=\"prevButton\" type=\"button\" class=\"btn btn-light\">이전</button>";
+	}
+	for (var page=data.page-3; page<=data.page+1; page++) {
+		buttonHtml += "<button type=\"button\" class=\"btn btn-light pageButton\" index=\"" + page + "\">" + page + "</button>";
+	}
+	buttonHtml += "<button id=\"nextButton\" type=\"button\" class=\"btn btn-light\">다음</button>";
+			
+	$("#pageButtonGroup").html(buttonHtml);
+	
+	pagingProduct(data);			
+	/*$.ajax({
 		url:"/ProductList/paging", 
 		type:"POST", 
 		data:JSON.stringify(dataTransfer), 
@@ -123,8 +178,14 @@ $(document).on("click", "#prevButton", function() {
 		error:function() {
 			alert("ERROR!!");
 		}
-	});
+	});*/
 });
+
+function pagingProduct(data) {
+	axios.post("/ProductList/paging", data).then(function(res) {
+		paging(res.data);
+	});
+}
 
 //해당페이지 상품리스트 정보들을 담은 html을 jsp에 추가하는 함수
 function paging(data) {

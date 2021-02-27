@@ -81,6 +81,10 @@
 	  <beans:ref bean="LoginInterceptor" />
 	 </interceptor>
 	 <interceptor>
+	  <mapping path="/myPage/order/cancel" />
+	  <beans:ref bean="LoginInterceptor" />
+	 </interceptor>
+	 <interceptor>
 	  <mapping path="/myPage/basket" />
 	  <beans:ref bean="LoginInterceptor" />
 	 </interceptor>
@@ -94,6 +98,10 @@
 	 	</interceptor>
 	 	<interceptor>
 		 	<mapping path="/order/orderSuccess"></mapping>
+		 	<beans:ref bean="OrderInterceptor"></beans:ref>
+	 	</interceptor>
+	 	<interceptor>
+		 	<mapping path="/order/detail"></mapping>
 		 	<beans:ref bean="OrderInterceptor"></beans:ref>
 	 	</interceptor>
 	</interceptors>

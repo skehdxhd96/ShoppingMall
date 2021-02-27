@@ -13,5 +13,8 @@ public interface OrderMapper {
 	public int updateStatus(HashMap<String, Object> hm);
 	//order 인터셉터에서 구매자일 때 로그인된 사용자의 주문코드인지 알아보기 위한 쿼리문
 	public long getCustomerCodeByOrder(int orderCode);
-	public List<HashMap<String, Object>> getOrderDone(Integer customerCode);
+//	public List<HashMap<String, Object>> getOrderDone(Integer customerCode);
+//	public List<HashMap<String, Object>> getOrderList(HashMap<String, Object> hm);
+	public List<HashMap<String, Object>> getOrderListLimit(HashMap<String, Object> hm);
+	public int getOrderCnt(HashMap<String, Object> hm);
 }

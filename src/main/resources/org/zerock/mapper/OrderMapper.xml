@@ -14,11 +14,30 @@
 		FROM `order`
 		WHERE order_code=#{orderCode};
 	</select>
-	<select id="getOrderDone" resultType="HashMap" parameterType="Integer">
+	<!-- <select id="getOrderDone" resultType="HashMap" parameterType="Integer">
 		SELECT o.order_code, o.order_date, o.order_status, d.delivery_status
 		FROM `order` as o INNER JOIN delivery as d
 		ON o.order_code=d.order_code
 		WHERE o.customer_code=#{customerCode} and o.order_status="done";
+	</select> -->
+	<!-- <select id="getOrderList" resultType="HashMap" parameterType="HashMap">
+		SELECT o.order_code, o.order_date, o.order_status, d.delivery_status
+		FROM `order` as o INNER JOIN delivery as d
+		ON o.order_code=d.order_code
+		WHERE o.customer_code=#{customerCode} and o.order_status=#{orderStatus};
+	</select> -->
+	<select id="getOrderListLimit" resultType="HashMap" parameterType="HashMap">
+		SELECT o.order_code, o.order_date, o.order_status, d.delivery_status
+		FROM `order` as o INNER JOIN delivery as d
+		ON o.order_code=d.order_code
+		WHERE o.customer_code=#{customerCode} and o.order_status=#{orderStatus}
+		LIMIT #{page.offset}, #{page.cntPerPage};
+	</select>
+	<select id="getOrderCnt" resultType="int" parameterType="HashMap">
+		SELECT COUNT(*)
+		FROM `order` as o INNER JOIN delivery as d
+		ON o.order_code=d.order_code
+		WHERE o.customer_code=#{customerCode} and o.order_status=#{orderStatus};
 	</select>
 	
 	<insert id="createOrder" parameterType="org.zerock.domain.OrderVO" useGeneratedKeys="true" keyProperty="orderCode">

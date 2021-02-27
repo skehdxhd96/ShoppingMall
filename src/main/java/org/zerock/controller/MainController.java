@@ -8,10 +8,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.zerock.domain.CategoryVO;
 import org.zerock.domain.DetailVO;
+import org.zerock.domain.PageVO;
 import org.zerock.domain.ProductVO;
 import org.zerock.service.CustomerServiceImpl;
 import org.zerock.service.OrderServiceImpl;
@@ -46,9 +50,10 @@ public class MainController {
 	@Resource(name = "uploadPath")
 	private String uploadPath; // servlet-context占쏙옙占쏙옙占쏙옙 占쌍억옙占�
 	@Inject
-	CustomerServiceImpl customerService;
+	private CustomerServiceImpl customerService;
 	@Resource
-	OrderServiceImpl orderService;
+	private OrderServiceImpl orderService;
+	private PageVO page;
 	
 	@RequestMapping("/")
 	public String toMainPage(HttpSession session, Model model) {
@@ -222,13 +227,27 @@ public class MainController {
 	
 	//마이페이지-마이페이지 초기화면은 주문목록
 	@RequestMapping("/myPage/order/list")
-	public String orderList(HttpSession session, Model model) {
+	public String orderList(HttpSession session, Model model, 
+			@CookieValue(value="orderDoneCnt", required=false) Cookie cookieCnt, HttpServletResponse response) {
 		log.info("\n====================여기는 마이페이지 주문목록 페이지=======================");
-		Integer customerCode = Integer.parseInt(session.getAttribute("customerCode").toString());
-		List<HashMap<String, Object>> orDoneInfo = orderService.getOrderDone(customerCode);
-		log.info(orDoneInfo.toString());
 		
-		model.addAttribute("orderInfo", orDoneInfo);
+		String cnt = Integer.toString(orderService.getOrderCnt(Integer.parseInt(session.getAttribute("customerCode").toString()), "done"));
+		//주문 완료된 총 개수를 쿠키로 저장.
+		if (cookieCnt==null) {
+			log.info("쿠키가 존재하지 않음.");
+			cookieCnt = new Cookie("orderDoneCnt", cnt);
+		} else if (cookieCnt.getValue()!=cnt) {
+			log.info("쿠키가 동일하지 않음.");
+			cookieCnt.setValue(cnt);
+		}
+		response.addCookie(cookieCnt);
+//		Integer customerCode = Integer.parseInt(session.getAttribute("customerCode").toString());
+//		page = new PageVO(0, 5, orderService.getOrderCnt(Integer.parseInt(session.getAttribute("customerCode").toString()), "done"));
+//		List<HashMap<String, Object>> orDoneInfo = orderService.getOrderListLimit(customerCode, "done", page);
+//		//List<HashMap<String, Object>> orDoneInfo = orderService.getOrderList(customerCode, "done");
+//		log.info(orDoneInfo.toString());
+//		
+//		model.addAttribute("orderInfo", orDoneInfo);
 		
 		return "myPage/orderList";
 	}

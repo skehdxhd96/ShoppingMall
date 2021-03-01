@@ -1,11 +1,11 @@
-var click=0;
+var click=1;
 var totalPage = Math.ceil($.cookie("orderCancelCnt")/5);
 
 $(window).ready(function() {
 	var data = {"page":click, "orderStatus":"cancel"};
 	pagingCancel(data);
 	
-	if (totalPage>click+1) {
+	if (totalPage>click) {
 		html = "<button type=\"button\" class=\"btn btn-secondary btn-sm btn-next\">다음</button>";
 	}
 	$(".paging-container").html(html);
@@ -17,7 +17,7 @@ $(".paging-container").on("click", ".btn-next", function() {
 	var data = {"page":click, "orderStatus":"cancel"};
 	pagingCancel(data);
 	
-	if (totalPage==click+1) {
+	if (totalPage==click) {
 		html = "<button type=\"button\" class=\"btn btn-secondary btn-sm btn-prev\">이전</button>";
 	} else {
 		html = "<button type=\"button\" class=\"btn btn-secondary btn-sm btn-prev\">이전</button>";
@@ -32,7 +32,7 @@ $(".paging-container").on("click", ".btn-prev", function() {
 	var data = {"page":click, "orderStatus":"done"};
 	pagingCancel(data);
 	
-	if (click==0) {
+	if (click==1) {
 		html = "<button type=\"button\" class=\"btn btn-secondary btn-sm btn-next\">다음</button>";
 	} else {
 		html = "<button type=\"button\" class=\"btn btn-secondary btn-sm btn-prev\">이전</button>";

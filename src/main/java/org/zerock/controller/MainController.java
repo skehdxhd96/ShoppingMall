@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.zerock.domain.CategoryVO;
 import org.zerock.domain.DetailVO;
-import org.zerock.domain.PageVO;
+import org.zerock.domain.PageDTO;
 import org.zerock.domain.ProductVO;
 import org.zerock.service.CustomerServiceImpl;
 import org.zerock.service.OrderServiceImpl;
@@ -53,7 +53,7 @@ public class MainController {
 	private CustomerServiceImpl customerService;
 	@Resource
 	private OrderServiceImpl orderService;
-	private PageVO page;
+	private PageDTO page;
 	
 	@RequestMapping("/")
 	public String toMainPage(HttpSession session, Model model) {
@@ -107,7 +107,7 @@ public class MainController {
 	public List<ProductVO> productPaging(@RequestBody HashMap<String, Object> reqHm) {
 		//List<ProductVO> productVOList = pm.getListByCategory(dataTransfer);
 		log.info(reqHm);
-		page = new PageVO(Integer.parseInt(reqHm.get("page").toString()), 6);
+		page = new PageDTO(Integer.parseInt(reqHm.get("page").toString()), 6);
 		List<ProductVO> productVOList = pm.getListByCategory(page.getOffset(), Integer.parseInt(reqHm.get("categoryCode").toString()));
 		
 		return productVOList;

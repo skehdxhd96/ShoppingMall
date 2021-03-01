@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.zerock.domain.CustomerVO;
 import org.zerock.domain.DeliveryVO;
 import org.zerock.domain.OrderVO;
-import org.zerock.domain.PageVO;
+import org.zerock.domain.PageDTO;
 import org.zerock.service.CustomerServiceImpl;
 import org.zerock.service.DeliveryServiceImpl;
 import org.zerock.service.OrderServiceImpl;
@@ -41,7 +41,7 @@ public class OrderController {
 	private CustomerServiceImpl customerService;
 	@Resource
 	private Gson gson;
-	private PageVO page;
+	private PageDTO page;
 	
 	// 상품 상세 페이지에서 바로 주문하기 버튼 클릭했을 때 axios를 활용해서 전달받은 데이터를 DB에 적재시키는 api
 	// 이거 나중에 장바구니에서 주문하기로 넘어갈 때도 사용할 것임.
@@ -209,7 +209,7 @@ public class OrderController {
 	@ResponseBody
 	public String orderPaging(@RequestBody HashMap<String, Object> hm, HttpSession session) {
 		log.info(hm.isEmpty());
-		page = new PageVO(Integer.parseInt(hm.get("page").toString()), 5);
+		page = new PageDTO(Integer.parseInt(hm.get("page").toString()), 5);
 		List<HashMap<String, Object>> resHm = orderServie.getOrderListLimit(Integer.parseInt(session.getAttribute("customerCode").toString()), 
 					hm.get("orderStatus").toString(), page);
 		

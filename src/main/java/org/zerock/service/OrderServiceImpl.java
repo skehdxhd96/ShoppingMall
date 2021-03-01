@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.OrderDetailVO;
 import org.zerock.domain.OrderVO;
-import org.zerock.domain.PageVO;
+import org.zerock.domain.PageDTO;
 import org.zerock.domain.basketVO;
 import org.zerock.mapper.CustomerMapper;
 import org.zerock.mapper.DeliveryMapper;
@@ -207,7 +207,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<HashMap<String, Object>> getOrderListLimit(Integer customerCode, String orderStatus, PageVO page) {
+	public List<HashMap<String, Object>> getOrderListLimit(Integer customerCode, String orderStatus, PageDTO page) {
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("customerCode", customerCode);
 		hm.put("orderStatus", orderStatus);

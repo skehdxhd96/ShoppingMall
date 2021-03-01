@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.zerock.domain.OrderVO;
-import org.zerock.domain.PageVO;
+import org.zerock.domain.PageDTO;
 
 public interface OrderService {
 	//delivery 인터셉터에서 구매자일 때 로그인된 사용자의 배달코드인지 알아보기 위한 쿼리문
@@ -19,7 +19,7 @@ public interface OrderService {
 	//마이페이지-주문목록에서 고객코드로 주문코드, 주문일, 주문상태, 배송상태 가져오기
 	//public List<HashMap<String, Object>> getOrderDone(Integer customerCode);
 //	public List<HashMap<String, Object>> getOrderList(Integer customerCode, String orderStatus);
-	public List<HashMap<String, Object>> getOrderListLimit(Integer customerCode, String orderStatus, PageVO page);
+	public List<HashMap<String, Object>> getOrderListLimit(Integer customerCode, String orderStatus, PageDTO page);
 	public int getOrderCnt(Integer customerCode, String orderStatus);
 	public OrderVO getOrderInfo(int orderCode);
 	public List<HashMap<String, Object>> getProOdInfo(int orderCode);

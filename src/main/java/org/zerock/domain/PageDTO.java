@@ -16,7 +16,7 @@ public class PageDTO {
 		if (this.page==1) {
 			this.offset = 0;
 		} else {
-			this.offset = page*cntPerPage; 
+			this.offset = (page-1)*cntPerPage; 
 		}
 	}
 }

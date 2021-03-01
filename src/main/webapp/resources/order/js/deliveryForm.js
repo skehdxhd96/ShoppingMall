@@ -15,7 +15,7 @@ $(".submit-button").on("click", function() {
 			}
 			else {
 				alert("배송지 입력이 완료되었습니다.");
-				location.href = "/order/delivery/after?orderCode=" + response.data.orderCode;
+				location.href = "/order/delivery/after/" + response.data.orderCode;
 			}
 		}).catch(function(err) {
 			console.log(err);

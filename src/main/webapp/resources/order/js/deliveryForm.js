@@ -15,6 +15,25 @@ $(".submit-button").on("click", function() {
 			}
 			else {
 				alert("배송지 입력이 완료되었습니다.");
+				IMP.request_pay({
+				    pg : 'inicis', // version 1.1.0부터 지원.
+				    pay_method : 'card',
+				    merchant_uid : 'merchant_' + new Date().getTime(),
+				    name : '주문',
+				    amount : 10
+				}, function(rsp) {
+				    if ( rsp.success ) {
+				        var msg = '결제가 완료되었습니다.';
+				        msg += '고유ID : ' + rsp.imp_uid;
+				        msg += '결제 금액 : ' + rsp.paid_amount;
+				        location.href = '/order/delivery/after?orderCode=' + response.data.orderCode + '&status=' + rsp.status;
+				    } else {
+				        var msg = '결제에 실패하였습니다.';
+				        msg += '에러내용 : ' + rsp.error_msg;
+				        location.href = '/order/orderError';
+				    }
+				    alert(msg);
+				});
 				location.href = "/order/delivery/after?orderCode=" + response.data.orderCode;
 			}
 		}).catch(function(err) {

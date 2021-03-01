@@ -7,16 +7,16 @@ import org.zerock.domain.OrderVO;
 import org.zerock.domain.PageVO;
 
 public interface OrderService {
-	//delivery ÀÎÅÍ¼ÁÅÍ¿¡¼­ ±¸¸ÅÀÚÀÏ ¶§ ·Î±×ÀÎµÈ »ç¿ëÀÚÀÇ ¹è´ŞÄÚµåÀÎÁö ¾Ë¾Æº¸±â À§ÇÑ Äõ¸®¹®
+	//delivery ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¾Æºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //	public long getCustomerCodeByDeliery(int deliveryCode);
-	//¹è¼ÛÁö ÀÔ·ÂÀÌ ¿Ï·áµÆÀ» ¶§(¹è¼ÛÅ×ÀÌºíÀÇ delivery_status°¡ preparingÀ¸·Î ¹Ù²¼À» ¶§) ÁÖ¹®Å×ÀÌºíÀÇ order_status¸¦ doneÀ¸·Î ¹Ù²Ş.
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ delivery_statusï¿½ï¿½ preparingï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ ï¿½ï¿½) ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ order_statusï¿½ï¿½ doneï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½.
 	public int updateStatus(int orderCode, String orderStatus);
-	//order ÀÎÅÍ¼ÁÅÍ¿¡¼­ ±¸¸ÅÀÚÀÏ ¶§ ·Î±×ÀÎµÈ »ç¿ëÀÚÀÇ ÁÖ¹®ÄÚµåÀÎÁö ¾Ë¾Æº¸±â À§ÇÑ Äõ¸®¹®
+	//order ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¾Æºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public long getCustomerCodeByOrder(int orderCode);
 	public Integer getOrderCode(HashMap<String, Object> orderInfo, long customerCode);
 	public int createOrderDetail(List<HashMap<String, Object>> productsHm, int orderCode);
-	public int orderComplete(int orderCode, long customerCode);
-	//¸¶ÀÌÆäÀÌÁö-ÁÖ¹®¸ñ·Ï¿¡¼­ °í°´ÄÚµå·Î ÁÖ¹®ÄÚµå, ÁÖ¹®ÀÏ, ÁÖ¹®»óÅÂ, ¹è¼Û»óÅÂ °¡Á®¿À±â
+	public int orderComplete(int orderCode, long customerCode, String status);
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-ï¿½Ö¹ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½Úµï¿½, ï¿½Ö¹ï¿½ï¿½ï¿½, ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Û»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//public List<HashMap<String, Object>> getOrderDone(Integer customerCode);
 //	public List<HashMap<String, Object>> getOrderList(Integer customerCode, String orderStatus);
 	public List<HashMap<String, Object>> getOrderListLimit(Integer customerCode, String orderStatus, PageVO page);

@@ -36,15 +36,15 @@ public class OrderServiceImpl implements OrderService {
 	@Resource
 	CustomerMapper customerMapper;
 	
-	//ÁÖ¹® »ó¼¼Á¤º¸ Å×ÀÌºí µ¥ÀÌÅÍ ÀûÀç.
+	//ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	@Override
 	public int createOrderDetail(List<HashMap<String, Object>> productsHm, int orderCode) {
 		OrderDetailVO odVO;
 		int resultRow = 0;
 			
 		for (int i=0; i<productsHm.size(); i++) {
-			int productCode = Integer.parseInt(productsHm.get(i).get("productCode").toString());	//»óÇ°ÄÚµå
-			int productQuantity = Integer.parseInt(productsHm.get(i).get("productQuantity").toString());	//»óÇ°¼ö·®
+			int productCode = Integer.parseInt(productsHm.get(i).get("productCode").toString());	//ï¿½ï¿½Ç°ï¿½Úµï¿½
+			int productQuantity = Integer.parseInt(productsHm.get(i).get("productQuantity").toString());	//ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½
 			odVO = new OrderDetailVO(orderCode, productCode, productQuantity);
 				
 			resultRow += odMapper.createOrderDetail(odVO);
@@ -53,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
 		return resultRow;
 	}
 	
-	//delivery ÀÎÅÍ¼ÁÅÍ¿¡¼­ ±¸¸ÅÀÚÀÏ ¶§ ·Î±×ÀÎµÈ »ç¿ëÀÚÀÇ ¹è´ÞÄÚµåÀÎÁö ¾Ë¾Æº¸±â À§ÇÑ Äõ¸®¹®
+	//delivery ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¾Æºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //	@Override
 //	public long getCustomerCodeByDeliery(int deliveryCode) {
 //		long customerCode = orderMapper.getCustomerCodeByDeliery(deliveryCode);
@@ -78,26 +78,26 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Integer getOrderCode(HashMap<String, Object> orderInfo, long customerCode) {
-		Integer orderCode = null;	//¸®ÅÏÇÒ orderCode
+		Integer orderCode = null;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ orderCode
 
-		String reqUrl = (String) orderInfo.get("reqUrl");	//¿äÃ»ÇÑ Å¬¶óÀÌ¾ðÆ® url
-		List<HashMap<String, Object>> productsHm = (List<HashMap<String, Object>>) orderInfo.get("products");	//ÁÖ¹®ÇÏ°íÀÚ ÇÏ´Â »óÇ°¿¡ ´ëÇÑ Á¤º¸°¡ ´ã°Ü ÀÖÀ½.(»óÇ°ÄÚµå, ¼ö·®, »óÇ°°¡°Ý)
-		int totalPrice = (int) orderInfo.get("totalPrice");	//¿äÃ» ½Ã Àü´ÞÇÑ ÃÑ ÁÖ¹®±Ý¾×
+		String reqUrl = (String) orderInfo.get("reqUrl");	//ï¿½ï¿½Ã»ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ® url
+		List<HashMap<String, Object>> productsHm = (List<HashMap<String, Object>>) orderInfo.get("products");	//ï¿½Ö¹ï¿½ï¿½Ï°ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.(ï¿½ï¿½Ç°ï¿½Úµï¿½, ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½)
+		int totalPrice = (int) orderInfo.get("totalPrice");	//ï¿½ï¿½Ã» ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½Ý¾ï¿½
 		
-		//»óÇ° »ó¼¼Á¤º¸ ÆäÀÌÁö¿¡¼­ ¹Ù·Î ÁÖ¹®ÇÏ±â ¹öÆ°À» Å¬¸¯ÇÑ °æ¿ì:Àå¹Ù±¸´Ï Å×ÀÌºí¿¡ µ¥ÀÌÅÍ ÀûÀç
+		//ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½Ö¹ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½:ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if (reqUrl.contains("ProductDetail")) {	
 			int productCode = Integer.parseInt(productsHm.get(0).get("productCode").toString());
 			int productQuantity = Integer.parseInt(productsHm.get(0).get("productQuantity").toString());
 			
-			basketVO basketVO = new basketVO(productCode, customerCode, productQuantity);	//basketVO ÀÎ½ºÅÏ½º »ý¼º.
+			basketVO basketVO = new basketVO(productCode, customerCode, productQuantity);	//basketVO ï¿½Î½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			basketMapper.getBasketProduct(basketVO);
 		}
 		
 		try {
 			OrderVO orderVO = new OrderVO(totalPrice, customerCode);
-			orderMapper.createOrder(orderVO);	//ÁÖ¹® Å×ÀÌºí¿¡ µ¥ÀÌÅÍ »ý¼ºÇÏ±â
-			orderCode = orderVO.getOrderCode();	//»ý¼ºµÈ ÁÖ¹® Å×ÀÌºí µ¥ÀÌÅÍÀÇ ÁÖ¹® ÄÚµå °¡Á®¿À±â
-			createOrderDetail(productsHm, orderCode);	//ÁÖ¹®»ó¼¼ Å×ÀÌºí¿¡ µ¥ÀÌÅÍ »ý¼ºÇÏ±â
+			orderMapper.createOrder(orderVO);	//ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
+			orderCode = orderVO.getOrderCode();	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			createOrderDetail(productsHm, orderCode);	//ï¿½Ö¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
@@ -105,64 +105,68 @@ public class OrderServiceImpl implements OrderService {
 		return orderCode;
 	}
 
-	//orderStatus=done, basket µ¥ÀÌÅÍ »èÁ¦, productStock ¾÷µ¥ÀÌÆ®, customerPoint ¾÷µ¥ÀÌÆ®
+	//orderStatus=done, basket ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, productStock ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®, customerPoint ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 	@Override
-	public int orderComplete(int orderCode, long customerCode) {
+	public int orderComplete(int orderCode, long customerCode, String status) {
 		List<Integer> productCodeLi = odMapper.getProductCode(orderCode);	
 		List<Integer> productQuantityLi = odMapper.getProductQuantity(orderCode);
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		int result = 0;
 		
-		//basket Å×ÀÌºí µ¥ÀÌÅÍ »èÁ¦
-		hm.put("customerCode", customerCode);
-		hm.put("productCodeLi", productCodeLi);
-		result = basketMapper.deleteBasket(hm);
-		
-		//ÁÖ¹® ¿Ï·á ½Ã ¹Þ°Ô µÉ ÃÑ Æ÷ÀÎÆ®
-		int totalPoint = 0;
-		List<Integer> productPointLi = productMapper.getPoints(productCodeLi);
-		for (int i=0; i<productPointLi.size(); i++) {
-			totalPoint += productPointLi.get(i)*productQuantityLi.get(i);
-		}
-		hm.put("totalPoint", totalPoint);
-		result = customerMapper.updatePoint(hm);	//°í°´ Æ÷ÀÎÆ® ¾÷µ¥ÀÌÆ®
-		
-		//»óÇ° Àç°í ¾÷µ¥ÀÌÆ®(ÁÖ¹® ¼ö·®¸¸Å­ Â÷°¨)
-		for (int i=0; i<productCodeLi.size(); i++) {
-			hm.put("productCode", productCodeLi.get(i));
-			hm.put("productQuantity", productQuantityLi.get(i));
+		if(status.equals("paid")) {
+			//basket ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			hm.put("customerCode", customerCode);
+			hm.put("productCodeLi", productCodeLi);
+			result = basketMapper.deleteBasket(hm);
 			
-			result = productMapper.subStock(hm);
+			//ï¿½Ö¹ï¿½ ï¿½Ï·ï¿½ ï¿½ï¿½ ï¿½Þ°ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
+			int totalPoint = 0;
+			List<Integer> productPointLi = productMapper.getPoints(productCodeLi);
+			for (int i=0; i<productPointLi.size(); i++) {
+				totalPoint += productPointLi.get(i)*productQuantityLi.get(i);
+			}
+			hm.put("totalPoint", totalPoint);
+			result = customerMapper.updatePoint(hm);	//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+			
+			//ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®(ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½)
+			for (int i=0; i<productCodeLi.size(); i++) {
+				hm.put("productCode", productCodeLi.get(i));
+				hm.put("productQuantity", productQuantityLi.get(i));
+				
+				result = productMapper.subStock(hm);
+			}
+			
+			return updateStatus(orderCode, "done");	//ï¿½Ø´ï¿½ orderCodeï¿½ï¿½ orderStatus=doneï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 		}
 		
-		return updateStatus(orderCode, "done");	//ÇØ´ç orderCodeÀÇ orderStatus=doneÀ¸·Î ¾÷µ¥ÀÌÆ®
+		return result;
 	}
 
 //	@Override
 //	public List<HashMap<String, Object>> getOrderDone(Integer customerCode) {
-//		//¸¶Áö¸·À¸·Î ¸®ÅÏÇÒ List °´Ã¼(À§ÀÇ JSON ÇüÅÂÀÇ µ¥ÀÌÅÍ)
+//		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ List ï¿½ï¿½Ã¼(ï¿½ï¿½ï¿½ï¿½ JSON ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 //		List<HashMap<String, Object>> orDoneInfoLi = new ArrayList<HashMap<String, Object>>();
-//		//°í°´ÄÚµå¸¦ ÅëÇØ ÇØ´ç °í°´ÀÇ ÁÖ¹®¿Ï·áµÈ ¸®½ºÆ®¸¦ ¾ò¾î¿É´Ï´Ù.(JSON µ¥ÀÌÅÍ¿¡¼­ odProInfo¸¦ Á¦¿ÜÇÑ ¸ðµç µ¥ÀÌÅÍ¸¦ °Ë»öÇÕ´Ï´Ù.)
+//		//ï¿½ï¿½ï¿½Úµå¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½Ï·ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½É´Ï´ï¿½.(JSON ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ odProInfoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ë»ï¿½ï¿½Õ´Ï´ï¿½.)
 //		List<HashMap<String, Object>> ordeliInfoes = orderMapper.getOrderDone(customerCode);
 //		
 //		for (HashMap<String, Object> ordeliInfo:ordeliInfoes) {
-//			//ÇÏ³ªÀÇ ÁÖ¹®ÄÚµå¿¡ ´ëÇÑ Á¤º¸¸¦ ´ã°í ÀÖ´Â ÇØ½Ã¸Ê °´Ã¼ÀÔ´Ï´Ù.
+//			//ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½Úµå¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ø½Ã¸ï¿½ ï¿½ï¿½Ã¼ï¿½Ô´Ï´ï¿½.
 //			HashMap<String, Object> orDoneInfoHm = new HashMap<String, Object>();
 //			
-//			//ÇÏ³ªÀÇ ÁÖ¹®ÄÚµå¿¡ ´ã±â´Â Á¤º¸µé Áß »óÇ°°ú °ü·ÃµÈ(odProInfo) µ¥ÀÌÅÍ¸¦ Á¦¿ÜÇÑ ¸ðµç µ¥ÀÌÅÍ¸¦ ÇØ´ç ÇØ½Ã¸Ê °´Ã¼¿¡ ÀúÀåÇÕ´Ï´Ù.
+//			//ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½Úµå¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½(odProInfo) ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ø´ï¿½ ï¿½Ø½Ã¸ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 //			orDoneInfoHm.put("order_code", ordeliInfo.get("order_code"));
 //			orDoneInfoHm.put("order_date", ordeliInfo.get("order_date"));
 //			orDoneInfoHm.put("order_status", ordeliInfo.get("order_status"));
 //			orDoneInfoHm.put("delivery_status", ordeliInfo.get("delivery_status"));
 //			
-//			//ÇÏ³ªÀÇ ÁÖ¹®ÄÚµå¿¡ ´ã±â´Â ¸ðµç »óÇ°µé¿¡ ´ëÇÑ µ¥ÀÌÅÍ¸¦ °¡Áö´Â List °´Ã¼¸¦ »ý¼ºÇÕ´Ï´Ù.
+//			//ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½Úµå¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ List ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 //			List<HashMap<String, Object>> odProInfoLi = 
 //					odMapper.getDoneProOdInfo(Integer.parseInt(ordeliInfo.get("order_code").toString()));
 //			
-//			//ÁÖ¹®ÄÚµå¿¡ ´ã±â´Â Á¤º¸µé Áß ¾Æ±î ´ãÁö ¸øÇß´ø »óÇ°¿¡ °üÇÑ Á¤º¸¸¦ ÀúÀåÇÕ´Ï´Ù.
+//			//ï¿½Ö¹ï¿½ï¿½Úµå¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Æ±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 //			orDoneInfoHm.put("odProInfo", odProInfoLi);
 //			
-//			//ÃÖÁ¾ ¸®ÅÏµÇ´Â List °´Ã¼¿¡ ÇÏ³ªÀÇ ÁÖ¹®Á¤º¸¸¦ ÀúÀåÇÕ´Ï´Ù.
+//			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÏµÇ´ï¿½ List ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 //			orDoneInfoLi.add(orDoneInfoHm);
 //		}
 //		
@@ -179,27 +183,27 @@ public class OrderServiceImpl implements OrderService {
 //	}
 	
 	public List<HashMap<String, Object>> getOrProList(List<HashMap<String, Object>> ordeliInfoes) {
-		//¸¶Áö¸·À¸·Î ¸®ÅÏÇÒ List °´Ã¼(À§ÀÇ JSON ÇüÅÂÀÇ µ¥ÀÌÅÍ)
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ List ï¿½ï¿½Ã¼(ï¿½ï¿½ï¿½ï¿½ JSON ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 		List<HashMap<String, Object>> orDoneInfoLi = new ArrayList<HashMap<String, Object>>();
 		
 		for (HashMap<String, Object> ordeliInfo:ordeliInfoes) {
-			//ÇÏ³ªÀÇ ÁÖ¹®ÄÚµå¿¡ ´ëÇÑ Á¤º¸¸¦ ´ã°í ÀÖ´Â ÇØ½Ã¸Ê °´Ã¼ÀÔ´Ï´Ù.
+			//ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½Úµå¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ø½Ã¸ï¿½ ï¿½ï¿½Ã¼ï¿½Ô´Ï´ï¿½.
 			HashMap<String, Object> orDoneInfoHm = new HashMap<String, Object>();
 			
-			//ÇÏ³ªÀÇ ÁÖ¹®ÄÚµå¿¡ ´ã±â´Â Á¤º¸µé Áß »óÇ°°ú °ü·ÃµÈ(odProInfo) µ¥ÀÌÅÍ¸¦ Á¦¿ÜÇÑ ¸ðµç µ¥ÀÌÅÍ¸¦ ÇØ´ç ÇØ½Ã¸Ê °´Ã¼¿¡ ÀúÀåÇÕ´Ï´Ù.
+			//ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½Úµå¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½(odProInfo) ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ø´ï¿½ ï¿½Ø½Ã¸ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 			orDoneInfoHm.put("order_code", ordeliInfo.get("order_code"));
 			orDoneInfoHm.put("order_date", ordeliInfo.get("order_date"));
 			orDoneInfoHm.put("order_status", ordeliInfo.get("order_status"));
 			orDoneInfoHm.put("delivery_status", ordeliInfo.get("delivery_status"));
 			
-			//ÇÏ³ªÀÇ ÁÖ¹®ÄÚµå¿¡ ´ã±â´Â ¸ðµç »óÇ°µé¿¡ ´ëÇÑ µ¥ÀÌÅÍ¸¦ °¡Áö´Â List °´Ã¼¸¦ »ý¼ºÇÕ´Ï´Ù.
+			//ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½Úµå¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ List ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 			List<HashMap<String, Object>> odProInfoLi = 
 					odMapper.getDoneProOdInfo(Integer.parseInt(ordeliInfo.get("order_code").toString()));
 			
-			//ÁÖ¹®ÄÚµå¿¡ ´ã±â´Â Á¤º¸µé Áß ¾Æ±î ´ãÁö ¸øÇß´ø »óÇ°¿¡ °üÇÑ Á¤º¸¸¦ ÀúÀåÇÕ´Ï´Ù.
+			//ï¿½Ö¹ï¿½ï¿½Úµå¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Æ±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 			orDoneInfoHm.put("odProInfo", odProInfoLi);
 			
-			//ÃÖÁ¾ ¸®ÅÏµÇ´Â List °´Ã¼¿¡ ÇÏ³ªÀÇ ÁÖ¹®Á¤º¸¸¦ ÀúÀåÇÕ´Ï´Ù.
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÏµÇ´ï¿½ List ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 			orDoneInfoLi.add(orDoneInfoHm);
 		}
 		

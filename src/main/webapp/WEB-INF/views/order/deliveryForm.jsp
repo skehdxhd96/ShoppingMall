@@ -10,7 +10,11 @@
   	<title>배송지입력</title>
   	<!-- Bootstrap core CSS -->
   	<link href="<%=request.getContextPath() %>/resources/myPage/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+  	<script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
   	<!-- Custom styles for this template -->
   	<link href="<%=request.getContextPath() %>/resources/common/css/shop-homepage.css" rel="stylesheet">
   	<link href="<%=request.getContextPath() %>/resources/common/css/common.css" rel="stylesheet">

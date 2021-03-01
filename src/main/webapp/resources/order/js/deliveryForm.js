@@ -7,6 +7,9 @@ $(".submit-button").on("click", function() {
 		"requests" : $("input[name=requests]").val()
 	}
 	
+	var IMP = window.IMP;
+	IMP.init('imp97827071');
+	
 	if ($(this).val()=="입력완료") {
 		axios.post("/order/delivery/form", data).then(function(response) {
 			if (response.data.result==0||response.data.orderCode==undefined) {	//업데이트를 실패하면

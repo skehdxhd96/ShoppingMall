@@ -5,9 +5,9 @@
 # ignore properties file
 /src/main/webapp/config/database.properties
 /src/main/webapp/config/naverLogin.properties
+/src/main/resources/config/addressAPI.properties
 /src/test/resources/config/database.properties
 /src/test/resources/config/naverLogin.properties
-/src/test/resources/config/addressAPI.properties
 
 # 네이버 로고 이미지
 /src/main/webapp/resources/login/image/naverLogin.PNG

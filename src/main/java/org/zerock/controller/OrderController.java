@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,13 +42,12 @@ public class OrderController {
 	private Gson gson;
 	private PageDTO page;
 	
-	// 상품 상세 페이지에서 바로 주문하기 버튼 클릭했을 때 axios를 활용해서 전달받은 데이터를 DB에 적재시키는 api
-	// 이거 나중에 장바구니에서 주문하기로 넘어갈 때도 사용할 것임.
+	// 주문하기 버튼 클릭했을 때 axios를 활용해서 전달받은 데이터를 DB에 적재시키는 api
 	@RequestMapping(value = "/order/delivery", method = RequestMethod.POST)
 	@ResponseBody
 	public String delivery(@RequestBody HashMap<String, Object> orderInfo, HttpSession session) {
 		log.info("\n=====================================================");
-		log.info("바로 주문하기 버튼을 클릭했을 때 axios api 만들기");
+		log.info("주문하기 버튼을 클릭했을 때 axios api 만들기");
 		
 		JsonObject resjson = new JsonObject();	//응답 jSON 인스턴스 생성.
 		
@@ -106,7 +104,6 @@ public class OrderController {
 	@ResponseBody
 	public String deliveryPOST(@RequestBody DeliveryVO deliveryVO) {
 		log.info("\n=====================================================\n배송지 입력이 끝났습니다.");
-		log.info(deliveryVO.toString());
 		HashMap<String, Object> resHm = new HashMap<String, Object>();	//클라이언트에게 전달할 데이터
 		int result = deliveryService.createDelivery(deliveryVO);	//배송 테이블 데이터 insert
 		
@@ -130,11 +127,11 @@ public class OrderController {
 	
 	//배송테이블 업데이트 이후 orderStatus=done, basket 데이터 삭제
 	@RequestMapping(value="/order/delivery/after", method=RequestMethod.GET)
-	public String deliveryAfter(@RequestParam int orderCode, HttpSession session) {
+	public String deliveryAfter(@RequestParam int orderCode, @RequestParam String status, HttpSession session) {
 		int result = 0;
 		long customerCode = (long) session.getAttribute("customerCode");
 		
-		result = orderServie.orderComplete(orderCode, customerCode);
+		result = orderServie.orderComplete(orderCode, customerCode, status);
 		
 		//result가 0(실패)이면 orderError 페이지로, 성공이면 orderSuccess 페이지로 리다이렉트
 		return result==0? "redirect:/order/orderError" : "redirect:/order/orderSuccess?orderCode="+orderCode;

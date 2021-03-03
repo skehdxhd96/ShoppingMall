@@ -79,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Integer getOrderCode(HashMap<String, Object> orderInfo, long customerCode) {
 		Integer orderCode = null;	//리턴할 orderCode
-
+		
 		String reqUrl = (String) orderInfo.get("reqUrl");	//요청한 클라이언트 url
 		List<HashMap<String, Object>> productsHm = (List<HashMap<String, Object>>) orderInfo.get("products");	//주문하고자 하는 상품에 대한 정보가 담겨 있음.(상품코드, 수량, 상품가격)
 		int totalPrice = (int) orderInfo.get("totalPrice");	//요청 시 전달한 총 주문금액
@@ -107,35 +107,39 @@ public class OrderServiceImpl implements OrderService {
 
 	//orderStatus=done, basket 데이터 삭제, productStock 업데이트, customerPoint 업데이트
 	@Override
-	public int orderComplete(int orderCode, long customerCode) {
+	public int orderComplete(int orderCode, long customerCode, String status) {
 		List<Integer> productCodeLi = odMapper.getProductCode(orderCode);	
 		List<Integer> productQuantityLi = odMapper.getProductQuantity(orderCode);
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		int result = 0;
 		
-		//basket 테이블 데이터 삭제
-		hm.put("customerCode", customerCode);
-		hm.put("productCodeLi", productCodeLi);
-		result = basketMapper.deleteBasket(hm);
-		
-		//주문 완료 시 받게 될 총 포인트
-		int totalPoint = 0;
-		List<Integer> productPointLi = productMapper.getPoints(productCodeLi);
-		for (int i=0; i<productPointLi.size(); i++) {
-			totalPoint += productPointLi.get(i)*productQuantityLi.get(i);
-		}
-		hm.put("totalPoint", totalPoint);
-		result = customerMapper.updatePoint(hm);	//고객 포인트 업데이트
-		
-		//상품 재고 업데이트(주문 수량만큼 차감)
-		for (int i=0; i<productCodeLi.size(); i++) {
-			hm.put("productCode", productCodeLi.get(i));
-			hm.put("productQuantity", productQuantityLi.get(i));
+		if(status.equals("paid")) {
+			//basket 테이블 데이터 삭제
+			hm.put("customerCode", customerCode);
+			hm.put("productCodeLi", productCodeLi);
+			result = basketMapper.deleteBasket(hm);
 			
-			result = productMapper.subStock(hm);
+			//주문 완료 시 받게 될 총 포인트
+			int totalPoint = 0;
+			List<Integer> productPointLi = productMapper.getPoints(productCodeLi);
+			for (int i=0; i<productPointLi.size(); i++) {
+				totalPoint += productPointLi.get(i)*productQuantityLi.get(i);
+			}
+			hm.put("totalPoint", totalPoint);
+			result = customerMapper.updatePoint(hm);	//고객 포인트 업데이트
+			
+			//상품 재고 업데이트(주문 수량만큼 차감)
+			for (int i=0; i<productCodeLi.size(); i++) {
+				hm.put("productCode", productCodeLi.get(i));
+				hm.put("productQuantity", productQuantityLi.get(i));
+				
+				result = productMapper.subStock(hm);
+			}
+			
+			return updateStatus(orderCode, "done");	//해당 orderCode의 orderStatus=done으로 업데이트
 		}
 		
-		return updateStatus(orderCode, "done");	//해당 orderCode의 orderStatus=done으로 업데이트
+		return result;
 	}
 
 //	@Override

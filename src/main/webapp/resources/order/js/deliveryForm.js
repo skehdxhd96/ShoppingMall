@@ -8,10 +8,10 @@ $(".submit-button").on("click", function() {
 		"requests" : $("input[name=requests]").val()
 	}
 	
-	console.log(data);
+	var IMP = window.IMP;
+	IMP.init('imp97827071');
 	
 	if ($(this).val()=="입력완료") {
-		alert("서버에 데이터를 전송합니다.");
 		axios.post("/order/delivery/form", data).then(function(response) {
 			if (response.data.result==0||response.data.orderCode==undefined) {	//업데이트를 실패하면
 				alert("배송 업데이트 과정 중 오류가 발생했습니다.");
@@ -19,6 +19,25 @@ $(".submit-button").on("click", function() {
 			}
 			else {
 				alert("배송지 입력이 완료되었습니다.");
+				IMP.request_pay({
+				    pg : 'inicis', // version 1.1.0부터 지원.
+				    pay_method : 'card',
+				    merchant_uid : 'merchant_' + new Date().getTime(),
+				    name : '주문',
+				    amount : 10
+				}, function(rsp) {
+				    if ( rsp.success ) {
+				        var msg = '결제가 완료되었습니다.';
+				        msg += '고유ID : ' + rsp.imp_uid;
+				        msg += '결제 금액 : ' + rsp.paid_amount;
+				        location.href = '/order/delivery/after?orderCode=' + response.data.orderCode + '&status=' + rsp.status;
+				    } else {
+				        var msg = '결제에 실패하였습니다.';
+				        msg += '에러내용 : ' + rsp.error_msg;
+				        location.href = '/order/orderError';
+				    }
+				    alert(msg);
+				});
 				location.href = "/order/delivery/after?orderCode=" + response.data.orderCode;
 			}
 		}).catch(function(err) {

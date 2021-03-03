@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeliveryVO {
 	private int deliveryCode;
+	private int deliveryZipcode;
 	private String shippingAddress;
 	private String deliveryStatus;
 	private String requests;

@@ -5,6 +5,7 @@
 		<result property="shippingAddress" column="shipping_address"></result>
 		<result property="deliverPhone" column="deliver_phone"></result>
 		<result property="deliveryStatus" column="delivery_status"></result>
+		<result property="deliveryZipcode" column="delivery_zipcode"></result>
 	</resultMap>
 	
 	<select id="getDelivery" parameterType="int" resultType="hashMap">
@@ -19,8 +20,8 @@
 	</select>
 	
 	<insert id="createDelivery"  parameterType="org.zerock.domain.DeliveryVO">
-		insert into delivery(shipping_address, requests, deliver_phone, order_code, recipient)
-		VALUES (#{shippingAddress}, #{requests}, #{deliverPhone}, #{orderCode}, #{recipient})
+		insert into delivery(shipping_address, requests, deliver_phone, order_code, recipient, delivery_zipcode)
+		VALUES (#{shippingAddress}, #{requests}, #{deliverPhone}, #{orderCode}, #{recipient}, #{deliveryZipcode})
 	</insert>
 	
 	<update id="orderSuccess" parameterType="org.zerock.domain.DeliveryVO">

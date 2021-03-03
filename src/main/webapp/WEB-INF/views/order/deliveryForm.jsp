@@ -53,7 +53,10 @@
 				    </tr>
 				    <tr>
 				      <th scope="row" class="row-title">주소</th>
-				      <td><input class="form-control" name="shippingAddress" placeholder="${ buyer.customerAddress }" type="text" value="${ buyer.customerAddress }"></td>
+				      <td>
+				      <input type="button" onClick="goPopup();" value="우편번호 찾기"/>
+				      <input class="form-control" name="delveryZipcode" placeholder="${ buyer.zipcode }" type="text" value="${ buyer.zipcode }">
+				      <input class="form-control" name="shippingAddress" placeholder="${ buyer.customerAddress }" type="text" value="${ buyer.customerAddress }"></td>
 				    </tr>
 				    <tr>
 				      <th scope="row" class="row-title">받는사람 전화번호</th>
@@ -79,5 +82,6 @@
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<!-- JavaScript -->
 	<script src="<%=request.getContextPath() %>/resources/order/js/deliveryForm.js"></script>
+	<script src="<%=request.getContextPath() %>/resources/common/js/addressAPI.js"></script>
 </body>
 </html>

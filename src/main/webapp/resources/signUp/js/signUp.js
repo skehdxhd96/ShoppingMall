@@ -7,12 +7,13 @@ $("select[name=customerType]").change(function() {
 	
 	if (selectedValue==1) {
 		formHtml = "";
-		formHtml += "<div class=\"form-desc\">주소</div>" +
+		formHtml += "<div class=\"form-desc\">주소</div>" + "<input type=\"button\" onClick=\"goPopup();\" value=\"우편번호 찾기\"/>" +
+			"<input name=\"zipcode\" class=\"form-control\" placeholder=\"\" type=\"text\" value=\"\">" +
 			"<div class=\"form-group input-group\">" +
 			"<div class=\"input-group-prepend\">" +
-			"<span class=\"input-group-text\">" +
+			"<span class=\"input-group-text\">" + 
 			"<i class=\"fas fa-home\"></i></span>" +
-			"</div>" +
+			"</div>" +  
 			"<input name=\"customerAddress\" class=\"form-control\" placeholder=\"\" type=\"text\" value=\"\">" +
 			"</div>";
 	}
@@ -26,7 +27,8 @@ $("select[name=customerType]").change(function() {
 			"</div>" +
 			"<input name=\"companyName\" class=\"form-control\" placeholder=\"\" type=\"text\" value=\"\">" +
 			"</div>" + 
-			"<div class=\"form-desc\">회사 주소</div>" +
+			"<div class=\"form-desc\">회사 주소</div>" + "<input type=\"button\" onClick=\"goPopup();\" value=\"우편번호 찾기\"/>" +
+			"<input name=\"zipcode\" class=\"form-control\" placeholder=\"\" type=\"text\" value=\"\">" +
 			"<div class=\"form-group input-group\">" +
 			"<div class=\"input-group-prepend\">" +
 			"<span class=\"input-group-text\">" +

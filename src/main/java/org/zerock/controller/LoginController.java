@@ -125,6 +125,7 @@ public class LoginController {
 	//회원가입 페이지에서 submit 했을 때
 	@RequestMapping(value="/signUp", method=RequestMethod.POST) 
 	public String signUpPost(CustomerVO customerInfo, HttpSession session) {
+		log.info(customerInfo);
 		if (customerInfo.getCustomerType()==1) {	//새로 가입한 회원이 구매자라면
 			customerService.insertBuyer(customerInfo);
 		}
@@ -154,6 +155,7 @@ public class LoginController {
 			profile = customerService.getSellerProfile((long) session.getAttribute("customerCode"));
 		}
 		//customer 테이블에서 가져온 프로필 데이터를 view에 전달.
+		log.info(profile);
 		model.addAttribute("profile", profile);
 		model.addAttribute("customerCode", session.getAttribute("customerCode"));
 		
@@ -164,6 +166,7 @@ public class LoginController {
 	public String userModifyPOST(HttpSession session, @PathVariable Long customerCode,  CustomerVO updateCustomer) {
 		log.info("회원정보 수정 페이지에서 제출 버튼을 눌렀습니다");
 		log.info("수정된 회원 정보");
+		log.info(updateCustomer);
 		
 		//받아온 업데이트 정보에 자신의 고객코드 저장.
 		updateCustomer.setCustomerCode(customerCode);
@@ -244,5 +247,11 @@ public class LoginController {
 		session.invalidate();	//로그아웃 되었으므로 세션 만료.
 		
 		return "redirect:/";
+	}
+	
+	@RequestMapping(value="/addressapi/popup")
+	public String addressApiPopup() {
+		
+		return "jusoPopup";
 	}
 }

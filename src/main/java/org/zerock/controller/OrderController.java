@@ -90,6 +90,8 @@ public class OrderController {
 			CustomerVO customer = customerService.getBuyerProfile((long) session.getAttribute("customerCode"));
 			model.addAttribute("buyer", customer);
 			model.addAttribute("orderCode", orderCode);
+			model.addAttribute("getPoint", customerService.getPoint((long) session.getAttribute("customerCode")));
+			model.addAttribute("getTotalPrice", orderServie.getTotalPrice(orderCode));
 			
 			return "order/deliveryForm";
 		} else {	//����� ����

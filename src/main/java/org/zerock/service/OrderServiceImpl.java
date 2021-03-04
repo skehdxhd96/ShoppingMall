@@ -241,4 +241,9 @@ public class OrderServiceImpl implements OrderService {
 		return odMapper.getDoneProOdInfo(orderCode);
 	}
 
+	@Override
+	public int getTotalPrice(int orderCode) {
+		
+		return orderMapper.getTotalPrice(orderCode);
+	}
 }

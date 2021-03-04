@@ -58,4 +58,8 @@
 	<update id="updateStatus" parameterType="HashMap">
 		UPDATE `order` SET order_status=#{orderStatus} WHERE order_code=#{orderCode};
 	</update>
+	
+	<select id = "getTotalPrice" parameterType = "int" resultType = "int">
+		select total_order_price from `order` where order_code = #{orderCode}
+	</select>
 </mapper>

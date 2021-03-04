@@ -49,6 +49,8 @@
 		<div class="container sub-container delivery-container">
 			<h3 class="buyer-title">받는사람 정보</h3>
 				<input name="orderCode" type="hidden" value="${ orderCode }">
+				<input name="getPoint" type="hidden" value="${ getPoint }">
+				<input name="getTotalPrice" type="hidden" value="${ getTotalPrice }">
 				<table class="table">
 				  <tbody>
 				    <tr>
@@ -66,6 +68,10 @@
 				    <tr>
 				      <th scope="row" class="row-title">요청사항</th>
 				      <td><input class="form-control" name="requests" type="text"></td>
+				    </tr>
+				    <tr>
+				      <th scope="row" class="row-title">사용할 포인트(사용 안할시에는 0)</th>
+				      <td><input class="form-control" name="used_point" type="text"></td>
 				    </tr>
 				  </tbody>
 				</table>

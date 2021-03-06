@@ -61,7 +61,9 @@ public class DeliveryServiceImpl implements DeliveryService {
 	}
 
 	@Override
-	public int updateDeliveryInfo(DeliveryVO delivery) {
+	public int updateDeliveryInfo(HashMap<String, Object> deliveryHm) {
+		DeliveryVO delivery = new DeliveryVO(Integer.parseInt(deliveryHm.get("deliveryZipCode").toString()), deliveryHm.get("shippingAddress").toString(), deliveryHm.get("requests").toString(), 
+				deliveryHm.get("deliverPhone").toString(), Integer.parseInt(deliveryHm.get("orderCode").toString()), deliveryHm.get("recipient").toString());
 		
 		return deliveryMapper.updateDeliveryInfo(delivery);
 	}

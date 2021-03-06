@@ -8,8 +8,8 @@ $(".submit-button").on("click", function() {
 		"requests" : $("input[name=requests]").val()
 	}
 	
-	var IMP = window.IMP;
-	IMP.init('imp97827071');
+	//var IMP = window.IMP;
+	//IMP.init('imp97827071');
 	
 	if ($(this).val()=="입력완료") {
 		axios.post("/order/delivery/form", data).then(function(response) {
@@ -19,7 +19,7 @@ $(".submit-button").on("click", function() {
 			}
 			else {
 				alert("배송지 입력이 완료되었습니다.");
-				IMP.request_pay({
+				/*IMP.request_pay({
 				    pg : 'inicis', // version 1.1.0부터 지원.
 				    pay_method : 'card',
 				    merchant_uid : 'merchant_' + new Date().getTime(),
@@ -37,7 +37,7 @@ $(".submit-button").on("click", function() {
 				        location.href = '/order/orderError';
 				    }
 				    alert(msg);
-				});
+				});*/
 				location.href = "/order/delivery/after?orderCode=" + response.data.orderCode;
 			}
 		}).catch(function(err) {
@@ -47,13 +47,31 @@ $(".submit-button").on("click", function() {
 	}
 	else {
 		alert("배송지를 변경합시다!");
-		axios.patch("/order/delivery/form", data).then(function(res) {
+		console.log(data)
+		axios.put("/order/delivery/update", data).then(function(res) {
+			//console.log(data);
+			console.log(res.data);
+			console.log(res.headers);
 			if (res.data.result==0) {
 				alert("배송지 변경 중 오류가 발생했습니다.");
+				location.href = "/order/orderError";
 			} else {
 				alert("배송지 변경이 완료되었습니다.");
 			}
 			location.reload();
+		}).catch(function(err) {
+			if (err.response) {
+		      // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
+		      console.log(err.response.data);
+		      console.log(err.response.status);
+		      console.log(err.response.headers);
+		    }
+		    else if (err.request) {
+		      // 요청이 이루어 졌으나 응답을 받지 못했습니다.
+		      // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
+		      // Node.js의 http.ClientRequest 인스턴스입니다.
+		      console.log(err.request);
+		    }
 		});
 	}
 })

@@ -64,7 +64,7 @@
         			<c:if test="${ delivery.deliveryStatus=='cancel' }">
         				<h3>배송 취소</h3>
         			</c:if>
-        			<button type="button" class="btn btn-secondary btn-sm DeliUpdateBtn">배송지 변경</button>
+        			<a href="/order/delivery/form?orderCode=${ order.orderCode }"><button type="button" class="btn btn-secondary btn-sm DeliUpdateBtn">배송지 변경</button></a>
         			<table class="table table-sm">
 	        				<tr>
 	        					<th>받는사람 이름</th>

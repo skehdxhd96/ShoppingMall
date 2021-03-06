@@ -23,4 +23,13 @@ public class DeliveryVO {
 		this.shippingAddress = shippingAddress;
 		this.recipient = recipient;
 	}
+	
+	public DeliveryVO(int deliveryZipcode, String shippingAddress, String requests, String deliverPhone, int orderCode, String recipient) {
+		this.deliveryZipcode = deliveryZipcode;
+		this.shippingAddress = shippingAddress;
+		this.requests = requests;
+		this.deliverPhone = deliverPhone;
+		this.orderCode = orderCode;
+		this.recipient = recipient;
+	}
 }

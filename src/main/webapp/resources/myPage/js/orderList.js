@@ -54,7 +54,7 @@ function pagingDone(data) {
 			html += "<tr>";
 			html += "<th>" + res.data[i].order_date + "</th>";
 			if (res.data[i].delivery_status == "preparing") {
-				html += "<th>배송 준비중<button type=\"button\" class=\"btn btn-secondary btn-sm DeliUpdateBtn\">배송지 변경</button></th>";
+				html += "<th>배송 준비중<a href=\"/order/delivery/form?orderCode=" + res.data[i].order_code + "\"><button type=\"button\" class=\"btn btn-secondary btn-sm DeliUpdateBtn\">배송지 변경</button></a></th>";
 			} else if (res.data[i].delivery_status == "start") {
 				html += "<th>배송중</th>";
 			} else if (res.data[i].delivery_status == "arrive") {

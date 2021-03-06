@@ -12,8 +12,8 @@ function goPopup(){
 }*/
 
 function jusoCallBack(roadFullAddr, zipNo) {
-	if (location.href.indexOf("/order/delivery/form")!=-1) {
-		alert("배송페이지");
+	if (location.href.indexOf("/order/delivery/form")!=-1 || location.href=="/order/delivery/update") {
+		//alert("배송페이지");
 		$("input[name=delveryZipcode]").val(zipNo);
 		$("input[name=shippingAddress]").val(roadFullAddr); 
 	} else {

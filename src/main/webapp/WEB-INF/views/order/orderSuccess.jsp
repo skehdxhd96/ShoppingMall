@@ -37,7 +37,7 @@
 			      ${ delivery.deliverPhone }<br>
 			      ${ delivery.shippingAddress }<br>
 			      ${ delivery.requests }</td>
-			      <td><button type="button" class="btn btn-secondary btn-sm DeliUpdateBtn">배송지 수정</button></td>
+			      <td><a href="/order/delivery/form?orderCode=${ orderCode }"><button type="button" class="btn btn-secondary btn-sm DeliUpdateBtn">배송지 수정</button></a></td>
 			    </tr>
 			    <tr>
 			      <th scope="row" class="row-title">최종 결제금액</th>

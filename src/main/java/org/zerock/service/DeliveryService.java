@@ -11,5 +11,5 @@ public interface DeliveryService {
 	public HashMap<String, Object> orderSuccess(DeliveryVO deliveryVO);
 	public DeliveryVO getDeliveryByOrderCode(int orderCode);
 	public int updateDeliveryStatus(int orderCode, String deliveryStatus);
-	public int updateDeliveryInfo(DeliveryVO delivery);
+	public int updateDeliveryInfo(HashMap<String, Object> deliveryHm);
 }

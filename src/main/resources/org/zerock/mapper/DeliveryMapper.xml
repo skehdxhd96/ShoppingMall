@@ -14,7 +14,7 @@
 		WHERE delivery_code=#{delivery_code};
 	</select>
 	<select id="getDeliveryByOrderCode" parameterType="int" resultType="org.zerock.domain.DeliveryVO" resultMap="deliveryRM">
-		SELECT recipient, shipping_address, deliver_phone, requests, delivery_status
+		SELECT recipient, shipping_address, deliver_phone, requests, delivery_status, delivery_zipcode
 		FROM delivery
 		WHERE order_code=#{orderCode};
 	</select>
@@ -48,7 +48,8 @@
 		SET recipient=#{recipient}, 
 			deliver_phone=#{deliverPhone}, 
 			shipping_address=#{shippingAddress}, 
-			requests=#{requests}
+			requests=#{requests}, 
+			delivery_zipcode = #{deliveryZipcode}
 		WHERE order_code=#{orderCode};
 	</update>
 </mapper>

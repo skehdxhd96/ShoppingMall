@@ -82,6 +82,7 @@ public class OrderController {
 	@RequestMapping(value="/order/delivery/form", method=RequestMethod.GET)
 	public String deliveryFormGet(@RequestParam int orderCode, Model model, HttpSession session) {
 		log.info("\n=====================================================\n여기는 배송지입력 페이지");
+		log.info("This is form get!!!");
 		DeliveryVO delivery = deliveryService.getDeliveryByOrderCode(orderCode);
 		
 		if (delivery==null) {	//배송지 입력
@@ -115,11 +116,13 @@ public class OrderController {
 	}
 	
 	//배송지 변경 API(PATCH)
-	@RequestMapping(value="/order/delivery/form", method=RequestMethod.PATCH)
+	@RequestMapping(value="/order/delivery/update", method=RequestMethod.PUT, produces="application/json;charset=UTF-8")
 	@ResponseBody
-	public String deliveryPATCH(@RequestBody DeliveryVO delivery) {
+	public String deliveryPATCH(@RequestBody HashMap<String, Object> updeatedDeli) {
+		log.info("This is form put!!!");
+		log.info(updeatedDeli);
 		HashMap<String, Object> resHm = new HashMap<String, Object>();
-		int result = deliveryService.updateDeliveryInfo(delivery);
+		int result = deliveryService.updateDeliveryInfo(updeatedDeli);
 		resHm.put("result", result);
 		
 		return gson.toJson(resHm);
@@ -127,7 +130,7 @@ public class OrderController {
 	
 	//배송테이블 업데이트 이후 orderStatus=done, basket 데이터 삭제
 	@RequestMapping(value="/order/delivery/after", method=RequestMethod.GET)
-	public String deliveryAfter(@RequestParam int orderCode, @RequestParam String status, HttpSession session) {
+	public String deliveryAfter(@RequestParam int orderCode, @RequestParam(defaultValue="paid", required=false) String status, HttpSession session) {
 		int result = 0;
 		long customerCode = (long) session.getAttribute("customerCode");
 		

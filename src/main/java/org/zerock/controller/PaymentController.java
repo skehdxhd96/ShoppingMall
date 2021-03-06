@@ -30,6 +30,4 @@ public class PaymentController {
 	
 		return createPayment == 1 ? new ResponseEntity<>("Payment Success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); 
 	}
-	
-	
 }

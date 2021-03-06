@@ -10,7 +10,7 @@ public class paymentVO {
 	private int used_point;
 	private int saved_point;
 	private boolean point_check;
-	private int total_payment_amount;
+	private int total_payment_price;
 	private String payment_status;
 	private int order_code;
 }

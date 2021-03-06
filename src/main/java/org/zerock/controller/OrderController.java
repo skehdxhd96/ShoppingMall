@@ -92,7 +92,7 @@ public class OrderController {
 			model.addAttribute("orderCode", orderCode);
 			model.addAttribute("getPoint", customerService.getPoint((long) session.getAttribute("customerCode")));
 			model.addAttribute("getTotalPrice", orderServie.getTotalPrice(orderCode));
-			
+			model.addAttribute("getTotalPoint", orderServie.getTotalPoint(orderCode));
 			return "order/deliveryForm";
 		} else {	//����� ����
 			log.info("������� ������Ʈ �մϴ�.");

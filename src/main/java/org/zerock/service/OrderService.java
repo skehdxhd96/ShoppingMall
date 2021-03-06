@@ -24,4 +24,5 @@ public interface OrderService {
 	public OrderVO getOrderInfo(int orderCode);
 	public List<HashMap<String, Object>> getProOdInfo(int orderCode);
 	public int getTotalPrice(int orderCode);
+	public int getTotalPoint(int orderCode);
 }

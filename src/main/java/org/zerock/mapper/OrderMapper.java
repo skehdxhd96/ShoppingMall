@@ -19,4 +19,5 @@ public interface OrderMapper {
 	public int getOrderCnt(HashMap<String, Object> hm);
 	public OrderVO getOrderInfo(int orderCode);
 	public int getTotalPrice(int orderCode);
+	public int getTotalPoint(int orderCode);
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zerock.mapper.PaymentMapper">
 	<insert id = "createPayment">
-		insert into payment (payment_code, payment_method, used_point, saved_point, point_check, total_payment_amount, payment_status, order_code)
-		values (#{payment_code}, #{payment_method}, #{used_point}, #{saved_point}, #{point_check}, #{total_payment_amount}, #{payment_status}, #{order_code})
+		insert into payment (payment_code, payment_method, used_point, saved_point, point_check, total_payment_price, payment_status, order_code)
+		values (#{payment_code}, #{payment_method}, #{used_point}, #{saved_point}, #{point_check}, #{total_payment_price}, #{payment_status}, #{order_code})
 	</insert>
 </mapper>

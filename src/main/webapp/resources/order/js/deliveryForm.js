@@ -9,9 +9,9 @@ $(".submit-button").on("click", function() {
 	
 	/*결제코드 : merchant_uid
 	결제방법 : pay_method
-	사용포인트 : 
-	적립포인트 : $("input[name=used_point]").val() 
-	포인트사용여부 : 항상True(사용안할시에는 0)
+	사용포인트 :$("input[name=used_point]").val()
+	적립포인트 :  $("input[name=getTotalPoint]").val()
+	포인트사용여부 : 항상True(사용안할시에는 가격 : 0)
 	최종결제금액 : amount
 	결제상태 : status
 	주문코드 : data.orderCode
@@ -33,23 +33,30 @@ $(".submit-button").on("click", function() {
 				    pay_method : 'card',
 				    merchant_uid : 'merchant_' + new Date().getTime(),
 				    name : '주문',
-				    amount : 10
-				}, function(rsp) {
+				    amount : $("input[name=getTotalPrice]").val() - $("input[name=used_point]").val(),
+				    buyer_tel : '010-1234-5678'
+				}, rsp => {
 				    if ( rsp.success ) {
-				    	
 				    	axios({
 				            url: "/payment", // 가맹점 서버
 				            method: "post",
 				            headers: { "Content-Type": "application/json" },
 				            data: {
-				              imp_uid: rsp.imp_uid,
-				              merchant_uid: rsp.merchant_uid
+				            	payment_code : rsp.merchant_uid,
+				            	payment_method : rsp.pay_method,
+				            	used_point : $("input[name=used_point]").val(),
+				            	saved_point : $("input[name=getTotalPoint]").val(),
+				            	point_check : 1,
+				            	total_payment_price : $("input[name=getTotalPrice]").val() - $("input[name=used_point]").val(),
+				            	payment_status : rsp.status,
+				            	order_code : response.data.orderCode
 				            }
 				          }).then((data) => {
 				            // 가맹점 서버 결제 API 성공시 로직
 				        	var msg = '결제가 완료되었습니다.';
 				        	msg += '고유ID : ' + rsp.imp_uid;
 				        	msg += '결제 금액 : ' + rsp.paid_amount;
+				        	alert(msg);
 				        	location.href = '/order/delivery/after?orderCode=' + response.data.orderCode + '&status=' + rsp.status;
 				          })
 				    } else {
@@ -57,9 +64,9 @@ $(".submit-button").on("click", function() {
 				        msg += '에러내용 : ' + rsp.error_msg;
 				        location.href = '/order/orderError';
 				    }
-				    alert(msg);
+				    //alert(msg);
 				});
-				location.href = "/order/delivery/after?orderCode=" + response.data.orderCode;
+				//location.href = "/order/delivery/after?orderCode=" + response.data.orderCode;
 			}
 		}).catch(function(err) {
 			console.log(err);
@@ -77,4 +84,14 @@ $(".submit-button").on("click", function() {
 			location.reload();
 		});
 	}
-})
+});
+
+$(document).ready(function() {
+	$(document).on('keydown', '#UsedPoint', function() {
+		console.log("시발");
+		if($("input[name=used_point]").val() > $("input[name=getPoint]").val()) {
+			alert($("input[name=getPoint]").val() + "포인트 이하만 입력 가능합니다.");
+			$("input[name=used_point]").val('');
+		}
+	})
+});

@@ -7,15 +7,17 @@ import org.zerock.domain.OrderVO;
 
 public interface OrderMapper {
 	public int createOrder(OrderVO orderVO);
-	//delivery ÀÎÅÍ¼ÁÅÍ¿¡¼­ ±¸¸ÅÀÚÀÏ ¶§ ·Î±×ÀÎµÈ »ç¿ëÀÚÀÇ ¹è´ŞÄÚµåÀÎÁö ¾Ë¾Æº¸±â À§ÇÑ Äõ¸®¹®
+	//delivery ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¾Æºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //	public long getCustomerCodeByDeliery(int deliveryCode);
-	//¹è¼ÛÁö ÀÔ·ÂÀÌ ¿Ï·áµÆÀ» ¶§(¹è¼ÛÅ×ÀÌºíÀÇ delivery_status°¡ preparingÀ¸·Î ¹Ù²¼À» ¶§) ÁÖ¹®Å×ÀÌºíÀÇ order_status¸¦ doneÀ¸·Î ¹Ù²Ş.
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ delivery_statusï¿½ï¿½ preparingï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ ï¿½ï¿½) ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ order_statusï¿½ï¿½ doneï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½.
 	public int updateStatus(HashMap<String, Object> hm);
-	//order ÀÎÅÍ¼ÁÅÍ¿¡¼­ ±¸¸ÅÀÚÀÏ ¶§ ·Î±×ÀÎµÈ »ç¿ëÀÚÀÇ ÁÖ¹®ÄÚµåÀÎÁö ¾Ë¾Æº¸±â À§ÇÑ Äõ¸®¹®
+	//order ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¾Æºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public long getCustomerCodeByOrder(int orderCode);
 //	public List<HashMap<String, Object>> getOrderDone(Integer customerCode);
 //	public List<HashMap<String, Object>> getOrderList(HashMap<String, Object> hm);
 	public List<HashMap<String, Object>> getOrderListLimit(HashMap<String, Object> hm);
 	public int getOrderCnt(HashMap<String, Object> hm);
 	public OrderVO getOrderInfo(int orderCode);
+	public int getTotalPrice(int orderCode);
+	public int getTotalPoint(int orderCode);
 }

@@ -75,4 +75,8 @@
 	<delete id="deleteCustomer" parameterType="long">
 		delete from customer where customer_code = #{customerCode};
 	</delete>
+	
+	<select id = "getPoint" resultType = "int" parameterType = "Long">
+		select customer_point from customer where customer_code = #{customerCode}
+	</select>
 </mapper>

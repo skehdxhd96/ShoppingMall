@@ -58,4 +58,12 @@
 	<update id="updateStatus" parameterType="HashMap">
 		UPDATE `order` SET order_status=#{orderStatus} WHERE order_code=#{orderCode};
 	</update>
+	
+	<select id = "getTotalPrice" parameterType = "int" resultType = "int">
+		select total_order_price from `order` where order_code = #{orderCode}
+	</select>
+	
+	<select id = "getTotalPoint" parameterType = "int" resultType = "int">
+		select distinct sum(p.product_point * od.product_quantity) from product as p join order_detail as od on p.product_code = od.product_code and order_code = #{orderCode}
+	</select>
 </mapper>

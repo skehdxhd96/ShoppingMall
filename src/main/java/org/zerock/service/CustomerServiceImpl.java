@@ -19,7 +19,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void insertBuyer(CustomerVO customer) {
 		cm.insertBuyer(customer);
-		log.info("±¸¸ÅÀÚ insert ¼º°ø!");
+		log.info("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ insert ï¿½ï¿½ï¿½ï¿½!");
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void insertSeller(CustomerVO customer) {
 		cm.insertSeller(customer);
-		log.info("ÆÇ¸ÅÀÚ insert ¼º°ø!");
+		log.info("ï¿½Ç¸ï¿½ï¿½ï¿½ insert ï¿½ï¿½ï¿½ï¿½!");
 	}
 
 	@Override
@@ -74,19 +74,19 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void deleteCustomer(long customerCode) {
 		cm.deleteCustomer(customerCode);
-		log.info("customerCode : " + customerCode + " È¸¿ø »èÁ¦¸¦ ¿Ï·áÇß½À´Ï´Ù.");
+		log.info("customerCode : " + customerCode + " È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 	}
 
 	@Override
 	public void updateBuyer(CustomerVO updateCustomer) {
 		cm.updateBuyer(updateCustomer);
-		log.info("customerCode : " + updateCustomer.getCustomerCode() + "±¸¸ÅÀÚ È¸¿ø ¼öÁ¤ ¿Ï·á");
+		log.info("customerCode : " + updateCustomer.getCustomerCode() + "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½");
 	}
 
 	@Override
 	public void updateSeller(CustomerVO updateCustomer) {
 		cm.updateSeller(updateCustomer);
-		log.info("customerCode : " + updateCustomer.getCustomerCode() + "ÆÇ¸ÅÀÚ È¸¿ø ¼öÁ¤ ¿Ï·á");
+		log.info("customerCode : " + updateCustomer.getCustomerCode() + "ï¿½Ç¸ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½");
 	}
 
 	@Override
@@ -97,5 +97,11 @@ public class CustomerServiceImpl implements CustomerService {
 		pointHm.put("totalPoint", totalPoint);
 		
 		return cm.updatePoint(pointHm);
+	}
+	
+	@Override
+	public int getPoint(Long customerCode) {
+		
+		return cm.getPoint(customerCode);
 	}
 }

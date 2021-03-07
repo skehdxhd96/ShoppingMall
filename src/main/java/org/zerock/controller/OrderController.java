@@ -89,7 +89,9 @@ public class OrderController {
 			CustomerVO customer = customerService.getBuyerProfile((long) session.getAttribute("customerCode"));
 			model.addAttribute("buyer", customer);
 			model.addAttribute("orderCode", orderCode);
-			
+			model.addAttribute("getPoint", customerService.getPoint((long) session.getAttribute("customerCode")));
+			model.addAttribute("getTotalPrice", orderServie.getTotalPrice(orderCode));
+			model.addAttribute("getTotalPoint", orderServie.getTotalPoint(orderCode));
 			return "order/deliveryForm";
 		} else {	//배송지 변경
 			log.info("배송지를 업데이트 합니다.");
@@ -130,7 +132,7 @@ public class OrderController {
 	
 	//배송테이블 업데이트 이후 orderStatus=done, basket 데이터 삭제
 	@RequestMapping(value="/order/delivery/after", method=RequestMethod.GET)
-	public String deliveryAfter(@RequestParam int orderCode, @RequestParam(defaultValue="paid", required=false) String status, HttpSession session) {
+	public String deliveryAfter(@RequestParam int orderCode, @RequestParam String status, HttpSession session) {
 		int result = 0;
 		long customerCode = (long) session.getAttribute("customerCode");
 		

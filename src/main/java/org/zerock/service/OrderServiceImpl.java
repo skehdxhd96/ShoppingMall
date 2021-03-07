@@ -15,6 +15,7 @@ import org.zerock.mapper.CustomerMapper;
 import org.zerock.mapper.DeliveryMapper;
 import org.zerock.mapper.OrderDetailMapper;
 import org.zerock.mapper.OrderMapper;
+import org.zerock.mapper.PaymentMapper;
 import org.zerock.mapper.ProductMapper;
 import org.zerock.mapper.basketMapper;
 
@@ -30,11 +31,13 @@ public class OrderServiceImpl implements OrderService {
 	@Resource
 	private DeliveryMapper deliveryMapper;
 	@Resource 
-	OrderDetailMapper odMapper;
+	private OrderDetailMapper odMapper;
 	@Resource
-	ProductMapper productMapper;
+	private ProductMapper productMapper;
 	@Resource
-	CustomerMapper customerMapper;
+	private CustomerMapper customerMapper;
+	@Resource
+	private PaymentMapper paymentMapper;
 	
 	//주문 상세정보 테이블 데이터 적재.
 	@Override
@@ -195,6 +198,11 @@ public class OrderServiceImpl implements OrderService {
 			orDoneInfoHm.put("order_date", ordeliInfo.get("order_date"));
 			orDoneInfoHm.put("order_status", ordeliInfo.get("order_status"));
 			orDoneInfoHm.put("delivery_status", ordeliInfo.get("delivery_status"));
+			if (paymentMapper.getTotalPaymentPrice(Integer.parseInt(ordeliInfo.get("order_code").toString()))!=null) {
+				orDoneInfoHm.put("totalPaymentPrice", paymentMapper.getTotalPaymentPrice(Integer.parseInt(ordeliInfo.get("order_code").toString())));
+			} else {
+				orDoneInfoHm.put("totalPaymentPrice", null);
+			}
 			
 			//하나의 주문코드에 담기는 모든 상품들에 대한 데이터를 가지는 List 객체를 생성합니다.
 			List<HashMap<String, Object>> odProInfoLi = 

@@ -18,4 +18,16 @@ public class PaymentServiceImpl implements PaymentService{
 		
 		return pm.createPayment(pv);
 	}
+
+	@Override
+	public Integer getTotalPaymentPrice(int orderCode) {
+		
+		return pm.getTotalPaymentPrice(orderCode);
+	}
+
+	@Override
+	public paymentVO getPaymentInfo(int orderCode) {
+		
+		return pm.getPaymentInfo(orderCode);
+	}
 }

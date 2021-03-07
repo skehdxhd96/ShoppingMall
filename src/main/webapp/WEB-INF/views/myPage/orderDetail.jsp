@@ -29,6 +29,7 @@
         		<c:set var="order" value="${ order }" />
         		<c:set var="odPro" value="${ odPro }" />
         		<c:set var="delivery" value="${ delivery }" />
+        		<c:set var="payment" value="${ payment }" />
         		<p>${order.orderDate} 주문</p>
         		<p>주문번호 ${ order.orderCode }</p>
         		<div class="container round-container">
@@ -85,7 +86,31 @@
         			</table>
         		</div>
         		<div class="container round-container">
-        			총 주문금액 : ${ order.totalOrderPrice }원
+        			<c:if test="${ payment.payment_status=='paid'}">
+        				<h3>결제 완료</h3>
+        			</c:if>
+        			<table class="table table-sm">
+	        			<tr>
+	        				<th>총 결제금액</th>
+	        				<th>${ order.totalOrderPrice } 원</th>
+	        			</tr>
+	        			<tr>
+	        				<th>결제 방법</th>
+	        				<th>${ payment.payment_method }</th>
+	        			</tr>
+	        			<tr>
+	        				<th>사용 포인트</th>
+	        				<th>${ payment.used_point } points</th>
+	        			</tr>
+	        			<tr>
+	        				<th>최종 결제금액</th>
+	        				<th>${ payment.total_payment_price } 원</th>
+	        			</tr>
+	        			<tr>
+	        				<th>적립 포인트</th>
+	        				<th>${ payment.saved_point } points</th>
+	        			</tr>
+        			</table>
         		</div>
 		    </div>
 		    <!-- /.col-lg-9 -->

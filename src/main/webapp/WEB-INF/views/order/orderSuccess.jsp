@@ -41,7 +41,7 @@
 			    </tr>
 			    <tr>
 			      <th scope="row" class="row-title">최종 결제금액</th>
-			      <td>결제 이후 최종 결제금액</td>
+			      <td>${ totalPaymentPrice } 원</td>
 			      <td></td>
 			    </tr>
 			  </tbody>

@@ -73,13 +73,16 @@ function pagingDone(data) {
 				html += "<th>" + res.data[i].odProInfo[j].product_quantity + "</th>";
 				html += "</tr>";
 				html += "<tr>";
-				html += "<th>결제금액(할인, 포인트 사용후)</th>";
+				html += "<th>" + res.data[i].odProInfo[j].product_price*res.data[i].odProInfo[j].product_quantity + "원</th>";
 				html += "</tr>";
 			}
 			
 			html += "<tr>";
-			html += "<th>총 결제금액</th>";
-			html += "<th>총 결제금액(할인, 포인트 사용후)</th>";
+			html += "<th>최종 결제금액</th>";
+			if (res.data[i].totalPaymentPrice!==undefined)
+				html += "<th>" +  res.data[i].totalPaymentPrice + "원</th>";
+			else 
+				html += "<th> </th>";
 			html += "</tr>";
 			html += "</table>";
 		}

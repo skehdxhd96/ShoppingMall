@@ -23,6 +23,7 @@ import org.zerock.domain.PageDTO;
 import org.zerock.service.CustomerServiceImpl;
 import org.zerock.service.DeliveryServiceImpl;
 import org.zerock.service.OrderServiceImpl;
+import org.zerock.service.PaymentServiceImpl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -38,6 +39,8 @@ public class OrderController {
 	private DeliveryServiceImpl deliveryService;
 	@Resource
 	private CustomerServiceImpl customerService;
+	@Resource
+	private PaymentServiceImpl paymentService;
 	@Resource
 	private Gson gson;
 	private PageDTO page;
@@ -149,6 +152,7 @@ public class OrderController {
 		
 		model.addAttribute("orderCode", orderCode);
 		model.addAttribute("delivery", delivery);
+		model.addAttribute("totalPaymentPrice", paymentService.getTotalPaymentPrice(orderCode));
 		
 		return "/order/orderSuccess";
 	}
@@ -212,6 +216,7 @@ public class OrderController {
 	public String orderPaging(@RequestBody HashMap<String, Object> hm, HttpSession session) {
 		log.info(hm.isEmpty());
 		page = new PageDTO(Integer.parseInt(hm.get("page").toString()), 5);
+		log.info(paymentService.getTotalPaymentPrice(315));
 		List<HashMap<String, Object>> resHm = orderServie.getOrderListLimit(Integer.parseInt(session.getAttribute("customerCode").toString()), 
 					hm.get("orderStatus").toString(), page);
 		
@@ -229,6 +234,8 @@ public class OrderController {
 		model.addAttribute("order", order);
 		model.addAttribute("odPro", proOdInfo);
 		model.addAttribute("delivery", delivery);
+		log.info(paymentService.getPaymentInfo(orderCode));
+		model.addAttribute("payment", paymentService.getPaymentInfo(orderCode));
 		
 		return "/myPage/orderDetail";
 	}

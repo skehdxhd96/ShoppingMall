@@ -40,13 +40,18 @@
 						</tr>
 						<tr>
 						    <th scope="row">전화번호 (-기호 포함)</th>
-						    <td colspan="2"><input name="customerPhone" class="form-control" placeholder="${ profile.customerPhone }" type="text" value="${ profile.customerPhone }"></td>
+						    <td><input name="customerPhone" class="form-control" placeholder="${ profile.customerPhone }" type="text" value="${ profile.customerPhone }"></td>
 						</tr>
 					  	<% if(session.getAttribute("customerType").equals(1)){ %>
-						    <tr>
-						      <th scope="row">주소</th>
-						      <td colspan="2"><input name="customerAddress" class="form-control" placeholder="${ profile.customerAddress }" type="text" value="${ profile.customerAddress }"></td>
-						    </tr>
+					  		<tr>
+					  			<th scope="row" rowspan="2">주소</th>
+					  			<td><input type="button" onClick="goPopup();" value="우편번호 찾기"/>
+					  			<input name="zipcode" class="form-control" placeholder="${ profile.zipcode }" type="text" value="${ profile.zipcode }"></td>
+					  			
+					  		</tr>
+					  		<tr>
+					  			<td><input name="customerAddress" class="form-control" placeholder="${ profile.customerAddress }" type="text" value="${ profile.customerAddress }"></td>
+					  		</tr>
 			 			<% } else { %>
 						    <tr>
 						      <th scope="row">회사명</th>
@@ -57,9 +62,14 @@
 						      <td colspan="2"><input name="companyPhone" class="form-control" placeholder="${ profile.companyPhone }" type="text" value="${ profile.companyPhone }"></td>
 						    </tr>
 						    <tr>
-						      <th scope="row">회사 주소</th>
-						      <td colspan="2"><input name="customerAddress" class="form-control" placeholder="${ profile.customerAddress }" type="text" value="${ profile.customerAddress }"></td>
-						    </tr>
+					  			<th scope="row" rowspan="2">주소</th>
+					  			<td><input type="button" onClick="goPopup();" value="우편번호 찾기"/>
+					  			<input name="zipcode" class="form-control" placeholder="${ profile.zipcode }" type="text" value="${ profile.zipcode }"></td>
+					  			
+					  		</tr>
+					  		<tr>
+					  			<td><input name="customerAddress" class="form-control" placeholder="${ profile.customerAddress }" type="text" value="${ profile.customerAddress }"></td>
+					  		</tr>
 			 			<% } %>
 					  </tbody>
 					</table>
@@ -83,5 +93,6 @@
   	<script src="<%=request.getContextPath() %>/resources/myPage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   	<script src="<%=request.getContextPath() %>/resources/common/js/common_submit.js"></script>
+  	<script src="<%=request.getContextPath() %>/resources/common/js/addressAPI.js"></script>
 </body>
 </html>

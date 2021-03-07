@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeliveryVO {
 	private int deliveryCode;
+	private int deliveryZipcode;
 	private String shippingAddress;
 	private String deliveryStatus;
 	private String requests;
@@ -20,6 +21,15 @@ public class DeliveryVO {
 	
 	public DeliveryVO(String shippingAddress, String recipient) {
 		this.shippingAddress = shippingAddress;
+		this.recipient = recipient;
+	}
+	
+	public DeliveryVO(int deliveryZipcode, String shippingAddress, String requests, String deliverPhone, int orderCode, String recipient) {
+		this.deliveryZipcode = deliveryZipcode;
+		this.shippingAddress = shippingAddress;
+		this.requests = requests;
+		this.deliverPhone = deliverPhone;
+		this.orderCode = orderCode;
 		this.recipient = recipient;
 	}
 }

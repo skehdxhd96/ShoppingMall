@@ -5,6 +5,7 @@
 		<result property="shippingAddress" column="shipping_address"></result>
 		<result property="deliverPhone" column="deliver_phone"></result>
 		<result property="deliveryStatus" column="delivery_status"></result>
+		<result property="deliveryZipcode" column="delivery_zipcode"></result>
 	</resultMap>
 	
 	<select id="getDelivery" parameterType="int" resultType="hashMap">
@@ -13,14 +14,14 @@
 		WHERE delivery_code=#{delivery_code};
 	</select>
 	<select id="getDeliveryByOrderCode" parameterType="int" resultType="org.zerock.domain.DeliveryVO" resultMap="deliveryRM">
-		SELECT recipient, shipping_address, deliver_phone, requests, delivery_status
+		SELECT recipient, shipping_address, deliver_phone, requests, delivery_status, delivery_zipcode
 		FROM delivery
 		WHERE order_code=#{orderCode};
 	</select>
 	
 	<insert id="createDelivery"  parameterType="org.zerock.domain.DeliveryVO">
-		insert into delivery(shipping_address, requests, deliver_phone, order_code, recipient)
-		VALUES (#{shippingAddress}, #{requests}, #{deliverPhone}, #{orderCode}, #{recipient})
+		insert into delivery(shipping_address, requests, deliver_phone, order_code, recipient, delivery_zipcode)
+		VALUES (#{shippingAddress}, #{requests}, #{deliverPhone}, #{orderCode}, #{recipient}, #{deliveryZipcode})
 	</insert>
 	
 	<update id="orderSuccess" parameterType="org.zerock.domain.DeliveryVO">
@@ -47,7 +48,8 @@
 		SET recipient=#{recipient}, 
 			deliver_phone=#{deliverPhone}, 
 			shipping_address=#{shippingAddress}, 
-			requests=#{requests}
+			requests=#{requests}, 
+			delivery_zipcode = #{deliveryZipcode}
 		WHERE order_code=#{orderCode};
 	</update>
 </mapper>

@@ -5,6 +5,7 @@
 # ignore properties file
 /src/main/webapp/config/database.properties
 /src/main/webapp/config/naverLogin.properties
+/src/main/webapp/config/addressAPI.properties
 /src/test/resources/config/database.properties
 /src/test/resources/config/naverLogin.properties
 

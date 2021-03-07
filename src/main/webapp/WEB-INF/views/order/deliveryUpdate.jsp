@@ -45,6 +45,7 @@
 		<div class="container sub-container delivery-container">
 			<h3 class="buyer-title">배송지 변경하기</h3>
 				<input name="orderCode" type="hidden" value="${ delivery.orderCode }">
+				<input type="hidden" name="_method" value="put" />
 				<table class="table">
 				  <tbody>
 				    <tr>
@@ -53,7 +54,11 @@
 				    </tr>
 				    <tr>
 				      <th scope="row" class="row-title">주소</th>
-				      <td><input class="form-control" name="shippingAddress" placeholder="${ delivery.shippingAddress }" type="text" value="${ delivery.shippingAddress }"></td>
+				      <td>
+				      	<input type="button" onClick="goPopup();" value="우편번호 찾기"/>
+					      <input class="form-control" name="delveryZipcode" placeholder="${ delivery.deliveryZipcode }" type="text" value="${ delivery.deliveryZipcode }">
+				      	  <input class="form-control" name="shippingAddress" placeholder="${ delivery.shippingAddress }" type="text" value="${ delivery.shippingAddress }">
+				      </td>
 				    </tr>
 				    <tr>
 				      <th scope="row" class="row-title">받는사람 전화번호</th>
@@ -79,5 +84,6 @@
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<!-- JavaScript -->
 	<script src="<%=request.getContextPath() %>/resources/order/js/deliveryForm.js"></script>
+	<script src="<%=request.getContextPath() %>/resources/common/js/addressAPI.js"></script>
 </body>
 </html>

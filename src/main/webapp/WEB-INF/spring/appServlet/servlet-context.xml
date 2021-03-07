@@ -15,6 +15,9 @@
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
+	
+	<util:properties id="addressAPI" location="/config/addressAPI.properties"></util:properties>
+	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 

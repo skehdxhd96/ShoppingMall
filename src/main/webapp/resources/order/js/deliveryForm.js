@@ -2,6 +2,7 @@ $(".submit-button").on("click", function() {
 	var data= {
 		"orderCode" : $("input[name=orderCode]").val(), 
 		"recipient" : $("input[name=recipient]").val(), 
+		"deliveryZipCode" : $("input[name=delveryZipcode]").val(),
 		"shippingAddress" : $("input[name=shippingAddress]").val(), 
 		"deliverPhone" : $("input[name=deliverPhone]").val(),
 		"requests" : $("input[name=requests]").val()
@@ -37,7 +38,7 @@ $(".submit-button").on("click", function() {
 				    buyer_tel : '010-1234-5678'
 				}, rsp => {
 				    if ( rsp.success ) {
-				    	axios({
+				        axios({
 				            url: "/payment", // 가맹점 서버
 				            method: "post",
 				            headers: { "Content-Type": "application/json" },
@@ -58,37 +59,73 @@ $(".submit-button").on("click", function() {
 				        	msg += '결제 금액 : ' + rsp.paid_amount;
 				        	alert(msg);
 				        	location.href = '/order/delivery/after?orderCode=' + response.data.orderCode + '&status=' + rsp.status;
-				          })
+				          }).catch(function(err) {	//결제 axios 오류
+								if (err.response) {
+							      // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
+							      console.log(err.response.data);
+							      console.log(err.response.status);
+							      console.log(err.response.headers);
+							    }
+							    else if (err.request) {
+							      // 요청이 이루어 졌으나 응답을 받지 못했습니다.
+							      // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
+							      // Node.js의 http.ClientRequest 인스턴스입니다.
+							      console.log(err.request);
+							    }
+							});
 				    } else {
 				        var msg = '결제에 실패하였습니다.';
 				        msg += '에러내용 : ' + rsp.error_msg;
 				        location.href = '/order/orderError';
+						alert(msg);
 				    }
-				    //alert(msg);
 				});
-				//location.href = "/order/delivery/after?orderCode=" + response.data.orderCode;
 			}
-		}).catch(function(err) {
-			console.log(err);
-			console.log(data);
+		}).catch(function(err) {	//배송지 입력 axios 오류
+			if (err.response) {
+		      // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
+		      console.log(err.response.data);
+		      console.log(err.response.status);
+		      console.log(err.response.headers);
+		    }
+		    else if (err.request) {
+		      // 요청이 이루어 졌으나 응답을 받지 못했습니다.
+		      // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
+		      // Node.js의 http.ClientRequest 인스턴스입니다.
+		      console.log(err.request);
+		    }
 		});
 	}
 	else {
 		alert("배송지를 변경합시다!");
-		axios.patch("/order/delivery/form", data).then(function(res) {
+		console.log(data)
+		axios.put("/order/delivery/update", data).then(function(res) {
 			if (res.data.result==0) {
 				alert("배송지 변경 중 오류가 발생했습니다.");
+				location.href = "/order/orderError";
 			} else {
 				alert("배송지 변경이 완료되었습니다.");
 			}
 			location.reload();
+		}).catch(function(err) {	//배송지 수정 axios 오류
+			if (err.response) {
+		      // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
+		      console.log(err.response.data);
+		      console.log(err.response.status);
+		      console.log(err.response.headers);
+		    }
+		    else if (err.request) {
+		      // 요청이 이루어 졌으나 응답을 받지 못했습니다.
+		      // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
+		      // Node.js의 http.ClientRequest 인스턴스입니다.
+		      console.log(err.request);
+		    }
 		});
 	}
 });
 
 $(document).ready(function() {
 	$(document).on('keydown', '#UsedPoint', function() {
-		console.log("시발");
 		if($("input[name=used_point]").val() > $("input[name=getPoint]").val()) {
 			alert($("input[name=getPoint]").val() + "포인트 이하만 입력 가능합니다.");
 			$("input[name=used_point]").val('');

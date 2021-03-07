@@ -1,11 +1,11 @@
-var click=0;
+var click=1;
 var totalPage = Math.ceil($.cookie("orderDoneCnt")/5);
 
 $(window).ready(function() {
 	var data = {"page":click, "orderStatus":"done"};
 	pagingDone(data);
 	
-	if (totalPage>click+1) {
+	if (totalPage>click) {
 		html = "<button type=\"button\" class=\"btn btn-secondary btn-sm btn-next\">다음</button>";
 	}
 	$(".paging-container").html(html);
@@ -17,7 +17,7 @@ $(".paging-container").on("click", ".btn-next", function() {
 	var data = {"page":click, "orderStatus":"done"};
 	pagingDone(data);
 	
-	if (totalPage==click+1) {
+	if (totalPage==click) {
 		html = "<button type=\"button\" class=\"btn btn-secondary btn-sm btn-prev\">이전</button>";
 	} else {
 		html = "<button type=\"button\" class=\"btn btn-secondary btn-sm btn-prev\">이전</button>";
@@ -32,7 +32,7 @@ $(".paging-container").on("click", ".btn-prev", function() {
 	var data = {"page":click, "orderStatus":"done"};
 	pagingDone(data);
 	
-	if (click==0) {
+	if (click==1) {
 		html = "<button type=\"button\" class=\"btn btn-secondary btn-sm btn-next\">다음</button>";
 	} else {
 		html = "<button type=\"button\" class=\"btn btn-secondary btn-sm btn-prev\">이전</button>";
@@ -54,7 +54,7 @@ function pagingDone(data) {
 			html += "<tr>";
 			html += "<th>" + res.data[i].order_date + "</th>";
 			if (res.data[i].delivery_status == "preparing") {
-				html += "<th>배송 준비중<button type=\"button\" class=\"btn btn-secondary btn-sm DeliUpdateBtn\">배송지 변경</button></th>";
+				html += "<th>배송 준비중<a href=\"/order/delivery/form?orderCode=" + res.data[i].order_code + "\"><button type=\"button\" class=\"btn btn-secondary btn-sm DeliUpdateBtn\">배송지 변경</button></a></th>";
 			} else if (res.data[i].delivery_status == "start") {
 				html += "<th>배송중</th>";
 			} else if (res.data[i].delivery_status == "arrive") {
@@ -73,13 +73,16 @@ function pagingDone(data) {
 				html += "<th>" + res.data[i].odProInfo[j].product_quantity + "</th>";
 				html += "</tr>";
 				html += "<tr>";
-				html += "<th>결제금액(할인, 포인트 사용후)</th>";
+				html += "<th>" + res.data[i].odProInfo[j].product_price*res.data[i].odProInfo[j].product_quantity + "원</th>";
 				html += "</tr>";
 			}
 			
 			html += "<tr>";
-			html += "<th>총 결제금액</th>";
-			html += "<th>총 결제금액(할인, 포인트 사용후)</th>";
+			html += "<th>최종 결제금액</th>";
+			if (res.data[i].totalPaymentPrice!==undefined)
+				html += "<th>" +  res.data[i].totalPaymentPrice + "원</th>";
+			else 
+				html += "<th> </th>";
 			html += "</tr>";
 			html += "</table>";
 		}

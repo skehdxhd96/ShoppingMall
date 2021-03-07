@@ -5,4 +5,13 @@
 		insert into payment (payment_code, payment_method, used_point, saved_point, point_check, total_payment_price, payment_status, order_code)
 		values (#{payment_code}, #{payment_method}, #{used_point}, #{saved_point}, #{point_check}, #{total_payment_price}, #{payment_status}, #{order_code})
 	</insert>
+	
+	<select id="getTotalPaymentPrice" parameterType="int" resultType="Integer">
+		SELECT total_payment_price FROM payment WHERE order_code=#{orderCode};
+	</select>
+	<select id="getPaymentInfo" parameterType="int" resultType="org.zerock.domain.paymentVO">
+		SELECT payment_method, used_point, saved_point, total_payment_price, payment_status
+		FROM payment
+		WHERE order_code=#{orderCode};
+	</select>
 </mapper>

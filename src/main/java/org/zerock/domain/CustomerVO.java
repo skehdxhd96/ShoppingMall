@@ -16,6 +16,7 @@ public class CustomerVO {
 	private String socialType;
 	private String companyName;
 	private String companyPhone;
+	private int zipcode;
 	
 	public CustomerVO() {
 		

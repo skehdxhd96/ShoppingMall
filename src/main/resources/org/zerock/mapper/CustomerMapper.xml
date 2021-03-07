@@ -23,12 +23,12 @@
 		select customer_name from customer where customer_code=#{customerCode};
 	</select>
 	<select id="getBuyerProfile" resultType="org.zerock.domain.CustomerVO" parameterType="long" resultMap="customerRM">
-		select customer_name, customer_email, customer_phone, customer_address
+		select customer_name, customer_email, customer_phone, customer_address, zipcode
 		from customer
 		where customer_type=1 AND customer_code=#{customerCode};
 	</select>
 	<select id="getSellerProfile" resultType="org.zerock.domain.CustomerVO" parameterType="long" resultMap="customerRM">
-		select customer_name, customer_email, customer_phone, customer_address, company_name, company_phone
+		select customer_name, customer_email, customer_phone, customer_address, company_name, company_phone, zipcode
 		from customer
 		where customer_type=2 AND customer_code=#{customerCode};
 	</select>
@@ -40,22 +40,23 @@
 	</select>
 	
 	<insert id="insertBuyer" parameterType="org.zerock.domain.CustomerVO">
-		insert into customer(social_id, social_type, customer_email, customer_address, customer_phone, 
+		insert into customer(social_id, social_type, customer_email, zipcode, customer_address, customer_phone, 
 			customer_name, customer_type) 
-			values (#{socialId}, #{socialType}, #{customerEmail}, #{customerAddress}, 
+			values (#{socialId}, #{socialType}, #{customerEmail}, #{zipcode}, #{customerAddress}, 
 			#{customerPhone}, #{customerName}, #{customerType});
 	</insert>
 	<insert id="insertSeller" parameterType="org.zerock.domain.CustomerVO">
-		insert into customer(social_id, social_type, customer_email, customer_address, customer_phone, 
+		insert into customer(social_id, social_type, customer_email, zipcode, customer_address, customer_phone, 
 			customer_name, customer_type, company_name, company_phone) 
-			values (#{socialId}, #{socialType}, #{customerEmail}, #{customerAddress}, 
+			values (#{socialId}, #{socialType}, #{customerEmail}, #{zipcode}, #{customerAddress}, 
 			#{customerPhone}, #{customerName}, #{customerType}, #{companyName}, #{companyPhone});
 	</insert>
 	
 	<update id="updateBuyer" parameterType="org.zerock.domain.CustomerVO">
 		update customer
 		set customer_email=#{customerEmail}, customer_address=#{customerAddress}, 
-			customer_phone=#{customerPhone}, customer_name=#{customerName}
+			customer_phone=#{customerPhone}, customer_name=#{customerName}, 
+			zipcode=#{zipcode}
 		where customer_code=#{customerCode};		
 	</update>
 	<update id="updateSeller" parameterType="org.zerock.domain.CustomerVO">
